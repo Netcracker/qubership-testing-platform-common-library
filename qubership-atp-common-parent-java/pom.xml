@@ -20,7 +20,7 @@
         <io.undertow.undertow-core.version>2.2.36.Final</io.undertow.undertow-core.version>
 
         <lombok.version>1.18.30</lombok.version>
-        <atp.codechecks.version>1.1</atp.codechecks.version>
+        <atp.codechecks.version>1.1-SNAPSHOT</atp.codechecks.version>
         <maven.pmd.plugin.version>3.8</maven.pmd.plugin.version>
         <pmd.version>7.0.0</pmd.version>
         <spotbugs.maven.plugin.version>4.7.3.0</spotbugs.maven.plugin.version>
