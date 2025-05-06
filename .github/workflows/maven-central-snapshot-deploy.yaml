@@ -12,7 +12,7 @@ name: Maven deploy snapshot
 on:
   push:
     branches-ignore:
-      - "main"
+#      - "main"
       - "**release*"
       - "prettier/**"
       - "dependabot/**"
