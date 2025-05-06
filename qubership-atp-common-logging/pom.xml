@@ -83,7 +83,7 @@
 
     <profiles>
         <profile>
-            <id>with-analyzers</id>
+            <id>central</id>
             <build>
                 <plugins>
                     <plugin>
