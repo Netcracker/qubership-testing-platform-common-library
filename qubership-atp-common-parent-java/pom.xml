@@ -2,7 +2,7 @@
     <parent>
         <artifactId>qubership-atp-common</artifactId>
         <groupId>org.qubership.atp.common</groupId>
-        <version>0.0.42</version>
+        <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -10,6 +10,7 @@
     <packaging>pom</packaging>
 
     <properties>
+        <atp.codechecks.version>1.1.0-SNAPSHOT</atp.codechecks.version>
         <biz.paluch.logging.version>1.14.1</biz.paluch.logging.version>
         <ch.qos.logback.version>1.2.13</ch.qos.logback.version>
         <commons-lang.version>2.6</commons-lang.version>
@@ -18,9 +19,7 @@
         <apache.commons>3.9</apache.commons>
         <openclover.version>4.2.1</openclover.version>
         <io.undertow.undertow-core.version>2.2.36.Final</io.undertow.undertow-core.version>
-
         <lombok.version>1.18.30</lombok.version>
-        <atp.codechecks.version>1.1</atp.codechecks.version>
         <maven.pmd.plugin.version>3.8</maven.pmd.plugin.version>
         <pmd.version>7.0.0</pmd.version>
         <spotbugs.maven.plugin.version>4.7.3.0</spotbugs.maven.plugin.version>

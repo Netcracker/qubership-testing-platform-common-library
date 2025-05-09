@@ -3,7 +3,7 @@
     <parent>
         <artifactId>qubership-atp-common-parent-java</artifactId>
         <groupId>org.qubership.atp.common</groupId>
-        <version>0.0.42</version>
+        <version>${revision}</version>
         <relativePath>../qubership-atp-common-parent-java/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -12,6 +12,11 @@
         <shedlock.spring>4.12.0</shedlock.spring>
     </properties>
     <dependencies>
+        <dependency>
+            <groupId>org.qubership.atp.codechecks</groupId>
+            <artifactId>qubership-atp-codechecks</artifactId>
+            <version>${atp.codechecks.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -94,7 +99,10 @@
     </dependencies>
     <profiles>
         <profile>
-            <id>with-analyzers</id>
+            <id>central</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <build>
                 <plugins>
                     <plugin>
