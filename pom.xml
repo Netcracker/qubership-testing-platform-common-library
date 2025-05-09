@@ -45,23 +45,13 @@
         </developer>
     </developers>
     <scm>
-        <connection>https//github.com/Netcracker/qubership-testing-platform-common-library.git</connection>
-        <developerConnection>https://github.com:Netcracker/qubership-testing-platform-common-library.git</developerConnection>
-        <url>https://github.com/Netcracker/qubership-testing-platform-common-library/tree/main</url>
+        <connection>scm:git:https//github.com/Netcracker/qubership-testing-platform-common-library.git</connection>
+        <developerConnection>scm:git:https://github.com:Netcracker/qubership-testing-platform-common-library.git</developerConnection>
+        <url>scm:git:https://github.com/Netcracker/qubership-testing-platform-common-library/tree/main</url>
     </scm>
 
     <repositories>
-        <repository>
-            <id>ossrh-snapshots</id>
-            <name>OSSRH Snapshots</name>
-            <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
+        <!-- Maven Central repository for release versions -->
         <repository>
             <id>oss.sonatype.org</id>
             <url>https://central.sonatype.com</url>
@@ -72,6 +62,8 @@
                 <enabled>false</enabled>
             </snapshots>
         </repository>
+
+        <!-- Maven Central repository for SNAPSHOT versions-->
         <repository>
             <id>oss.sonatype.org-snapshot</id>
             <url>https://central.sonatype.com/repository/maven-snapshots</url>
@@ -82,6 +74,8 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
+
+        <!-- GitHub packages repository for both release and SNAPSHOT versions -->
         <repository>
             <id>github</id>
             <url>https://maven.pkg.github.com/netcracker/*</url>
@@ -159,12 +153,10 @@
                 <repository>
                     <id>central</id>
                     <name>Central Maven Repository</name>
-                    <snapshots>
-                        <enabled>true</enabled>
-                    </snapshots>
                 </repository>
             </distributionManagement>
         </profile>
+
         <profile>
             <id>github</id>
             <activation>
