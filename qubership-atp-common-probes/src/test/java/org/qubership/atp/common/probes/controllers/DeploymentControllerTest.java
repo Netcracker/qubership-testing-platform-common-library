@@ -36,14 +36,13 @@ import org.springframework.test.web.servlet.MockMvc;
 @ContextConfiguration(classes = {DeploymentController.class})
 class DeploymentControllerTest {
 
-
     @MockBean
     private ApplicationAvailability applicationAvailability;
     @Autowired
     private MockMvc mockMvc;
 
     @Test
-    void liveness_whenLivenessStateIsCorrect() throws Exception {
+    void livenessWhenLivenessStateIsCorrect() throws Exception {
         when(applicationAvailability.getLivenessState()).thenReturn(LivenessState.CORRECT);
 
         mockMvc.perform(get("/rest/deployment/liveness"))
@@ -52,7 +51,7 @@ class DeploymentControllerTest {
     }
 
     @Test
-    void liveness_whenLivenessStateIsBroken() throws Exception {
+    void livenessWhenLivenessStateIsBroken() throws Exception {
         when(applicationAvailability.getLivenessState()).thenReturn(LivenessState.BROKEN);
 
         mockMvc.perform(get("/rest/deployment/liveness"))
@@ -61,7 +60,7 @@ class DeploymentControllerTest {
     }
 
     @Test
-    void readiness_whenReadinessStateIsAcceptingTraffic() throws Exception {
+    void readinessWhenReadinessStateIsAcceptingTraffic() throws Exception {
         when(applicationAvailability.getReadinessState()).thenReturn(ReadinessState.ACCEPTING_TRAFFIC);
 
         mockMvc.perform(get("/rest/deployment/readiness"))
@@ -70,7 +69,7 @@ class DeploymentControllerTest {
     }
 
     @Test
-    void readiness_whenReadinessStateIsRefusingTraffic() throws Exception {
+    void readinessWhenReadinessStateIsRefusingTraffic() throws Exception {
         when(applicationAvailability.getReadinessState()).thenReturn(ReadinessState.REFUSING_TRAFFIC);
 
         mockMvc.perform(get("/rest/deployment/readiness"))

@@ -60,6 +60,12 @@ public class ContentCachingHttpResponse implements AtpHttpResponse {
         return status.getReasonPhrase();
     }
 
+    /**
+     * Get response body as String.
+     *
+     * @return String response body
+     * @throws IOException in case IO exceptions.
+     */
     @Override
     public String getBody() throws IOException {
         return copyToString(response.getContentInputStream(), defaultCharset());

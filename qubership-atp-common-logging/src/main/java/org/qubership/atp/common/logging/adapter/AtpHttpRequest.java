@@ -26,5 +26,10 @@ public interface AtpHttpRequest {
 
     String getUri();
 
+    /**
+     * Get request body.
+     *
+     * @return byte[] body.
+     */
     byte[] getBody();
 }

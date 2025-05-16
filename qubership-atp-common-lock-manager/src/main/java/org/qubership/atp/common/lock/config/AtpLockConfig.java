@@ -44,7 +44,7 @@ public class AtpLockConfig {
     }
 
     @Bean
-    public LockManager lockManager(LockProvider lockProvider) {
+    public LockManager lockManager(final LockProvider lockProvider) {
         return new LockManager(defaultLockDurationSec, retryTimeoutSec, retryPaceSec, lockProvider);
     }
 }

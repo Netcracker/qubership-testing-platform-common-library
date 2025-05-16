@@ -19,6 +19,10 @@ package org.qubership.atp.common.lock.provider;
 import net.javacrumbs.shedlock.support.StorageBasedLockProvider;
 
 public class InMemoryLockProvider extends StorageBasedLockProvider {
+
+    /**
+     * Constructor.
+     */
     public InMemoryLockProvider() {
         super(new InMemoryStorageAccessorAccessor());
     }

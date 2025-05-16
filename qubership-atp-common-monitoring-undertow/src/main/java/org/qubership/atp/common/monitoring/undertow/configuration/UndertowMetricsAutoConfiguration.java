@@ -44,7 +44,7 @@ public class UndertowMetricsAutoConfiguration implements ApplicationListener<App
     }
 
     @Override
-    public void onApplicationEvent(ApplicationReadyEvent event) {
+    public void onApplicationEvent(final ApplicationReadyEvent event) {
         // Find UndertowWebServer
         UndertowWebServer undertowWebServer = UndertowMetrics.findUndertowWebServer(event.getApplicationContext());
         if (undertowWebServer == null) {
@@ -63,10 +63,9 @@ public class UndertowMetricsAutoConfiguration implements ApplicationListener<App
         new UndertowXWorkerMetrics(undertowWebServer).bindTo(registry);
         if (event.getApplicationContext() instanceof ServletWebServerApplicationContext) {
             MetricsHandler metricsHandler = UndertowMetricsHandlerWrapper.getMetricsHandler(
-                    ((ServletWebServerApplicationContext)event.getApplicationContext()).getServletContext()
+                    ((ServletWebServerApplicationContext) event.getApplicationContext()).getServletContext()
             );
             new UndertowRequestMetrics(metricsHandler).bindTo(registry);
         }
-
     }
 }

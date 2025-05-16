@@ -34,24 +34,24 @@ public class UndertowRequestMetrics extends UndertowMeterBinder {
     private final String namePrefix;
     private final Iterable<Tag> tags;
 
-    public UndertowRequestMetrics(MetricsHandler undertowMetricsHandler) {
+    public UndertowRequestMetrics(final MetricsHandler undertowMetricsHandler) {
         this(undertowMetricsHandler, UNDERTOW_METRIC_NAME_PREFIX);
     }
 
-    public UndertowRequestMetrics(MetricsHandler undertowMetricsHandler, String namePrefix) {
+    public UndertowRequestMetrics(final MetricsHandler undertowMetricsHandler, final String namePrefix) {
         this(undertowMetricsHandler, namePrefix, Collections.emptyList());
     }
 
-    public UndertowRequestMetrics(MetricsHandler undertowMetricsHandler,
-                                  String namePrefix,
-                                  Iterable<Tag> tags) {
+    public UndertowRequestMetrics(final MetricsHandler undertowMetricsHandler,
+                                  final String namePrefix,
+                                  final Iterable<Tag> tags) {
         this.undertowMetricsHandler = undertowMetricsHandler;
         this.namePrefix = namePrefix;
         this.tags = tags;
     }
 
     @Override
-    public void bindTo(@NonNull MeterRegistry registry) {
+    public void bindTo(@NonNull final MeterRegistry registry) {
         bindTimer(registry, namePrefix + METRIC_NAME_REQUESTS,
                 "Number of total requests",
                 undertowMetricsHandler,

@@ -52,6 +52,11 @@ public class ContentCachingHttpRequest implements AtpHttpRequest {
         return uri.toString();
     }
 
+    /**
+     * Get request body.
+     *
+     * @return byte[] body.
+     */
     @Override
     public byte[] getBody() {
         return request.getContent();

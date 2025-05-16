@@ -53,8 +53,9 @@ public class LoggingFilter implements Filter {
     private static final String HEADER_CONTENT_DISPOSITION = "Content-Disposition";
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-            throws IOException, ServletException {
+    public void doFilter(final ServletRequest request,
+                         final ServletResponse response,
+                         final FilterChain chain) throws IOException, ServletException {
         List<Pattern> ignoreUriList = loggingProperties.getIgnoreUriListPatterns();
         if (request instanceof HttpServletRequest
                 && RegexUtil.matchKey(((HttpServletRequest) request).getRequestURI(), ignoreUriList)
@@ -65,8 +66,9 @@ public class LoggingFilter implements Filter {
         }
     }
 
-    private void doFilterWithContentCaching(ServletRequest request, ServletResponse response, FilterChain chain)
-            throws IOException, ServletException {
+    private void doFilterWithContentCaching(final ServletRequest request,
+                                            final ServletResponse response,
+                                            final FilterChain chain) throws IOException, ServletException {
         ContentCachingResponseWrapper wrappedResponse =
                 new ContentCachingResponseWrapper((HttpServletResponse) response);
         if (ContentType.getContentType(((HttpServletRequest) request)
@@ -92,7 +94,7 @@ public class LoggingFilter implements Filter {
      *
      * @param request wrapped request with cached input stream.
      */
-    private void logRequest(HttpServletRequest request) {
+    private void logRequest(final HttpServletRequest request) {
         AtpHttpRequest wrappedRequest = null;
         if (request instanceof  CommonHttpRequestWrapper) {
             wrappedRequest = new ContentCachingHttpRequest((CommonHttpRequestWrapper) request);
@@ -113,7 +115,7 @@ public class LoggingFilter implements Filter {
      *
      * @param wrappedResponse wrapped response with cached output stream.
      */
-    private void logResponse(ContentCachingResponseWrapper wrappedResponse) throws IOException {
+    private void logResponse(final ContentCachingResponseWrapper wrappedResponse) throws IOException {
 
         String body;
         ContentCachingHttpResponse cacheResponse = new ContentCachingHttpResponse(wrappedResponse);

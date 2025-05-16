@@ -28,9 +28,10 @@ public enum ContentType {
     UNDEFINED("undefined", false);
 
     private String mimeType;
+    @lombok.Getter
     private boolean loggingAllowed;
 
-    ContentType(String mimeType, boolean loggingAllowed) {
+    ContentType(final String mimeType, final boolean loggingAllowed) {
         this.mimeType = mimeType;
         this.loggingAllowed = loggingAllowed;
     }
@@ -41,7 +42,7 @@ public enum ContentType {
      * @param value type as string
      * @return ContentType
      */
-    public static ContentType getContentType(String value) {
+    public static ContentType getContentType(final String value) {
         for (ContentType type : ContentType.values()) {
             if (type.mimeType.equals(value) || !Strings.isEmpty(value)
                     && (type.mimeType.matches(".*?\\b" + value + "\\b.*?")
@@ -52,7 +53,4 @@ public enum ContentType {
         return ContentType.UNDEFINED;
     }
 
-    public boolean isLoggingAllowed() {
-        return loggingAllowed;
-    }
 }

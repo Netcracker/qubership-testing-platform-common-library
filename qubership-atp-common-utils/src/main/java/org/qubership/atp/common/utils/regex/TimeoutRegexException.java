@@ -18,7 +18,12 @@ package org.qubership.atp.common.utils.regex;
 
 public class TimeoutRegexException extends RuntimeException {
 
-    public TimeoutRegexException(String message) {
+    /**
+     * Empty implementation of Timeout exception during regex match.
+     *
+     * @param message String to parse.
+     */
+    public TimeoutRegexException(final String message) {
         super(message);
     }
 }

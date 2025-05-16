@@ -45,7 +45,7 @@ public class LockManagerTest {
         ExecutorService executor = Executors.newFixedThreadPool(2);
         Future<Boolean> task1 = executor.submit(
                 () -> lockManager.executeWithLock("a", 15, () -> {
-                    log.error("first call");
+                    log.error("Wait lock - Lock is obtained: the 1st call");
                     sleep(15000);
                     return true;
                 }, () -> false));
@@ -54,7 +54,7 @@ public class LockManagerTest {
 
         Future<Boolean> task2 = executor.submit(
                 () -> lockManager.executeWithLock("a", 15, () -> {
-                    log.error("second call");
+                    log.error("Wait lock - Lock is obtained: the 2nd call");
                     return true;
                 }, () -> false));
 
@@ -69,7 +69,7 @@ public class LockManagerTest {
         ExecutorService executor = Executors.newFixedThreadPool(2);
         Future<Boolean> task1 = executor.submit(
                 () -> lockManager.executeWithLock("a", 60, () -> {
-                    log.error("first call");
+                    log.error("Wait lock - Lock isn't obtained: the 1st call");
                     sleep(30000);
                     return true;
                 }, () -> false));
@@ -78,7 +78,7 @@ public class LockManagerTest {
 
         Future<Boolean> task2 = executor.submit(
                 () -> lockManager.executeWithLock("a", 10, () -> {
-                    log.error("second call");
+                    log.error("Wait lock - Lock isn't obtained: the 2nd call");
                     return true;
                 }, () -> false));
 
@@ -112,7 +112,7 @@ public class LockManagerTest {
         ExecutorService executor = Executors.newFixedThreadPool(2);
         Future<Boolean> task1 = executor.submit(
                 () -> lockManager.executeWithLockNoWait("a", () -> {
-                    log.error("first call");
+                    log.error("NoWait - Lock isn't obtained: the 1st call");
                     sleep(15000);
                     return true;
                 }, () -> false));
@@ -121,7 +121,7 @@ public class LockManagerTest {
 
         Future<Boolean> task2 = executor.submit(
                 () -> lockManager.executeWithLockNoWait("a", 10, () -> {
-                    log.error("second call");
+                    log.error("NoWait - Lock isn't obtained: the 2nd call");
                     return true;
                 }, () -> false));
 

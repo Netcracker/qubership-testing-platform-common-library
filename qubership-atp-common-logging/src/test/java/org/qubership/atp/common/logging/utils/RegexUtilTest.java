@@ -53,7 +53,7 @@ public class RegexUtilTest {
     private Map<String, Collection<String>> targetMap;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         targetCollection = unmodifiableList(asList(BEARER_HEADER, X_REQUEST_ID_HEADER, ZIPKIN_TRACE_ID_HEADER));
         targetMap = targetCollection.stream().collect(toMap(String::toString, Collections::singletonList));
         expectedResult = singletonList(ZIPKIN_TRACE_ID_HEADER);
@@ -61,47 +61,47 @@ public class RegexUtilTest {
     }
 
     @Test
-    public void testMatchKey_shouldReturnFalse_whenInputStringMatchesAnyPattern() {
+    public void testMatchKeyShouldReturnFalseWhenInputStringMatchesAnyPattern() {
         boolean matches = matchKey(BEARER_HEADER, patterns);
         assertFalse(matches);
     }
 
     @Test
-    public void testMatchKey_shouldReturnTrue_whenInputStringNotMatchesAnyPattern() {
+    public void testMatchKeyShouldReturnTrueWhenInputStringNotMatchesAnyPattern() {
         boolean matches = matchKey(ZIPKIN_TRACE_ID_HEADER, patterns);
         assertTrue(matches);
     }
 
     @Test(expected = NullPointerException.class)
-    public void testMatchKey_shouldThrowAnException_whenInputStringIsNull() {
+    public void testMatchKeyShouldThrowAnExceptionWhenInputStringIsNull() {
         matchKey(null, patterns);
     }
 
     @Test(expected = NullPointerException.class)
-    public void testMatchKey_shouldThrowAnException_whenPatternsAreNull() {
+    public void testMatchKeyShouldThrowAnExceptionWhenPatternsAreNull() {
         matchKey(BEARER_HEADER, null);
     }
 
     @Test
-    public void testRemoveByRegexPatterns_shouldRemoveHeaders_whenPatternsAreNotEmpty(){
+    public void testRemoveByRegexPatternsShouldRemoveHeadersWhenPatternsAreNotEmpty() {
         Collection<String> result = removeByRegexPatterns(targetCollection, patterns);
         assertThat(result, equalTo(expectedResult));
     }
 
     @Test
-    public void testRemoveByRegexPatterns_shouldExistsAllHeaders_whenPatternsAreEmpty(){
+    public void testRemoveByRegexPatternsShouldExistAllHeadersWhenPatternsAreEmpty() {
         Collection<String> result = removeByRegexPatterns(targetCollection, newArrayList());
         assertThat(result, equalTo(targetCollection));
     }
 
     @Test
-    public void testRemoveByKeyRegexPatterns_shouldRemoveHeaders_whenPatternsAreNotEmpty(){
+    public void testRemoveByKeyRegexPatternsShouldRemoveHeadersWhenPatternsAreNotEmpty() {
         Map<String, Collection<String>> result = removeByKeyRegexPatterns(targetMap, patterns);
         assertThat(newArrayList(result.keySet()), equalTo(expectedResult));
     }
 
     @Test
-    public void testRemoveByKeyRegexPatterns_shouldExistsAllHeaders_whenPatternsAreEmpty(){
+    public void testRemoveByKeyRegexPatternsShouldExistAllHeadersWhenPatternsAreEmpty() {
         Map<String, Collection<String>> result = removeByKeyRegexPatterns(targetMap, newArrayList());
         assertThat(result, equalTo(targetMap));
     }

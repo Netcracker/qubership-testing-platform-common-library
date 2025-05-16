@@ -39,7 +39,7 @@ public class CommonHttpRequestWrapper extends HttpServletRequestWrapper {
     /**
      * preapre request body.
      */
-    public CommonHttpRequestWrapper(HttpServletRequest request) throws IOException {
+    public CommonHttpRequestWrapper(final HttpServletRequest request) throws IOException {
         super(request);
         this.actualRequestBody = StreamUtils.copyToByteArray(request.getInputStream());
     }
@@ -62,7 +62,7 @@ public class CommonHttpRequestWrapper extends HttpServletRequestWrapper {
     private class CachedServletInputStream extends ServletInputStream {
         private InputStream cachedInputStream;
 
-        public CachedServletInputStream(byte[] cachedBody) {
+        public CachedServletInputStream(final byte[] cachedBody) {
             this.cachedInputStream = new ByteArrayInputStream(cachedBody);
         }
 
@@ -82,7 +82,7 @@ public class CommonHttpRequestWrapper extends HttpServletRequestWrapper {
         }
 
         @Override
-        public void setReadListener(ReadListener readListener) {
+        public void setReadListener(final ReadListener readListener) {
             throw new UnsupportedOperationException();
         }
 

@@ -18,10 +18,10 @@ package org.qubership.atp.common.logging.adapter.feign;
 
 import static org.qubership.atp.common.logging.utils.Util.getHttpHeaders;
 
+import org.qubership.atp.common.logging.adapter.AtpHttpResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 
-import org.qubership.atp.common.logging.adapter.AtpHttpResponse;
 import feign.Response;
 
 public class FeignHttpResponse implements AtpHttpResponse {
@@ -61,6 +61,11 @@ public class FeignHttpResponse implements AtpHttpResponse {
         return status.getReasonPhrase();
     }
 
+    /**
+     * Get response body.
+     *
+     * @return String response body.
+     */
     @Override
     public String getBody() {
         return body;

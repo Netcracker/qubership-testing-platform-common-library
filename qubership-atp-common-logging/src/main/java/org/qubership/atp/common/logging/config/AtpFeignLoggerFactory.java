@@ -28,7 +28,7 @@ public class AtpFeignLoggerFactory implements FeignLoggerFactory {
     private final LoggingProperties loggingProperties;
 
     @Override
-    public Logger create(Class<?> type) {
+    public Logger create(final Class<?> type) {
         return new AtpSlf4jLogger(type, loggingProperties);
     }
 }

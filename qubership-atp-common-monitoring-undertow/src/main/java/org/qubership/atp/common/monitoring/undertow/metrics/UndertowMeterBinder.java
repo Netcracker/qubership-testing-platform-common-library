@@ -41,35 +41,55 @@ import io.undertow.Undertow;
 public abstract class UndertowMeterBinder implements MeterBinder {
 
     private static final Field UNDERTOW_FIELD;
+
     /**
      * Prefix used for all Undertow metric names.
      */
     public static final String UNDERTOW_METRIC_NAME_PREFIX = "undertow";
 
-    protected  <T> void bindTimer(MeterRegistry registry, String name, String desc, T metricsHandler, ToLongFunction<T> countFunc, ToDoubleFunction<T> consumer, Iterable<Tag> tags) {
+    protected  <T> void bindTimer(final MeterRegistry registry,
+                                  final String name,
+                                  final String desc,
+                                  final T metricsHandler,
+                                  final ToLongFunction<T> countFunc,
+                                  final ToDoubleFunction<T> consumer,
+                                  final Iterable<Tag> tags) {
         FunctionTimer.builder(name, metricsHandler, countFunc, consumer, TimeUnit.MILLISECONDS)
                 .description(desc)
                 .tags(tags)
                 .register(registry);
     }
 
-    protected <T> void bindGauge(MeterRegistry registry, String name, String desc, T metricResult,
-                                 ToDoubleFunction<T> consumer, Iterable<Tag> tags) {
+    protected <T> void bindGauge(final MeterRegistry registry,
+                                 final String name,
+                                 final String desc,
+                                 final T metricResult,
+                                 final ToDoubleFunction<T> consumer,
+                                 final Iterable<Tag> tags) {
         Gauge.builder(name, metricResult, consumer)
                 .description(desc)
                 .tags(tags)
                 .register(registry);
     }
 
-    protected <T> void bindTimeGauge(MeterRegistry registry, String name, String desc, T metricResult,
-                                     ToDoubleFunction<T> consumer, Iterable<Tag> tags) {
+    protected <T> void bindTimeGauge(final MeterRegistry registry,
+                                     final String name,
+                                     final String desc,
+                                     final T metricResult,
+                                     final ToDoubleFunction<T> consumer,
+                                     final Iterable<Tag> tags) {
         TimeGauge.builder(name, metricResult, TimeUnit.MILLISECONDS, consumer)
                 .description(desc)
                 .tags(tags)
                 .register(registry);
     }
 
-    protected <T> void bindCounter(MeterRegistry registry, String name, String desc, T metricsHandler, ToDoubleFunction<T> consumer, Iterable<Tag> tags) {
+    protected <T> void bindCounter(final MeterRegistry registry,
+                                   final String name,
+                                   final String desc,
+                                   final T metricsHandler,
+                                   final ToDoubleFunction<T> consumer,
+                                   final Iterable<Tag> tags) {
         FunctionCounter.builder(name, metricsHandler, consumer)
                 .description(desc)
                 .tags(tags)
@@ -82,7 +102,7 @@ public abstract class UndertowMeterBinder implements MeterBinder {
         ReflectionUtils.makeAccessible(UNDERTOW_FIELD);
     }
 
-    public static UndertowWebServer findUndertowWebServer(ConfigurableApplicationContext applicationContext) {
+    public static UndertowWebServer findUndertowWebServer(final ConfigurableApplicationContext applicationContext) {
         WebServer webServer;
         if (applicationContext instanceof ReactiveWebServerApplicationContext) {
             ReactiveWebServerApplicationContext context = (ReactiveWebServerApplicationContext) applicationContext;
@@ -94,13 +114,12 @@ public abstract class UndertowMeterBinder implements MeterBinder {
             return null;
         }
         if (webServer instanceof UndertowWebServer) {
-            UndertowWebServer server = (UndertowWebServer) webServer;
-            return server;
+            return (UndertowWebServer) webServer;
         }
         return null;
     }
 
-    public static Undertow getUndertow(UndertowWebServer undertowWebServer) {
+    public static Undertow getUndertow(final UndertowWebServer undertowWebServer) {
         return (Undertow) ReflectionUtils.getField(UNDERTOW_FIELD, undertowWebServer);
     }
 

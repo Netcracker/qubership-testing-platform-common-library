@@ -48,6 +48,8 @@ public class DeploymentController {
 
     /**
      * Return response for readinessProbe.
+     *
+     * @return ResponseEntity with status depending on applicationAvailability.getReadinessState().
      */
     @GetMapping("/rest/deployment/readiness")
     public ResponseEntity<Void> readiness() {

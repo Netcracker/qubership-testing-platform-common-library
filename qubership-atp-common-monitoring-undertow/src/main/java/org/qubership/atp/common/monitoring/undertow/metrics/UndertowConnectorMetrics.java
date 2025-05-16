@@ -41,36 +41,43 @@ public class UndertowConnectorMetrics extends UndertowMetrics {
     private static final String METRIC_NAME_CONNECTORS_PROCESSING_TIME_MAX 		= ".connectors.processing.time.max";
     private static final String METRIC_NAME_CONNECTORS_CONNECTIONS_ACTIVE 		= ".connectors.connections.active";
     private static final String METRIC_NAME_CONNECTORS_CONNECTIONS_ACTIVE_MAX 	= ".connectors.connections.active.max";
-
     private static final String METRIC_TAG_PROTOCOL = "protocol";
 
-    public UndertowConnectorMetrics(UndertowWebServer undertowWebServer) {
+    public UndertowConnectorMetrics(final UndertowWebServer undertowWebServer) {
         super(undertowWebServer);
     }
 
-    public UndertowConnectorMetrics(UndertowWebServer undertowWebServer, String namePrefix) {
+    public UndertowConnectorMetrics(final UndertowWebServer undertowWebServer, final String namePrefix) {
         super(undertowWebServer, namePrefix);
     }
 
-    public UndertowConnectorMetrics(UndertowWebServer undertowWebServer, String namePrefix, Iterable<Tag> tags) {
+    public UndertowConnectorMetrics(final UndertowWebServer undertowWebServer,
+                                    final String namePrefix,
+                                    final Iterable<Tag> tags) {
         super(undertowWebServer, namePrefix, tags);
     }
 
     /**
      * Bind metrics to the given registry.
+     *
      * @param registry
      * @param undertow
      * @param namePrefix
      * @param tags
      */
     @Override
-    public void bindTo(@NonNull MeterRegistry registry, Undertow undertow, String namePrefix, Iterable<Tag> tags){
+    public void bindTo(@NonNull final MeterRegistry registry,
+                       final Undertow undertow,
+                       final String namePrefix,
+                       final Iterable<Tag> tags){
         List<Undertow.ListenerInfo> listenerInfoList = undertow.getListenerInfo();
         listenerInfoList.forEach(listenerInfo -> registerConnectorStatistics(registry, listenerInfo, namePrefix, tags));
-    };
+    }
 
-
-    private void registerConnectorStatistics(MeterRegistry registry, Undertow.ListenerInfo listenerInfo, String namePrefix, Iterable<Tag> tags) {
+    private void registerConnectorStatistics(final MeterRegistry registry,
+                                             final Undertow.ListenerInfo listenerInfo,
+                                             final String namePrefix,
+                                             final Iterable<Tag> tags) {
         String protocol = listenerInfo.getProtcol();
         ConnectorStatistics statistics = listenerInfo.getConnectorStatistics();
         Gauge.builder(namePrefix + METRIC_NAME_CONNECTORS_REQUESTS_COUNT,
@@ -144,7 +151,6 @@ public class UndertowConnectorMetrics extends UndertowMetrics {
                 .tag(METRIC_TAG_PROTOCOL, protocol)
                 .baseUnit(BaseUnits.CONNECTIONS)
                 .register(registry);
-
     }
 
 }

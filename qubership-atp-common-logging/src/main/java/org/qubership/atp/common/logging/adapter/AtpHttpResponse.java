@@ -31,5 +31,11 @@ public interface AtpHttpResponse {
 
     String getStatusCodeReason() throws IOException;
 
+    /**
+     * Get response body as String.
+     *
+     * @return String response body
+     * @throws IOException in case IO exceptions.
+     */
     String getBody() throws IOException;
 }

@@ -43,6 +43,11 @@ public class RestTemplateHttpRequest implements AtpHttpRequest {
         return request.getURI().toString();
     }
 
+    /**
+     * Get request body.
+     *
+     * @return byte[] body.
+     */
     @Override
     public byte[] getBody() {
         return body;

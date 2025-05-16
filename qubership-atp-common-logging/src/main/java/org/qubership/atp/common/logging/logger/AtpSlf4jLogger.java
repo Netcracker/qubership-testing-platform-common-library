@@ -52,13 +52,13 @@ public class AtpSlf4jLogger extends Slf4jLogger {
      * @param loggerClass class to be logged
      * @param loggingProperties log settings
      */
-    public AtpSlf4jLogger(Class<?> loggerClass, LoggingProperties loggingProperties) {
+    public AtpSlf4jLogger(final Class<?> loggerClass, final LoggingProperties loggingProperties) {
         this.logger = LoggerFactory.getLogger(loggerClass);
         this.loggingProperties = loggingProperties;
     }
 
     @Override
-    protected void logRequest(String configKey, Level logLevel, Request feignRequest) {
+    protected void logRequest(final String configKey, final Level logLevel, final Request feignRequest) {
         AtpHttpRequest request = new FeignHttpRequest(feignRequest);
         Boolean isLoggedHeaders = loggingProperties.logFeignHeaders();
         List<Pattern> ignoreHeadersPattern = loggingProperties.getIgnoreFeignHeaderPatterns();
@@ -67,12 +67,17 @@ public class AtpSlf4jLogger extends Slf4jLogger {
     }
 
     @Override
-    protected Response logAndRebufferResponse(String configKey, Level level, Response response, long elapsedTime)
+    protected Response logAndRebufferResponse(final String configKey,
+                                              final Level level,
+                                              final Response response,
+                                              final long elapsedTime)
         throws IOException {
         return logger.isDebugEnabled() ? logResponse(configKey, level, response) : response;
     }
 
-    private Response logResponse(String configKey, Level level, Response feignResponse) throws IOException {
+    private Response logResponse(final String configKey,
+                                 final Level level,
+                                 final Response feignResponse) throws IOException {
         int statusCode = feignResponse.status();
         HttpHeaders httpHeaders = getHttpHeaders(feignResponse.headers());
         HttpStatus httpStatus = HttpStatus.valueOf(statusCode);
@@ -102,7 +107,7 @@ public class AtpSlf4jLogger extends Slf4jLogger {
     }
 
     @Override
-    protected void log(String configKey, String message, Object... args) {
+    protected void log(final String configKey, final String message, final Object... args) {
         if (this.logger.isDebugEnabled()) {
             logger.debug(message);
         }

@@ -18,7 +18,7 @@ package org.qubership.atp.common.lock.exceptions;
 
 public class AtpLockRejectException extends RuntimeException {
 
-    public AtpLockRejectException(String message) {
+    public AtpLockRejectException(final String message) {
         super(message);
     }
 }

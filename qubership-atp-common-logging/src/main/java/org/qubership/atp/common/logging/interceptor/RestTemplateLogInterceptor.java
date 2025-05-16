@@ -47,9 +47,9 @@ public class RestTemplateLogInterceptor implements ClientHttpRequestInterceptor 
 
     @Nonnull
     @Override
-    public ClientHttpResponse intercept(@Nonnull HttpRequest request,
-                                        @Nonnull byte[] bytes,
-                                        @Nonnull ClientHttpRequestExecution clientHttpRequestExecution)
+    public ClientHttpResponse intercept(@Nonnull final HttpRequest request,
+                                        @Nonnull final byte[] bytes,
+                                        @Nonnull final ClientHttpRequestExecution clientHttpRequestExecution)
         throws IOException {
         logRequest(request, bytes);
         ClientHttpResponse response = clientHttpRequestExecution.execute(request, bytes);
@@ -57,7 +57,7 @@ public class RestTemplateLogInterceptor implements ClientHttpRequestInterceptor 
         return response;
     }
 
-    private void logRequest(HttpRequest httpRequest, byte[] body) {
+    private void logRequest(final HttpRequest httpRequest, final byte[] body) {
         AtpHttpRequest request = new RestTemplateHttpRequest(httpRequest, body);
         Boolean isLoggedHeaders = loggingProperties.logRestTemplateHeaders();
         List<Pattern> ignoreHeadersPattern = loggingProperties.getIgnoreRestTemplateHeaderPatterns();
@@ -65,7 +65,7 @@ public class RestTemplateLogInterceptor implements ClientHttpRequestInterceptor 
         logMessage(log, String.join(StringUtils.LF, logs));
     }
 
-    private void logResponse(ClientHttpResponse httpResponse) throws IOException {
+    private void logResponse(final ClientHttpResponse httpResponse) throws IOException {
         AtpHttpResponse response = new RestTemplateHttpResponse(httpResponse);
         Boolean isLoggedHeaders = loggingProperties.logRestTemplateHeaders();
         List<Pattern> ignoreHeadersPattern = loggingProperties.getIgnoreRestTemplateHeaderPatterns();

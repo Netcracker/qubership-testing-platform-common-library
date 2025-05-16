@@ -37,8 +37,8 @@ public class RegexUtil {
      * @param patterns list of defined regex patterns.
      * @return filtered targetMap.
      */
-    public static Map<String, Collection<String>> removeByKeyRegexPatterns(Map<String, Collection<String>> targetMap,
-                                                                           List<Pattern> patterns) {
+    public static Map<String, Collection<String>> removeByKeyRegexPatterns(
+            final Map<String, Collection<String>> targetMap, final List<Pattern> patterns) {
         return targetMap.entrySet()
             .stream()
             .filter(entry -> matchKey(entry.getKey(), patterns))
@@ -51,8 +51,8 @@ public class RegexUtil {
      * @param patterns list of defined regex patterns.
      * @return filtered targetCollection.
      */
-    public static Collection<String> removeByRegexPatterns(Collection<String> targetCollection,
-                                                           List<Pattern> patterns) {
+    public static Collection<String> removeByRegexPatterns(final Collection<String> targetCollection,
+                                                           final List<Pattern> patterns) {
         return targetCollection
             .stream()
             .filter(key -> matchKey(key, patterns))
@@ -65,13 +65,13 @@ public class RegexUtil {
      * @param patterns list of defined regex patterns.
      * @return true if string matches any of patterns, otherwise return false.
      */
-    public static boolean matchKey(String string, List<Pattern> patterns) {
+    public static boolean matchKey(final String string, final List<Pattern> patterns) {
         return patterns
             .stream()
             .noneMatch(s -> matchKey(string, s));
     }
 
-    private static boolean matchKey(String string, Pattern pattern) {
+    private static boolean matchKey(final String string, final Pattern pattern) {
         Matcher matcher = pattern.matcher(string);
         return matcher.find();
     }

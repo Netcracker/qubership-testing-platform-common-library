@@ -28,7 +28,7 @@ public class UndertowMetricsServletExtension implements ServletExtension {
     }
 
     @Override
-    public void handleDeployment(DeploymentInfo deploymentInfo, ServletContext servletContext) {
+    public void handleDeployment(final DeploymentInfo deploymentInfo, final ServletContext servletContext) {
         deploymentInfo.addOuterHandlerChainWrapper(new UndertowMetricsHandlerWrapper(servletContext));
     }
 }

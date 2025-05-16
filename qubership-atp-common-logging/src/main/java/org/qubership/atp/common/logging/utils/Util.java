@@ -52,7 +52,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Util {
 
-    private static String MESSAGE = "Body content logging is not allowed for current content type";
+    private static final String MESSAGE = "Body content logging is not allowed for current content type";
 
     /**
      * Removes entries from {@link HttpHeaders} if the key matches any of regex patterns.

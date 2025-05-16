@@ -38,17 +38,17 @@ public class LoggingConfiguration {
     }
 
     @Bean
-    public LoggingFilter getLogFilter(LoggingProperties loggingProperties) {
+    public LoggingFilter getLogFilter(final LoggingProperties loggingProperties) {
         return new LoggingFilter(loggingProperties);
     }
 
     @Bean
-    public FeignLoggerFactory getFeignLoggerFactory(LoggingProperties loggingProperties) {
+    public FeignLoggerFactory getFeignLoggerFactory(final LoggingProperties loggingProperties) {
         return new AtpFeignLoggerFactory(loggingProperties);
     }
 
     @Bean
-    public RestTemplateLogInterceptor restTemplateLogInterceptor(LoggingProperties loggingProperties) {
+    public RestTemplateLogInterceptor restTemplateLogInterceptor(final LoggingProperties loggingProperties) {
         return new RestTemplateLogInterceptor(loggingProperties);
     }
 }

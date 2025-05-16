@@ -39,20 +39,25 @@ public class UndertowSessionMetrics extends UndertowMetrics {
     private static final String METRIC_NAME_SESSIONS_REJECTED 					= ".sessions.rejected";
     private static final String METRIC_NAME_SESSIONS_ALIVE_MAX 					= ".sessions.alive.max";
 
-    public UndertowSessionMetrics(UndertowWebServer undertowWebServer) {
+    public UndertowSessionMetrics(final UndertowWebServer undertowWebServer) {
         super(undertowWebServer);
     }
 
-    public UndertowSessionMetrics(UndertowWebServer undertowWebServer, String namePrefix) {
+    public UndertowSessionMetrics(final UndertowWebServer undertowWebServer, final String namePrefix) {
         super(undertowWebServer, namePrefix);
     }
 
-    public UndertowSessionMetrics(UndertowWebServer undertowWebServer, String namePrefix, Iterable<Tag> tags) {
+    public UndertowSessionMetrics(final UndertowWebServer undertowWebServer,
+                                  final String namePrefix,
+                                  final Iterable<Tag> tags) {
         super(undertowWebServer, namePrefix, tags);
     }
 
     @Override
-    public void bindTo(@NonNull MeterRegistry registry, UndertowWebServer undertowWebServer, String namePrefix, Iterable<Tag> tags){
+    public void bindTo(@NonNull final MeterRegistry registry,
+                       final UndertowWebServer undertowWebServer,
+                       final String namePrefix,
+                       final Iterable<Tag> tags){
         if (undertowWebServer instanceof UndertowServletWebServer) {
             SessionManagerStatistics statistics = ((UndertowServletWebServer)undertowWebServer).getDeploymentManager()
                     .getDeployment()
@@ -60,15 +65,20 @@ public class UndertowSessionMetrics extends UndertowMetrics {
                     .getStatistics();
             registerSessionStatistics(registry, statistics, namePrefix, tags);
         }
-    };
+    }
 
     /**
      * Register session metrics.
-     * @param registry
-     * @param statistics
+     *
+     * @param registry Meter Registry
+     * @param statistics SessionManagerStatistics object
+     * @param namePrefix String prefix to be added to metric name
+     * @param tags Tags.
      */
-    private void registerSessionStatistics(MeterRegistry registry, SessionManagerStatistics statistics, String namePrefix, Iterable<Tag> tags) {
-
+    private void registerSessionStatistics(final MeterRegistry registry,
+                                           final SessionManagerStatistics statistics,
+                                           final String namePrefix,
+                                           final Iterable<Tag> tags) {
         Gauge.builder(namePrefix + METRIC_NAME_SESSIONS_ACTIVE_MAX,
                         statistics,
                         SessionManagerStatistics::getMaxActiveSessions)

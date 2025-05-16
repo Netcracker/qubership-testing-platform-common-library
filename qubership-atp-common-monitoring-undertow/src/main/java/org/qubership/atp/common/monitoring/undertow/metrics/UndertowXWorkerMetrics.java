@@ -35,31 +35,35 @@ public class UndertowXWorkerMetrics extends UndertowMetrics {
     private static final String METRIC_NAME_X_WORK_WORKER_THREAD_BUSY_COUNT =   ".xwork.worker.thread.busy.count";
     private static final String METRIC_NAME_X_WORK_IO_THREAD_COUNT =            ".xwork.io.thread.count";
     private static final String METRIC_NAME_X_WORK_WORKER_QUEUE_SIZE  =         ".xwork.worker.queue.size";
-
     private static final String METRIC_CATEGORY = "name";
 
-    public UndertowXWorkerMetrics(UndertowWebServer undertowWebServer) {
+    public UndertowXWorkerMetrics(final UndertowWebServer undertowWebServer) {
         super(undertowWebServer);
     }
 
-    public UndertowXWorkerMetrics(UndertowWebServer undertowWebServer, String namePrefix) {
+    public UndertowXWorkerMetrics(final UndertowWebServer undertowWebServer, final String namePrefix) {
         super(undertowWebServer, namePrefix);
     }
 
-    public UndertowXWorkerMetrics(UndertowWebServer undertowWebServer, String namePrefix, Iterable<Tag> tags) {
+    public UndertowXWorkerMetrics(final UndertowWebServer undertowWebServer,
+                                  final String namePrefix,
+                                  final Iterable<Tag> tags) {
         super(undertowWebServer, namePrefix, tags);
     }
 
     @Override
-    public void bindTo(@NonNull MeterRegistry registry, Undertow undertow, String namePrefix, Iterable<Tag> tags) {
+    public void bindTo(@NonNull final MeterRegistry registry,
+                       final Undertow undertow,
+                       final String namePrefix,
+                       final Iterable<Tag> tags) {
         XnioWorkerMXBean workerMXBean = undertow.getWorker().getMXBean();
         registerXWorker(registry, workerMXBean, namePrefix, tags);
     }
 
-    private void registerXWorker(MeterRegistry registry,
-                                 XnioWorkerMXBean workerMXBean,
-                                 String namePrefix,
-                                 Iterable<Tag> tags) {
+    private void registerXWorker(final MeterRegistry registry,
+                                 final XnioWorkerMXBean workerMXBean,
+                                 final String namePrefix,
+                                 final Iterable<Tag> tags) {
 
         List<Tag> tagsList =  new ArrayList<>();
         if (Objects.nonNull(tags)) {
@@ -68,7 +72,8 @@ public class UndertowXWorkerMetrics extends UndertowMetrics {
         tagsList.add(Tag.of(METRIC_CATEGORY, workerMXBean.getName()));
 
         // Number of worker threads. The default is 8 times the number of I/O threads.
-        // bindGauge(registry, namePrefix + METRIC_NAME_X_WORK_WORKER_POOL_CORE_SIZE, "XWork core worker pool size", workerMXBean, XnioWorkerMXBean::getCoreWorkerPoolSize, tagsList);
+        // bindGauge(registry, namePrefix + METRIC_NAME_X_WORK_WORKER_POOL_CORE_SIZE,
+        // "XWork core worker pool size", workerMXBean, XnioWorkerMXBean::getCoreWorkerPoolSize, tagsList);
         bindGauge(registry,
                 namePrefix + METRIC_NAME_X_WORK_WORKER_POOL_MAX_SIZE,
                 "XWork max worker pool size",
@@ -100,7 +105,6 @@ public class UndertowXWorkerMetrics extends UndertowMetrics {
                 workerMXBean,
                 XnioWorkerMXBean::getWorkerQueueSize,
                 tagsList);
-
     }
 
 }

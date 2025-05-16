@@ -31,8 +31,6 @@ import lombok.experimental.Accessors;
 @Accessors(fluent = true)
 public class LoggingProperties {
 
-
-
     @Getter
     @Value("#{new Boolean('${atp.logging.controller.headers:false}')}")
     private Boolean logControllerHeaders;
@@ -107,7 +105,7 @@ public class LoggingProperties {
         return ignoreUriListPatterns;
     }
 
-    private List<Pattern> compile(List<String> ignoreHeaders) {
+    private List<Pattern> compile(final List<String> ignoreHeaders) {
         return ignoreHeaders
             .stream()
             .filter(StringUtils::isNotEmpty)

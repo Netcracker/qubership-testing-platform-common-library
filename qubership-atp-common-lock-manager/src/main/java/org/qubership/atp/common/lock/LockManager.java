@@ -54,8 +54,10 @@ public class LockManager {
      * @param retryPaceSec           the retry pace sec
      * @param lockProvider           the lock provider
      */
-    public LockManager(Integer defaultLockDurationSec, Integer retryTimeoutSec, Integer retryPaceSec,
-                       LockProvider lockProvider) {
+    public LockManager(final Integer defaultLockDurationSec,
+                       final Integer retryTimeoutSec,
+                       final Integer retryPaceSec,
+                       final LockProvider lockProvider) {
         this.defaultLockDurationSec = defaultLockDurationSec;
         this.retryTimeoutSec = retryTimeoutSec;
         this.retryPaceSec = retryPaceSec;
@@ -71,7 +73,9 @@ public class LockManager {
      * @param defaultOnReject the default on skip
      * @return the result of callable
      */
-    public <T> T executeWithLockNoWait(String lockKey, Callable<T> callable, Supplier<T> defaultOnReject) {
+    public <T> T executeWithLockNoWait(final String lockKey,
+                                       final Callable<T> callable,
+                                       final Supplier<T> defaultOnReject) {
         log.debug("start executeWithLockNoWait(lockKey: {})", lockKey);
         return executeWithLockNoWait(lockKey, defaultLockDurationSec, callable, defaultOnReject);
     }
@@ -82,7 +86,7 @@ public class LockManager {
      * @param lockKey  the lock key
      * @param runnable the runnable
      */
-    public void executeWithLockNoWait(String lockKey, Runnable runnable) {
+    public void executeWithLockNoWait(final String lockKey, final Runnable runnable) {
         log.debug("start executeWithLockNoWait(lockKey: {}, Runnable)", lockKey);
         executeWithLockNoWait(lockKey, defaultLockDurationSec, runnable);
     }
@@ -97,8 +101,8 @@ public class LockManager {
      * @param defaultOnReject the default on skip
      * @return the result of callable
      */
-    public <T> T executeWithLockNoWait(String lockKey, Integer lockDuration, Callable<T> callable,
-                                       Supplier<T> defaultOnReject) {
+    public <T> T executeWithLockNoWait(final String lockKey, final Integer lockDuration, final Callable<T> callable,
+                                       final Supplier<T> defaultOnReject) {
         log.debug("start executeWithLockNoWait(lockKey: {}, lockDuration: {})", lockKey, lockDuration);
         try {
             return executeWithLock(lockKey, lockDuration, callable);
@@ -115,7 +119,7 @@ public class LockManager {
      * @param lockDuration the lock duration
      * @param runnable     the runnable
      */
-    public void executeWithLockNoWait(String lockKey, Integer lockDuration, Runnable runnable) {
+    public void executeWithLockNoWait(final String lockKey, final Integer lockDuration, final Runnable runnable) {
         log.debug("start executeWithLockNoWait(lockKey: {}, lockDuration: {}, Runnable)", lockKey, lockDuration);
         try {
             executeWithLock(lockKey, lockDuration, runnable);
@@ -133,7 +137,7 @@ public class LockManager {
      * @param defaultOnReject the default on reject
      * @return the t
      */
-    public <T> T executeWithLock(String lockKey, Callable<T> callable, Supplier<T> defaultOnReject) {
+    public <T> T executeWithLock(final String lockKey, final Callable<T> callable, final Supplier<T> defaultOnReject) {
         log.debug("start executeWithLock(lockKey: {})", lockKey);
         return executeWithLock(lockKey, defaultLockDurationSec, callable, defaultOnReject);
     }
@@ -144,7 +148,7 @@ public class LockManager {
      * @param lockKey  the lock key
      * @param runnable the runnable
      */
-    public void executeWithLock(String lockKey, Runnable runnable) {
+    public void executeWithLock(final String lockKey, final Runnable runnable) {
         log.debug("start executeWithLock(lockKey: {}, Runnable)", lockKey);
         executeWithLock(lockKey, defaultLockDurationSec, runnable);
     }
@@ -159,8 +163,8 @@ public class LockManager {
      * @param defaultOnReject the default on skip
      * @return the result of callable
      */
-    public <T> T executeWithLock(String lockKey, Integer lockDurationSec, Callable<T> callable,
-                                 Supplier<T> defaultOnReject) {
+    public <T> T executeWithLock(final String lockKey, final Integer lockDurationSec, final Callable<T> callable,
+                                 final Supplier<T> defaultOnReject) {
         log.debug("start executeWithLock(lockKey: {}, lockDurationSec: {})", lockKey, lockDurationSec);
         try {
             return getRetryTemplate()
@@ -179,7 +183,7 @@ public class LockManager {
      * @param lockDurationSec the lock duration sec
      * @param runnable        the runnable
      */
-    public void executeWithLock(String lockKey, Integer lockDurationSec, Runnable runnable) {
+    public void executeWithLock(final String lockKey, final Integer lockDurationSec, final Runnable runnable) {
         executeWithLock(lockKey, lockDurationSec, () -> {
             runnable.run();
             return null;
@@ -187,7 +191,7 @@ public class LockManager {
     }
 
     @SneakyThrows
-    private <T> T executeWithLock(String lockKey, Integer lockDuration, Callable<T> callable) {
+    private <T> T executeWithLock(final String lockKey, final Integer lockDuration, final Callable<T> callable) {
         log.debug("start executeWithLock(lockKey: {}, lockDuration: {})", lockKey, lockDuration);
         Duration lockAtMostUntil = Duration.ofSeconds(lockDuration);
         Duration lockAtLeastFor = Duration.ZERO;
@@ -213,7 +217,7 @@ public class LockManager {
      * @param lockKey  the lock key
      * @param runnable the runnable
      */
-    public void executeWithLockWithUniqueLockKey(String lockKey, Runnable runnable) {
+    public void executeWithLockWithUniqueLockKey(final String lockKey, final Runnable runnable) {
         // lockKey in DB maybe varying(100)
         int finalPosition = 99;
         String lockKeyWithTimeMills = lockKey + " " + System.currentTimeMillis();

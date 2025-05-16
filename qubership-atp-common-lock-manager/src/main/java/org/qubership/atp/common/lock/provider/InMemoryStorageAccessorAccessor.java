@@ -27,13 +27,13 @@ public class InMemoryStorageAccessorAccessor extends AbstractStorageAccessor {
     private final Map<String, LockConfiguration> storage = new ConcurrentHashMap<>();
 
     @Override
-    public boolean insertRecord(LockConfiguration lockConfiguration) {
+    public boolean insertRecord(final LockConfiguration lockConfiguration) {
         storage.put(lockConfiguration.getName(), lockConfiguration);
         return true;
     }
 
     @Override
-    public boolean updateRecord(LockConfiguration lockConfiguration) {
+    public boolean updateRecord(final LockConfiguration lockConfiguration) {
         LockConfiguration currentConfig = storage.get(lockConfiguration.getName());
         if (currentConfig == null
                 || currentConfig.getLockAtMostUntil().isBefore(lockConfiguration.getLockAtMostUntil())) {
@@ -44,12 +44,12 @@ public class InMemoryStorageAccessorAccessor extends AbstractStorageAccessor {
     }
 
     @Override
-    public void unlock(LockConfiguration lockConfiguration) {
+    public void unlock(final LockConfiguration lockConfiguration) {
         storage.remove(lockConfiguration.getName());
     }
 
     @Override
-    public boolean extend(LockConfiguration lockConfiguration) {
+    public boolean extend(final LockConfiguration lockConfiguration) {
         return false;
     }
 }

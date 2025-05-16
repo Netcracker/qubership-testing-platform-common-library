@@ -24,13 +24,12 @@ public class TimeoutRegexCharSequence implements CharSequence {
 
     private final long timeoutTime;
 
-
     /**
      * Constructor for TimeoutRegexCharSequence.
      * @param inner regexp pattern.
      * @param timeout timeout (seconds) for regexp processing.
      */
-    public TimeoutRegexCharSequence(CharSequence inner, int timeout) {
+    public TimeoutRegexCharSequence(final CharSequence inner, final int timeout) {
         super();
         this.inner = inner;
         timeoutMillis = timeout * 1000;
@@ -40,7 +39,7 @@ public class TimeoutRegexCharSequence implements CharSequence {
     /**
      * Method for regexp processing to char with timeout check.
      */
-    public char charAt(int index) {
+    public char charAt(final int index) {
         if (System.currentTimeMillis() > timeoutTime) {
             String message = String
                     .format("Timeout occurred after %s ms while processing regular expression %s.", timeoutMillis,
@@ -54,7 +53,7 @@ public class TimeoutRegexCharSequence implements CharSequence {
         return inner.length();
     }
 
-    public CharSequence subSequence(int start, int end) {
+    public CharSequence subSequence(final int start, final int end) {
         return new TimeoutRegexCharSequence(inner.subSequence(start, end), timeoutMillis);
     }
 

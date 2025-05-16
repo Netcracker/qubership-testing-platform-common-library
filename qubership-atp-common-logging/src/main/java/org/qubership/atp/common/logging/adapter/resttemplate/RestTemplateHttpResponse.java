@@ -53,6 +53,12 @@ public class RestTemplateHttpResponse implements AtpHttpResponse {
         return response.getStatusText();
     }
 
+    /**
+     * Get response body as String.
+     *
+     * @return String response body
+     * @throws IOException in case IO exceptions.
+     */
     @Override
     public String getBody() throws IOException {
         return copyToString(response.getBody(), defaultCharset());

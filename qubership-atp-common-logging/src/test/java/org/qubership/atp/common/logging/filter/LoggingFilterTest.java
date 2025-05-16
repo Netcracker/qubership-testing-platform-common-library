@@ -86,8 +86,7 @@ public class LoggingFilterTest {
 
     @Test
     public void whenRequestWithContentTypeAndBody() throws ServletException, IOException {
-        ServletInputStream is= new DelegatingServletInputStream(
-                new ByteArrayInputStream("test".getBytes()));
+        ServletInputStream is= new DelegatingServletInputStream(new ByteArrayInputStream("test".getBytes()));
         Mockito.when(request.getInputStream()).thenReturn(is);
         Mockito.when(request.getHeader("Content-Type")).thenReturn("application/json");
         Mockito.when(response.getStatus()).thenReturn(200);
@@ -109,9 +108,7 @@ public class LoggingFilterTest {
 
     @Test
     public void responseFilter_contentDispositionHeaderExist_bodyIgnored() throws ServletException, IOException {
-        ServletInputStream is = new DelegatingServletInputStream(
-                new ByteArrayInputStream("test".getBytes()));
-
+        ServletInputStream is = new DelegatingServletInputStream(new ByteArrayInputStream("test".getBytes()));
         Mockito.when(request.getInputStream()).thenReturn(is);
         Mockito.when(request.getHeader("Content-Type")).thenReturn("application/json");
         Mockito.when(response.getHeader("Content-Disposition"))
@@ -154,11 +151,8 @@ public class LoggingFilterTest {
 
     @Test
     public void whenRequestResponseWithContentType() throws ServletException, IOException {
-        ServletInputStream is= new DelegatingServletInputStream(
-                new ByteArrayInputStream("test".getBytes()));
-
+        ServletInputStream is= new DelegatingServletInputStream(new ByteArrayInputStream("test".getBytes()));
         ContentCachingResponseWrapper response = Mockito.mock(ContentCachingResponseWrapper.class);
-
         Mockito.when(request.getInputStream()).thenReturn(is);
         Mockito.when(response.getContentInputStream()).thenReturn(is);
         Mockito.when(request.getHeader("Content-Type")).thenReturn("application/json");

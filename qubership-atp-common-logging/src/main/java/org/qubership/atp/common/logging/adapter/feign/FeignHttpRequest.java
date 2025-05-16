@@ -44,11 +44,18 @@ public class FeignHttpRequest implements AtpHttpRequest {
         return request.url();
     }
 
+    /**
+     * Get request body.
+     *
+     * @return byte[] body.
+     */
     @Override
     public byte[] getBody() {
-        // in version 10.7.4 this method becomes not deprecated
-        // use this method to support one version of common logging for services with different version of spring
-        // (2.2.2 in Orch for example)
+        /*
+            In version 10.7.4 this method becomes not deprecated.
+            Use this method to support the same version of common logging
+            for services with different Spring versions (2.2.2 in Orch for example).
+         */
         return request.body();
     }
 }
