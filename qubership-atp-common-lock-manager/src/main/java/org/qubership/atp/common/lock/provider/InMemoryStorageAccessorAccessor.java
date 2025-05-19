@@ -24,14 +24,32 @@ import net.javacrumbs.shedlock.support.AbstractStorageAccessor;
 
 public class InMemoryStorageAccessorAccessor extends AbstractStorageAccessor {
 
+    /**
+     * Map of LockConfiguration by configuration name.
+     */
     private final Map<String, LockConfiguration> storage = new ConcurrentHashMap<>();
 
+    /**
+     * Insert lock record by the name of lockConfiguration.
+     *
+     * @param lockConfiguration LockConfiguration object
+     * @return always returns true.
+     */
     @Override
     public boolean insertRecord(final LockConfiguration lockConfiguration) {
         storage.put(lockConfiguration.getName(), lockConfiguration);
         return true;
     }
 
+    /**
+     * Update lock record by the name of lockConfiguration.
+     * Actually, 'update' is performed only if there was no lock with that name or lock was already expired.
+     * For both cases, in fact, insert is performed instead of update. And method returns true.
+     * Otherwise, existing lock remains unchanged and method returns false.
+     *
+     * @param lockConfiguration LockConfiguration object
+     * @return true if there was no lock with that name or lock was already expired; otherwise false.
+     */
     @Override
     public boolean updateRecord(final LockConfiguration lockConfiguration) {
         LockConfiguration currentConfig = storage.get(lockConfiguration.getName());
@@ -43,11 +61,22 @@ public class InMemoryStorageAccessorAccessor extends AbstractStorageAccessor {
         return false;
     }
 
+    /**
+     * Unlock by the name of lockConfiguration.
+     *
+     * @param lockConfiguration LockConfiguration object
+     */
     @Override
     public void unlock(final LockConfiguration lockConfiguration) {
         storage.remove(lockConfiguration.getName());
     }
 
+    /**
+     * Extend lock according to lockConfiguration properties.
+     *
+     * @param lockConfiguration LockConfiguration object
+     * @return Always false; it means lock isn't extended.
+     */
     @Override
     public boolean extend(final LockConfiguration lockConfiguration) {
         return false;

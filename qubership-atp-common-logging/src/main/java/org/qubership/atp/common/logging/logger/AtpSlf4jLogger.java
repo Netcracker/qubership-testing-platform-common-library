@@ -16,9 +16,9 @@
 
 package org.qubership.atp.common.logging.logger;
 
-import static org.qubership.atp.common.logging.utils.Util.getHttpHeaders;
 import static feign.Util.decodeOrDefault;
 import static feign.Util.toByteArray;
+import static org.qubership.atp.common.logging.utils.Util.getHttpHeaders;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -26,15 +26,15 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
+import org.qubership.atp.common.logging.adapter.AtpHttpRequest;
+import org.qubership.atp.common.logging.adapter.feign.FeignHttpRequest;
+import org.qubership.atp.common.logging.config.LoggingProperties;
+import org.qubership.atp.common.logging.utils.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 
-import org.qubership.atp.common.logging.adapter.AtpHttpRequest;
-import org.qubership.atp.common.logging.adapter.feign.FeignHttpRequest;
-import org.qubership.atp.common.logging.config.LoggingProperties;
-import org.qubership.atp.common.logging.utils.Util;
 import feign.Request;
 import feign.Response;
 import feign.slf4j.Slf4jLogger;
@@ -43,7 +43,14 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class AtpSlf4jLogger extends Slf4jLogger {
 
+    /**
+     * Logger object.
+     */
     private final Logger logger;
+
+    /**
+     * LoggingProperties object.
+     */
     private final LoggingProperties loggingProperties;
 
     /**
@@ -57,6 +64,13 @@ public class AtpSlf4jLogger extends Slf4jLogger {
         this.loggingProperties = loggingProperties;
     }
 
+    /**
+     * Log request.
+     *
+     * @param configKey String key
+     * @param logLevel Level of logging
+     * @param feignRequest Request object.
+     */
     @Override
     protected void logRequest(final String configKey, final Level logLevel, final Request feignRequest) {
         AtpHttpRequest request = new FeignHttpRequest(feignRequest);
@@ -66,6 +80,16 @@ public class AtpSlf4jLogger extends Slf4jLogger {
         log(configKey, String.join(StringUtils.LF, logs));
     }
 
+    /**
+     * Log response.
+     *
+     * @param configKey String key
+     * @param level Level of logging
+     * @param response Response object
+     * @param elapsedTime long elapsed time of execution
+     * @return Response object
+     * @throws IOException in case IO errors occurred.
+     */
     @Override
     protected Response logAndRebufferResponse(final String configKey,
                                               final Level level,
@@ -106,6 +130,13 @@ public class AtpSlf4jLogger extends Slf4jLogger {
         }
     }
 
+    /**
+     * Log message on Debug Level with args using configKey.
+     *
+     * @param configKey String key
+     * @param message String message to log
+     * @param args Object vararg array.
+     */
     @Override
     protected void log(final String configKey, final String message, final Object... args) {
         if (this.logger.isDebugEnabled()) {

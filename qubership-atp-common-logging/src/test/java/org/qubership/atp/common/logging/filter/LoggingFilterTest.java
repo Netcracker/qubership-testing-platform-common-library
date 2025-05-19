@@ -51,12 +51,48 @@ public class LoggingFilterTest {
     private LoggingProperties properties;
     private ListAppender<ILoggingEvent> listAppender;
 
+    /**
+     * Expected log message of request containing test body.
+     */
+    private static final String FOUR_BYTE_TEST_BODY_LOG = "HTTP REQUEST DATA:\n"
+            + "METHOD: null\n"
+            + "URL: null\n"
+            + "BODY: test\n"
+            + "END HTTP (4-byte body)";
+
+    /**
+     * Expected log message of successful response with empty body.
+     */
+    private static final String EMPTY_BODY_LOG = "HTTP RESPONSE DATA:\n"
+            + "HTTP STATUS: 200 OK\n"
+            + "BODY: \n"
+            + "END HTTP (0-byte body)";
+
+    /**
+     * Expected log message of successful response with not allowed body logging.
+     */
+    private static final String LOGGING_NOT_ALLOWED_STATUS_OK_LOG = "HTTP RESPONSE DATA:\n"
+            + "HTTP STATUS: 200 OK\n"
+            + "BODY: Body content logging is not allowed for current content type\n"
+            + "END HTTP (60-byte body)";
+
+    /**
+     * Expected log message of request with not allowed body logging.
+     */
+    private static final String LOGGING_NOT_ALLOWED_LOG = "HTTP REQUEST DATA:\n"
+            + "METHOD: null\n"
+            + "URL: null\n"
+            + "BODY: Body content logging is not allowed for current content type\n"
+            + "END HTTP (60-byte body)";
+
+    /**
+     * Init objects and logging before tests.
+     */
     @Before
     public void setUp() {
         request = Mockito.mock(HttpServletRequest.class);
         response = Mockito.mock(HttpServletResponse.class);
         filterChain = Mockito.mock(FilterChain.class);
-
         properties = Mockito.mock(LoggingProperties.class);
         loggingFilter = new LoggingFilter(properties);
         listAppender = new ListAppender<>();
@@ -64,26 +100,31 @@ public class LoggingFilterTest {
         ((Logger) LoggerFactory.getLogger(LoggingFilter.class)).addAppender(listAppender);
     }
 
+    /**
+     * Test of logging in case neither request nor response has Content-Type header.
+     *
+     * @throws ServletException in case servlet execution exceptions
+     * @throws IOException in case IO exceptions.
+     */
     @Test
-    public void whenReqAndRespWithoutHeaderContentType () throws ServletException, IOException {
+    public void whenReqAndRespWithoutHeaderContentType() throws ServletException, IOException {
         Mockito.when(response.getStatus()).thenReturn(200);
         loggingFilter.doFilter(request, response, filterChain);
+
         assertTrue(listAppender.list.stream().anyMatch( m ->
                 m.getFormattedMessage().contains("BODY: ")));
-
         assertTrue(listAppender.list.stream().anyMatch( m ->
-                m.getFormattedMessage().contains("HTTP REQUEST DATA:\n"
-                        + "METHOD: null\n"
-                        + "URL: null\n"
-                        + "BODY: Body content logging is not allowed for current content type\n"
-                        + "END HTTP (60-byte body)")));
+                m.getFormattedMessage().contains(LOGGING_NOT_ALLOWED_LOG)));
         assertTrue(listAppender.list.stream().anyMatch( m ->
-                m.getFormattedMessage().contains("HTTP RESPONSE DATA:\n"
-                        + "HTTP STATUS: 200 OK\n"
-                        + "BODY: Body content logging is not allowed for current content type\n"
-                        + "END HTTP (60-byte body)")));
+                m.getFormattedMessage().contains(LOGGING_NOT_ALLOWED_STATUS_OK_LOG)));
     }
 
+    /**
+     * Test of logging in case request has body and valid Content-Type header.
+     *
+     * @throws ServletException in case servlet execution exceptions
+     * @throws IOException in case IO exceptions.
+     */
     @Test
     public void whenRequestWithContentTypeAndBody() throws ServletException, IOException {
         ServletInputStream is= new DelegatingServletInputStream(new ByteArrayInputStream("test".getBytes()));
@@ -93,21 +134,19 @@ public class LoggingFilterTest {
         loggingFilter.doFilter(request, response, filterChain);
 
         assertTrue(listAppender.list.stream().anyMatch( m ->
-                m.getFormattedMessage().contains("HTTP REQUEST DATA:\n"
-                        + "METHOD: null\n"
-                        + "URL: null\n"
-                        + "BODY: test\n"
-                        + "END HTTP (4-byte body)")));
-
+                m.getFormattedMessage().contains(FOUR_BYTE_TEST_BODY_LOG)));
         assertTrue(listAppender.list.stream().anyMatch( m ->
-                m.getFormattedMessage().contains("HTTP RESPONSE DATA:\n"
-                        + "HTTP STATUS: 200 OK\n"
-                        + "BODY: Body content logging is not allowed for current content type\n"
-                        + "END HTTP (60-byte body)")));
+                m.getFormattedMessage().contains(LOGGING_NOT_ALLOWED_STATUS_OK_LOG)));
     }
 
+    /**
+     * Test of body ignoring in case response has Content-Disposition header.
+     *
+     * @throws ServletException in case servlet execution exceptions
+     * @throws IOException in case IO exceptions.
+     */
     @Test
-    public void responseFilter_contentDispositionHeaderExist_bodyIgnored() throws ServletException, IOException {
+    public void whenContentDispositionHeaderExistThenBodyIgnored() throws ServletException, IOException {
         ServletInputStream is = new DelegatingServletInputStream(new ByteArrayInputStream("test".getBytes()));
         Mockito.when(request.getInputStream()).thenReturn(is);
         Mockito.when(request.getHeader("Content-Type")).thenReturn("application/json");
@@ -117,12 +156,7 @@ public class LoggingFilterTest {
         loggingFilter.doFilter(request, response, filterChain);
 
         assertTrue(listAppender.list.stream().anyMatch( m ->
-                m.getFormattedMessage().contains("HTTP REQUEST DATA:\n"
-                        + "METHOD: null\n"
-                        + "URL: null\n"
-                        + "BODY: test\n"
-                        + "END HTTP (4-byte body)")));
-
+                m.getFormattedMessage().contains(FOUR_BYTE_TEST_BODY_LOG)));
         assertTrue(listAppender.list.stream().anyMatch( m ->
                 m.getFormattedMessage().contains("HTTP RESPONSE DATA:\n"
                         + "HTTP STATUS: 200 OK\n"
@@ -130,25 +164,30 @@ public class LoggingFilterTest {
                         + "END HTTP (67-byte body)")));
     }
 
+    /**
+     * Test of logging in case response has body and valid Content-Type header.
+     *
+     * @throws ServletException in case servlet execution exceptions
+     * @throws IOException in case IO exceptions.
+     */
     @Test
     public void whenResponseWithContentTypeAndBody() throws ServletException, IOException {
         Mockito.when(response.getHeader("Content-Type")).thenReturn("application/json");
         Mockito.when(response.getStatus()).thenReturn(200);
         loggingFilter.doFilter(request, response, filterChain);
-        assertTrue(listAppender.list.stream().anyMatch( m ->
-                m.getFormattedMessage().contains("HTTP REQUEST DATA:\n"
-                        + "METHOD: null\n"
-                        + "URL: null\n"
-                        + "BODY: Body content logging is not allowed for current content type\n"
-                        + "END HTTP (60-byte body)")));
 
         assertTrue(listAppender.list.stream().anyMatch( m ->
-                m.getFormattedMessage().contains("HTTP RESPONSE DATA:\n"
-                        + "HTTP STATUS: 200 OK\n"
-                        + "BODY: \n"
-                        + "END HTTP (0-byte body)")));
+                m.getFormattedMessage().contains(LOGGING_NOT_ALLOWED_LOG)));
+        assertTrue(listAppender.list.stream().anyMatch( m ->
+                m.getFormattedMessage().contains(EMPTY_BODY_LOG)));
     }
 
+    /**
+     * Test of logging in case both request and response have valid Content-Type header.
+     *
+     * @throws ServletException in case servlet execution exceptions
+     * @throws IOException in case IO exceptions.
+     */
     @Test
     public void whenRequestResponseWithContentType() throws ServletException, IOException {
         ServletInputStream is= new DelegatingServletInputStream(new ByteArrayInputStream("test".getBytes()));
@@ -161,15 +200,8 @@ public class LoggingFilterTest {
         loggingFilter.doFilter(request, response, filterChain);
 
         assertTrue(listAppender.list.stream().anyMatch( m ->
-                m.getFormattedMessage().contains("HTTP REQUEST DATA:\n"
-                        + "METHOD: null\n"
-                        + "URL: null\n"
-                        + "BODY: test\n"
-                        + "END HTTP (4-byte body)")));
+                m.getFormattedMessage().contains(FOUR_BYTE_TEST_BODY_LOG)));
         assertTrue(listAppender.list.stream().anyMatch( m ->
-                m.getFormattedMessage().contains("HTTP RESPONSE DATA:\n"
-                        + "HTTP STATUS: 200 OK\n"
-                        + "BODY: \n"
-                        + "END HTTP (0-byte body)")));
+                m.getFormattedMessage().contains(EMPTY_BODY_LOG)));
     }
 }

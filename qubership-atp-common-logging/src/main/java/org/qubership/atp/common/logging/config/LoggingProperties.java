@@ -31,35 +31,70 @@ import lombok.experimental.Accessors;
 @Accessors(fluent = true)
 public class LoggingProperties {
 
+    /**
+     * Log Headers of Requests/Responses processed by Controllers (true) or not.
+     */
     @Getter
     @Value("#{new Boolean('${atp.logging.controller.headers:false}')}")
     private Boolean logControllerHeaders;
 
+    /**
+     * Log Headers of Requests/Responses processed by Feign Clients (true) or not.
+     */
     @Getter
     @Value("#{new Boolean('${atp.logging.feignclient.headers:false}')}")
     private Boolean logFeignHeaders;
 
+    /**
+     * Log Headers of Requests/Responses processed by RestTemplates (true) or not.
+     */
     @Getter
     @Value("#{new Boolean('${atp.logging.resttemplate.headers:false}')}")
     private Boolean logRestTemplateHeaders;
 
+    /**
+     * Ignore Headers List for Controllers Logging.
+     */
     @Value("#{'${atp.logging.controller.headers.ignore:Authorization}'.split(' ')}")
     private List<String> ignoreControllerHeaders;
 
+    /**
+     * Ignore Headers List for Feign Clients Logging.
+     */
     @Value("#{'${atp.logging.feignclient.headers.ignore:Authorization}'.split(' ')}")
     private List<String> ignoreFeignHeaders;
 
+    /**
+     * Ignore Headers List for RestTemplates Logging.
+     */
     @Value("#{'${atp.logging.resttemplate.headers.ignore:Authorization}'.split(' ')}")
     private List<String> ignoreRestTemplateHeaders;
 
+    /**
+     * Ignore URIs List for Controllers Logging.
+     */
     @Value("#{'${atp.logging.controller.uri.ignore:/sse/.* /deployment/readiness /deployment/liveness}'.split(' ')}")
     private List<String> ignoreUriList;
 
+    /**
+     * 'Ignore Headers' Patterns List for Controllers Logging.
+     */
     private List<Pattern> ignoreControllerHeaderPatterns;
+
+    /**
+     * 'Ignore Headers' Patterns List for Feign Clients Logging.
+     */
     private List<Pattern> ignoreFeignHeaderPatterns;
+
+    /**
+     * 'Ignore Headers' Patterns List for RestTemplates Logging.
+     */
     private List<Pattern> ignoreRestTemplateHeaderPatterns;
+
+    /**
+     * 'Ignore URIs' Patterns List for Controllers Logging.
+     */
     private List<Pattern> ignoreUriListPatterns;
-    private List<Pattern> filterIgnoreUriListPatterns;
 
     /**
      * Returns list of compiled regex patterns to ignore matched http headers for RestController.

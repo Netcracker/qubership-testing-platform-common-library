@@ -29,22 +29,51 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ContentCachingHttpRequest implements AtpHttpRequest {
 
+    /**
+     * Question sign.
+     */
     private static final String QUESTION_MARK = "?";
+
+    /**
+     * Ampersand sign.
+     */
     private static final String AMPERSAND = "&";
+
+    /**
+     * Equals sign.
+     */
     private static final String EQUALS = "=";
 
+    /**
+     * CommonHttpRequestWrapper object.
+     */
     private final CommonHttpRequestWrapper request;
 
+    /**
+     * Get Request Headers map.
+     *
+     * @return HttpHeaders object.
+     */
     @Override
     public HttpHeaders getHeaders() {
         return Util.getHeaders(request);
     }
 
+    /**
+     * Get Request Method.
+     *
+     * @return String method.
+     */
     @Override
     public String getMethod() {
         return request.getMethod();
     }
 
+    /**
+     * Get Request URI (with Query String) as String
+     *
+     * @return String URI with Query String.
+     */
     @Override
     public String getUri() {
         StringBuilder uri = getParameters();

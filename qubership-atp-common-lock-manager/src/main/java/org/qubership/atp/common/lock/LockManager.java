@@ -22,6 +22,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
+import org.qubership.atp.common.lock.exceptions.AtpLockRejectException;
 import org.springframework.retry.RetryPolicy;
 import org.springframework.retry.backoff.BackOffPolicy;
 import org.springframework.retry.backoff.FixedBackOffPolicy;
@@ -30,7 +31,6 @@ import org.springframework.retry.policy.SimpleRetryPolicy;
 import org.springframework.retry.policy.TimeoutRetryPolicy;
 import org.springframework.retry.support.RetryTemplate;
 
-import org.qubership.atp.common.lock.exceptions.AtpLockRejectException;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import net.javacrumbs.shedlock.core.DefaultLockingTaskExecutor;
@@ -41,9 +41,24 @@ import net.javacrumbs.shedlock.core.LockingTaskExecutor;
 @Slf4j
 public class LockManager {
 
+    /**
+     * Default lock duration (seconds).
+     */
     private final Integer defaultLockDurationSec;
+
+    /**
+     * Retry timeout (seconds).
+     */
     private final Integer retryTimeoutSec;
+
+    /**
+     * Retry interval (seconds).
+     */
     private final Integer retryPaceSec;
+
+    /**
+     * Executor of tasks.
+     */
     private DefaultLockingTaskExecutor defaultLockingTaskExecutor;
 
     /**

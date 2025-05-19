@@ -26,22 +26,35 @@ import java.util.concurrent.Future;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
 import org.qubership.atp.common.lock.provider.InMemoryLockProvider;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@SuppressWarnings("checkstyle:MagicNumber")
 public class LockManagerTest {
 
+    /**
+     * LockManager for tests.
+     */
     private LockManager lockManager;
 
+    /**
+     * Init lockManager before tests.
+     */
     @Before
     public void setUp() {
         lockManager = new LockManager(60, 20, 3, new InMemoryLockProvider());
     }
 
+    /**
+     * Test when executing with lock and wait lock enough time then lock is obtained.
+     *
+     * @throws ExecutionException in case task execution exceptions
+     * @throws InterruptedException in case execution is interrupted (or before trying it).
+     */
     @Test
-    public void executeWithLock_WaitLock_LockObtained() throws InterruptedException, ExecutionException {
+    public void executeWithLockWaitLockThenLockObtained() throws InterruptedException, ExecutionException {
         ExecutorService executor = Executors.newFixedThreadPool(2);
         Future<Boolean> task1 = executor.submit(
                 () -> lockManager.executeWithLock("a", 15, () -> {
@@ -64,8 +77,14 @@ public class LockManagerTest {
         Assert.assertTrue(result2);
     }
 
+    /**
+     * Test when executing with lock and wait lock not enough time then lock isn't obtained.
+     *
+     * @throws ExecutionException in case task execution exceptions
+     * @throws InterruptedException in case execution is interrupted (or before trying it).
+     */
     @Test
-    public void executeWithLock_WaitLock_LockNotObtained() throws InterruptedException, ExecutionException {
+    public void executeWithLockWaitLockThenLockNotObtained() throws InterruptedException, ExecutionException {
         ExecutorService executor = Executors.newFixedThreadPool(2);
         Future<Boolean> task1 = executor.submit(
                 () -> lockManager.executeWithLock("a", 60, () -> {
@@ -88,8 +107,11 @@ public class LockManagerTest {
         Assert.assertFalse(result2);
     }
 
+    /**
+     * Test when executing with lock and wait lock unsuccessfully then exception is thrown.
+     */
     @Test
-    public void executeWithLock_WaitLock_ExceptionThrown() throws ExecutionException, InterruptedException {
+    public void executeWithLockWaitLockThenExceptionThrown() {
         ExecutorService executor = Executors.newFixedThreadPool(2);
         Future<Boolean> task1 = executor.submit(
                 () -> lockManager.executeWithLock("a", () -> {
@@ -107,8 +129,14 @@ public class LockManagerTest {
         Assert.assertEquals("Exception from thread-1", result.getMessage());
     }
 
+    /**
+     * Test when executing with lock but don't wait then lock isn't obtained.
+     *
+     * @throws ExecutionException in case task execution exceptions
+     * @throws InterruptedException in case execution is interrupted (or before trying it).
+     */
     @Test
-    public void executeWithLock_NoWait_LockNotObtained() throws ExecutionException, InterruptedException {
+    public void executeWithLockNoWaitThenLockNotObtained() throws ExecutionException, InterruptedException {
         ExecutorService executor = Executors.newFixedThreadPool(2);
         Future<Boolean> task1 = executor.submit(
                 () -> lockManager.executeWithLockNoWait("a", () -> {

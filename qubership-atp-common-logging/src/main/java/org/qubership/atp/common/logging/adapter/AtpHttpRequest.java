@@ -20,10 +20,25 @@ import org.springframework.http.HttpHeaders;
 
 public interface AtpHttpRequest {
 
+    /**
+     * Get request Headers.
+     *
+     * @return HttpHeaders headers.
+     */
     HttpHeaders getHeaders();
 
+    /**
+     * Get request Method.
+     *
+     * @return String method.
+     */
     String getMethod();
 
+    /**
+     * Get request Uri.
+     *
+     * @return String Uri.
+     */
     String getUri();
 
     /**

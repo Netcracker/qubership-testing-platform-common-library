@@ -27,18 +27,36 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class FeignHttpRequest implements AtpHttpRequest {
 
+    /**
+     * Source Request.
+     */
     private final Request request;
 
+    /**
+     * Get request headers.
+     *
+     * @return HttpHeaders object.
+     */
     @Override
     public HttpHeaders getHeaders() {
         return getHttpHeaders(request.headers());
     }
 
+    /**
+     * Get request method.
+     *
+     * @return String request method.
+     */
     @Override
     public String getMethod() {
         return request.httpMethod().name();
     }
 
+    /**
+     * Get request URI as String.
+     *
+     * @return String request URI.
+     */
     @Override
     public String getUri() {
         return request.url();

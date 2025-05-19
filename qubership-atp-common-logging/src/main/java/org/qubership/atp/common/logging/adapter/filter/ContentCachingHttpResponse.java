@@ -21,40 +21,72 @@ import static org.springframework.util.StreamUtils.copyToString;
 
 import java.io.IOException;
 
+import org.qubership.atp.common.logging.adapter.AtpHttpResponse;
+import org.qubership.atp.common.logging.utils.Util;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.util.ContentCachingResponseWrapper;
 
-import org.qubership.atp.common.logging.adapter.AtpHttpResponse;
-import org.qubership.atp.common.logging.utils.Util;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class ContentCachingHttpResponse implements AtpHttpResponse {
 
+    /**
+     * Wrapped response.
+     */
     private final ContentCachingResponseWrapper response;
+
+    /**
+     * Response Http Status.
+     */
     private final HttpStatus status;
 
-    public ContentCachingHttpResponse(ContentCachingResponseWrapper response) {
+    /**
+     * Constructor from wrapper.
+     *
+     * @param response ContentCachingResponseWrapper wrapped response.
+     */
+    public ContentCachingHttpResponse(final ContentCachingResponseWrapper response) {
         this.response = response;
         this.status = HttpStatus.valueOf(response.getStatus());
     }
 
+    /**
+     * Get Response Http Headers.
+     *
+     * @return HttpHeaders object.
+     */
     @Override
     public HttpHeaders getHeaders() {
         return Util.getHeaders(response);
     }
 
+    /**
+     * Get Response Http Status Code object.
+     *
+     * @return HttpStatus object.
+     */
     @Override
     public HttpStatus getStatusCode() {
         return status;
     }
 
+    /**
+     * Get Response Http Status Code value.
+     *
+     * @return int http status code value.
+     */
     @Override
     public int getStatusCodeValue() {
         return status.value();
     }
 
+    /**
+     * Get Response Http Status Code phrase.
+     *
+     * @return String http status code phrase.
+     */
     @Override
     public String getStatusCodeReason() {
         return status.getReasonPhrase();

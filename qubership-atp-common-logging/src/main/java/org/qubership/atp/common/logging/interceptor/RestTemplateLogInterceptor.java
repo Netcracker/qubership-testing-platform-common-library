@@ -25,17 +25,17 @@ import java.util.regex.Pattern;
 import javax.annotation.Nonnull;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.http.HttpRequest;
-import org.springframework.http.client.ClientHttpRequestExecution;
-import org.springframework.http.client.ClientHttpRequestInterceptor;
-import org.springframework.http.client.ClientHttpResponse;
-
 import org.qubership.atp.common.logging.adapter.AtpHttpRequest;
 import org.qubership.atp.common.logging.adapter.AtpHttpResponse;
 import org.qubership.atp.common.logging.adapter.resttemplate.RestTemplateHttpRequest;
 import org.qubership.atp.common.logging.adapter.resttemplate.RestTemplateHttpResponse;
 import org.qubership.atp.common.logging.config.LoggingProperties;
 import org.qubership.atp.common.logging.utils.Util;
+import org.springframework.http.HttpRequest;
+import org.springframework.http.client.ClientHttpRequestExecution;
+import org.springframework.http.client.ClientHttpRequestInterceptor;
+import org.springframework.http.client.ClientHttpResponse;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -43,8 +43,20 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class RestTemplateLogInterceptor implements ClientHttpRequestInterceptor {
 
+    /**
+     * LoggingProperties object.
+     */
     private final LoggingProperties loggingProperties;
 
+    /**
+     * Perform intercept of request.
+     *
+     * @param request HttpRequest object
+     * @param bytes byte[] request body
+     * @param clientHttpRequestExecution Tasks executor
+     * @return ClientHttpResponse object
+     * @throws IOException in case IO errors occurred.
+     */
     @Nonnull
     @Override
     public ClientHttpResponse intercept(@Nonnull final HttpRequest request,

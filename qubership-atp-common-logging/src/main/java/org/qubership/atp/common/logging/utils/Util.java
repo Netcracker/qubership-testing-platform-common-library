@@ -16,9 +16,9 @@
 
 package org.qubership.atp.common.logging.utils;
 
-import static org.qubership.atp.common.logging.utils.RegexUtil.removeByKeyRegexPatterns;
 import static java.lang.String.format;
 import static java.nio.charset.Charset.defaultCharset;
+import static org.qubership.atp.common.logging.utils.RegexUtil.removeByKeyRegexPatterns;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,14 +38,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
+import org.qubership.atp.common.logging.adapter.AtpHttpRequest;
+import org.qubership.atp.common.logging.adapter.AtpHttpResponse;
 import org.slf4j.Logger;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.MultiValueMap;
 
-import org.qubership.atp.common.logging.adapter.AtpHttpRequest;
-import org.qubership.atp.common.logging.adapter.AtpHttpResponse;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -86,36 +86,42 @@ public class Util {
     public static List<String> getLogRequestData(AtpHttpRequest request,
                                                  Boolean isLoggedHeaders,
                                                  List<Pattern> ignoreHeadersPattern) {
-        List<String> logs = new ArrayList<>();
-        logs.add("HTTP REQUEST DATA:");
-        logs.add(format("METHOD: %s", request.getMethod()));
-        logs.add(format("URL: %s", request.getUri()));
-        if (isLoggedHeaders) {
-            logs.add(format("HEADERS: %s", filterHeaders(request.getHeaders(), ignoreHeadersPattern)));
-        }
         byte[] body = request.getBody();
-        String bodyText = Objects.nonNull(body) ? new String(body, defaultCharset()) : StringUtils.EMPTY;
-        logs.add(format("BODY: %s", bodyText));
-        logs.add(format("END HTTP (%s-byte body)", bodyText.length()));
-        return logs;
+        return composeLogs(isLoggedHeaders,
+                ignoreHeadersPattern,
+                request.getMethod(),
+                request.getUri(),
+                isLoggedHeaders ? request.getHeaders() : null,
+                Objects.nonNull(body) ? new String(body, defaultCharset()) : StringUtils.EMPTY);
     }
 
     /**
      * Returns {@link List} of {@link String} with Http request data.
      */
-
     public static List<String> getLogHttpServletRequestData(HttpServletRequest request,
                                                             Boolean isLoggedHeaders,
                                                             List<Pattern> ignoreHeadersPattern) {
+        return composeLogs(isLoggedHeaders,
+                ignoreHeadersPattern,
+                request.getMethod(),
+                request.getRequestURI(),
+                isLoggedHeaders ? getHeaders(request) : null,
+                MESSAGE);
+    }
+
+    private static List<String> composeLogs(Boolean isLoggedHeaders,
+                                            List<Pattern> ignoreHeadersPattern,
+                                            String requestMethod,
+                                            String requestUri,
+                                            HttpHeaders requestHeaders,
+                                            String bodyText) {
         List<String> logs = new ArrayList<>();
         logs.add("HTTP REQUEST DATA:");
-        logs.add(format("METHOD: %s", request.getMethod()));
-        logs.add(format("URL: %s", request.getRequestURI()));
+        logs.add(format("METHOD: %s", requestMethod));
+        logs.add(format("URL: %s", requestUri));
         if (isLoggedHeaders) {
-            logs.add(format("HEADERS: %s", filterHeaders(getHeaders(request), ignoreHeadersPattern)));
+            logs.add(format("HEADERS: %s", filterHeaders(requestHeaders, ignoreHeadersPattern)));
         }
-
-        String bodyText = MESSAGE;
         logs.add(format("BODY: %s", bodyText));
         logs.add(format("END HTTP (%s-byte body)", bodyText.length()));
         return logs;
@@ -137,7 +143,7 @@ public class Util {
     public static HttpHeaders getHeaders(HttpServletResponse response) {
         Set<String> headerNames = new HashSet<>(response.getHeaderNames());
         Map<String, Collection<String>> headers = headerNames.stream().collect(
-                Collectors.toMap(Function.identity(), header -> response.getHeaders(header)));
+                Collectors.toMap(Function.identity(), response::getHeaders));
         return Util.getHttpHeaders(headers);
     }
 

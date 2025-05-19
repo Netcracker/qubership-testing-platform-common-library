@@ -21,33 +21,59 @@ import static org.springframework.util.StreamUtils.copyToString;
 
 import java.io.IOException;
 
+import org.qubership.atp.common.logging.adapter.AtpHttpResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpResponse;
 
-import org.qubership.atp.common.logging.adapter.AtpHttpResponse;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class RestTemplateHttpResponse implements AtpHttpResponse {
 
+    /**
+     * Http Response object.
+     */
     private final ClientHttpResponse response;
 
+    /**
+     * Get Response Http Headers.
+     *
+     * @return HttpHeaders object.
+     */
     @Override
     public HttpHeaders getHeaders() {
         return response.getHeaders();
     }
 
+    /**
+     * Get Response Http Status object.
+     *
+     * @return HttpStatus object.
+     * @throws IOException in case IO exceptions.
+     */
     @Override
     public HttpStatus getStatusCode() throws IOException {
         return response.getStatusCode();
     }
 
+    /**
+     * Get Response Http Status Code value.
+     *
+     * @return int Http Status Code value
+     * @throws IOException in case IO exceptions.
+     */
     @Override
     public int getStatusCodeValue() throws IOException {
         return response.getRawStatusCode();
     }
 
+    /**
+     * Get Response Http Status Code reason phrase.
+     *
+     * @return String Http Status Code reason phrase
+     * @throws IOException in case IO exceptions.
+     */
     @Override
     public String getStatusCodeReason() throws IOException {
         return response.getStatusText();

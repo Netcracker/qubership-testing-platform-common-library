@@ -61,7 +61,7 @@ Add dependency in pom
         </dependency>
 ```
 
-### 2. Enable 
+### 2. Enable
 In Main class or new Configuration class add annotation `@EnableAtpLockManager`
 
 ### 3. Specify a provider

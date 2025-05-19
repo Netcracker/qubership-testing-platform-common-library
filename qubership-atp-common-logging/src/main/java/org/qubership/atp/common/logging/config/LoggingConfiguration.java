@@ -16,13 +16,12 @@
 
 package org.qubership.atp.common.logging.config;
 
+import org.qubership.atp.common.logging.filter.LoggingFilter;
+import org.qubership.atp.common.logging.interceptor.RestTemplateLogInterceptor;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 import org.springframework.cloud.openfeign.FeignLoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import org.qubership.atp.common.logging.filter.LoggingFilter;
-import org.qubership.atp.common.logging.interceptor.RestTemplateLogInterceptor;
 
 @Configuration
 public class LoggingConfiguration {
@@ -32,21 +31,44 @@ public class LoggingConfiguration {
         SLF4JBridgeHandler.install();
     }
 
+    /**
+     * Create LoggingProperties bean.
+     *
+     * @return new LoggingProperties object.
+     */
     @Bean
     public LoggingProperties headerProperties() {
         return new LoggingProperties();
     }
 
+    /**
+     * Create LoggingFilter bean.
+     *
+     * @param loggingProperties LoggingProperties object
+     * @return new LoggingFilter object configured with loggingProperties.
+     */
     @Bean
     public LoggingFilter getLogFilter(final LoggingProperties loggingProperties) {
         return new LoggingFilter(loggingProperties);
     }
 
+    /**
+     * Create FeignLoggerFactory bean.
+     *
+     * @param loggingProperties LoggingProperties object
+     * @return new AtpFeignLoggerFactory object configured with loggingProperties.
+     */
     @Bean
     public FeignLoggerFactory getFeignLoggerFactory(final LoggingProperties loggingProperties) {
         return new AtpFeignLoggerFactory(loggingProperties);
     }
 
+    /**
+     * Create RestTemplateLogInterceptor bean.
+     *
+     * @param loggingProperties LoggingProperties object
+     * @return new RestTemplateLogInterceptor object configured with loggingProperties.
+     */
     @Bean
     public RestTemplateLogInterceptor restTemplateLogInterceptor(final LoggingProperties loggingProperties) {
         return new RestTemplateLogInterceptor(loggingProperties);

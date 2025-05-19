@@ -18,6 +18,11 @@ package org.qubership.atp.common.lock.exceptions;
 
 public class AtpLockRejectException extends RuntimeException {
 
+    /**
+     * Constructor.
+     *
+     * @param message String exception message.
+     */
     public AtpLockRejectException(final String message) {
         super(message);
     }

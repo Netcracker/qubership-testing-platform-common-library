@@ -23,12 +23,36 @@ import org.springframework.http.HttpStatus;
 
 public interface AtpHttpResponse {
 
+    /**
+     * Get response headers.
+     *
+     * @return HttpHeaders response headers
+     * @throws IOException in case IO exceptions.
+     */
     HttpHeaders getHeaders();
 
+    /**
+     * Get response status code as HttpStatus object.
+     *
+     * @return HttpStatus object
+     * @throws IOException in case IO exceptions.
+     */
     HttpStatus getStatusCode() throws IOException;
 
+    /**
+     * Get response status code value as String.
+     *
+     * @return String response status code value
+     * @throws IOException in case IO exceptions.
+     */
     int getStatusCodeValue() throws IOException;
 
+    /**
+     * Get response status code reason phrase String.
+     *
+     * @return String response status code reason phrase
+     * @throws IOException in case IO exceptions.
+     */
     String getStatusCodeReason() throws IOException;
 
     /**

@@ -16,17 +16,26 @@
 
 package org.qubership.atp.common.logging.config;
 
+import org.qubership.atp.common.logging.logger.AtpSlf4jLogger;
 import org.springframework.cloud.openfeign.FeignLoggerFactory;
 
-import org.qubership.atp.common.logging.logger.AtpSlf4jLogger;
 import feign.Logger;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class AtpFeignLoggerFactory implements FeignLoggerFactory {
 
+    /**
+     * LoggingProperties object.
+     */
     private final LoggingProperties loggingProperties;
 
+    /**
+     * Create logger of specified type with loggingProperties configured.
+     *
+     * @param type Class of Logger to be created
+     * @return new AtpSlf4jLogger for the type and loggingProperties configured.
+     */
     @Override
     public Logger create(final Class<?> type) {
         return new AtpSlf4jLogger(type, loggingProperties);

@@ -32,8 +32,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.util.Strings;
-import org.springframework.web.util.ContentCachingResponseWrapper;
-
 import org.qubership.atp.common.logging.adapter.AtpHttpRequest;
 import org.qubership.atp.common.logging.adapter.filter.ContentCachingHttpRequest;
 import org.qubership.atp.common.logging.adapter.filter.ContentCachingHttpResponse;
@@ -41,6 +39,8 @@ import org.qubership.atp.common.logging.config.LoggingProperties;
 import org.qubership.atp.common.logging.utils.ContentType;
 import org.qubership.atp.common.logging.utils.RegexUtil;
 import org.qubership.atp.common.logging.utils.Util;
+import org.springframework.web.util.ContentCachingResponseWrapper;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -48,10 +48,30 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class LoggingFilter implements Filter {
 
+    /**
+     * LoggingProperties object.
+     */
     private final LoggingProperties loggingProperties;
+
+    /**
+     * "Content-Type" Constant.
+     */
     private static final String HEADER_CONTENT_TYPE = "Content-Type";
+
+    /**
+     * "Content-Disposition" Constant.
+     */
     private static final String HEADER_CONTENT_DISPOSITION = "Content-Disposition";
 
+    /**
+     * Apply filter.
+     *
+     * @param request ServletRequest object
+     * @param response ServletResponse object
+     * @param chain Chain of filters
+     * @throws IOException in case IO error occurred
+     * @throws ServletException in case servlet errors.
+     */
     @Override
     public void doFilter(final ServletRequest request,
                          final ServletResponse response,

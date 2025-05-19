@@ -16,28 +16,50 @@
 
 package org.qubership.atp.common.logging.adapter.resttemplate;
 
+import org.qubership.atp.common.logging.adapter.AtpHttpRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpRequest;
 
-import org.qubership.atp.common.logging.adapter.AtpHttpRequest;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class RestTemplateHttpRequest implements AtpHttpRequest {
 
+    /**
+     * HttpRequest object.
+     */
     private final HttpRequest request;
+
+    /**
+     * Request body.
+     */
     private final byte[] body;
 
+    /**
+     * Get Request Http Headers.
+     *
+     * @return HttpHeaders object.
+     */
     @Override
     public HttpHeaders getHeaders() {
         return request.getHeaders();
     }
 
+    /**
+     * Get Request Method.
+     *
+     * @return String request method.
+     */
     @Override
     public String getMethod() {
         return request.getMethodValue();
     }
 
+    /**
+     * Get Request URI.
+     *
+     * @return String request URI.
+     */
     @Override
     public String getUri() {
         return request.getURI().toString();

@@ -26,36 +26,68 @@ import feign.Response;
 
 public class FeignHttpResponse implements AtpHttpResponse {
 
+    /**
+     * Response object.
+     */
     private final Response response;
+
+    /**
+     * Response status.
+     */
     private final HttpStatus status;
+
+    /**
+     * Response body.
+     */
     private final String body;
 
     /**
      * FeignHttpResponse constructor.
+     *
      * @param response Feign response.
      * @param body     Feign response body.
      */
-    public FeignHttpResponse(Response response, String body) {
+    public FeignHttpResponse(final Response response, final String body) {
         this.response = response;
         this.status = HttpStatus.valueOf(response.status());
         this.body = body;
     }
 
+    /**
+     * Get response headers.
+     *
+     * @return HttpHeaders response headers.
+     */
     @Override
     public HttpHeaders getHeaders() {
         return getHttpHeaders(response.headers());
     }
 
+    /**
+     * Get response status code as HttpStatus object.
+     *
+     * @return HttpStatus object.
+     */
     @Override
     public HttpStatus getStatusCode() {
         return status;
     }
 
+    /**
+     * Get response status code value as String.
+     *
+     * @return String response status code value.
+     */
     @Override
     public int getStatusCodeValue() {
         return status.value();
     }
 
+    /**
+     * Get response status code reason phrase String.
+     *
+     * @return String response status code reason phrase.
+     */
     @Override
     public String getStatusCodeReason() {
         return status.getReasonPhrase();
