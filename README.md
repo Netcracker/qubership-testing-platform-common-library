@@ -103,7 +103,7 @@ If your application uses jdbc, then use appropriate dependency and rule for sett
         </dependency>
  ```
 
-For all list of available implementation of provider see page https://github.com/lukas-krecan/ShedLock#configure-lockprovider
+For all list of available implementation of provider see page [ShedLock LockProviders page at GitHub](https://github.com/lukas-krecan/ShedLock#configure-lockprovider)
 (The LockManager is based on the ShedLock library)
 
 ### 4. Use lock in your code
