@@ -30,27 +30,76 @@ import io.undertow.Undertow;
 
 public class UndertowXWorkerMetrics extends UndertowMetrics {
 
+    /**
+     * X-work Worker Pool Max Size metric name (without prefix).
+     */
     private static final String METRIC_NAME_X_WORK_WORKER_POOL_MAX_SIZE =       ".xwork.worker.pool.max.size";
+
+    /**
+     * X-work Worker Pool Size metric name (without prefix).
+     */
     private static final String METRIC_NAME_X_WORK_WORKER_POOL_SIZE =           ".xwork.worker.pool.size";
+
+    /**
+     * X-work Worker Pool Busy Threads Count metric name (without prefix).
+     */
     private static final String METRIC_NAME_X_WORK_WORKER_THREAD_BUSY_COUNT =   ".xwork.worker.thread.busy.count";
+
+    /**
+     * X-work IO Threads Count metric name (without prefix).
+     */
     private static final String METRIC_NAME_X_WORK_IO_THREAD_COUNT =            ".xwork.io.thread.count";
+
+    /**
+     * X-work Worker Queue Size metric name (without prefix).
+     */
     private static final String METRIC_NAME_X_WORK_WORKER_QUEUE_SIZE  =         ".xwork.worker.queue.size";
+
+    /**
+     * Constant for Metric Category Name.
+     */
     private static final String METRIC_CATEGORY = "name";
 
+    /**
+     * Constructor.
+     *
+     * @param undertowWebServer UndertowWebServer object.
+     */
     public UndertowXWorkerMetrics(final UndertowWebServer undertowWebServer) {
         super(undertowWebServer);
     }
 
+    /**
+     * Constructor.
+     *
+     * @param undertowWebServer UndertowWebServer object
+     * @param namePrefix String prefix to be added to metric name.
+     */
     public UndertowXWorkerMetrics(final UndertowWebServer undertowWebServer, final String namePrefix) {
         super(undertowWebServer, namePrefix);
     }
 
+    /**
+     * Constructor.
+     *
+     * @param undertowWebServer UndertowWebServer object
+     * @param namePrefix String prefix to be added to metric name
+     * @param tags Collection of Tags.
+     */
     public UndertowXWorkerMetrics(final UndertowWebServer undertowWebServer,
                                   final String namePrefix,
                                   final Iterable<Tag> tags) {
         super(undertowWebServer, namePrefix, tags);
     }
 
+    /**
+     * Bind MeterRegistry registry to Undertow.
+     *
+     * @param registry MeterRegistry object
+     * @param undertow Undertow object
+     * @param namePrefix String prefix to be added to metric name
+     * @param tags Collection of Tags.
+     */
     @Override
     public void bindTo(@NonNull final MeterRegistry registry,
                        final Undertow undertow,
@@ -64,7 +113,6 @@ public class UndertowXWorkerMetrics extends UndertowMetrics {
                                  final XnioWorkerMXBean workerMXBean,
                                  final String namePrefix,
                                  final Iterable<Tag> tags) {
-
         List<Tag> tagsList =  new ArrayList<>();
         if (Objects.nonNull(tags)) {
             tags.forEach(tagsList::add);

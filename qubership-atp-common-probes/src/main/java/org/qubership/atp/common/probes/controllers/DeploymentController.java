@@ -26,8 +26,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class DeploymentController {
 
+    /**
+     * ApplicationAvailability object.
+     */
     private ApplicationAvailability applicationAvailability;
 
+    /**
+     * Constructor.
+     *
+     * @param applicationAvailability ApplicationAvailability object.
+     */
     @Autowired
     public DeploymentController(ApplicationAvailability applicationAvailability) {
         this.applicationAvailability = applicationAvailability;
@@ -35,6 +43,8 @@ public class DeploymentController {
 
     /**
      * Return response for livenessProbe.
+     *
+     * @return ResponseEntity with OK (in case Correct liveness state) or INTERNAL_SERVER_ERROR HttpStatus.
      */
     @GetMapping("/rest/deployment/liveness")
     public ResponseEntity<Void> liveness() {

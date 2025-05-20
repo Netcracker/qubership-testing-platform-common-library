@@ -44,11 +44,34 @@ import ch.qos.logback.core.read.ListAppender;
 @RunWith(SpringRunner.class)
 public class LoggingFilterTest {
 
+    /**
+     * Request object.
+     */
     private HttpServletRequest request;
+
+    /**
+     * Response object.
+     */
     private HttpServletResponse response;
+
+    /**
+     * Chain of filters.
+     */
     private FilterChain filterChain;
+
+    /**
+     * LoggingFilter object under testing.
+     */
     private LoggingFilter loggingFilter;
+
+    /**
+     * LoggingProperties bean.
+     */
     private LoggingProperties properties;
+
+    /**
+     * Logging Appender.
+     */
     private ListAppender<ILoggingEvent> listAppender;
 
     /**

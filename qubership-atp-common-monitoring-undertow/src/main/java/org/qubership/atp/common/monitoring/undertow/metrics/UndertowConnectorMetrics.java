@@ -31,26 +31,87 @@ import io.undertow.server.ConnectorStatistics;
 
 public class UndertowConnectorMetrics extends UndertowMetrics {
 
+    /**
+     * Connectors Requests Count metric name (without prefix).
+     */
     private static final String METRIC_NAME_CONNECTORS_REQUESTS_COUNT 			= ".connectors.requests.count";
+
+    /**
+     * Connectors Requests Error Count metric name (without prefix).
+     */
     private static final String METRIC_NAME_CONNECTORS_REQUESTS_ERROR_COUNT 	= ".connectors.requests.error.count";
+
+    /**
+     * Connectors Active Requests Count metric name (without prefix).
+     */
     private static final String METRIC_NAME_CONNECTORS_REQUESTS_ACTIVE 			= ".connectors.requests.active";
+
+    /**
+     * Connectors Maximum Active Requests Limit metric name (without prefix).
+     */
     private static final String METRIC_NAME_CONNECTORS_REQUESTS_ACTIVE_MAX 		= ".connectors.requests.active.max";
+
+    /**
+     * Connectors Bytes sent metric name (without prefix).
+     */
     private static final String METRIC_NAME_CONNECTORS_BYTES_SENT 				= ".connectors.bytes.sent";
+
+    /**
+     * Connectors Bytes received metric name (without prefix).
+     */
     private static final String METRIC_NAME_CONNECTORS_BYTES_RECEIVED 			= ".connectors.bytes.received";
+
+    /**
+     * Connectors Processing Time metric name (without prefix).
+     */
     private static final String METRIC_NAME_CONNECTORS_PROCESSING_TIME 			= ".connectors.processing.time";
+
+    /**
+     * Connectors Maximum Processing Time Limit metric name (without prefix).
+     */
     private static final String METRIC_NAME_CONNECTORS_PROCESSING_TIME_MAX 		= ".connectors.processing.time.max";
+
+    /**
+     * Connectors Active Connections Count metric name (without prefix).
+     */
     private static final String METRIC_NAME_CONNECTORS_CONNECTIONS_ACTIVE 		= ".connectors.connections.active";
+
+    /**
+     * Connectors Maximum Active Connections Limit metric name (without prefix).
+     */
     private static final String METRIC_NAME_CONNECTORS_CONNECTIONS_ACTIVE_MAX 	= ".connectors.connections.active.max";
+
+    /**
+     * Constant for Protocol Tag Name.
+     */
     private static final String METRIC_TAG_PROTOCOL = "protocol";
 
+    /**
+     * Constructor.
+     *
+     * @param undertowWebServer UndertowWebServer object.
+     */
     public UndertowConnectorMetrics(final UndertowWebServer undertowWebServer) {
         super(undertowWebServer);
     }
 
+    /**
+     * Constructor.
+     *
+     * @param undertowWebServer UndertowWebServer object
+     * @param namePrefix String prefix to filter names.
+     */
     public UndertowConnectorMetrics(final UndertowWebServer undertowWebServer, final String namePrefix) {
         super(undertowWebServer, namePrefix);
     }
 
+    /**
+     * Constructor.
+     *
+     * @param undertowWebServer UndertowWebServer object
+     * @param namePrefix String prefix to filter names
+     * @param tags Tags collection.
+     */
     public UndertowConnectorMetrics(final UndertowWebServer undertowWebServer,
                                     final String namePrefix,
                                     final Iterable<Tag> tags) {
@@ -60,16 +121,16 @@ public class UndertowConnectorMetrics extends UndertowMetrics {
     /**
      * Bind metrics to the given registry.
      *
-     * @param registry
-     * @param undertow
-     * @param namePrefix
-     * @param tags
+     * @param registry MeterRegistry object
+     * @param undertow Undertow server
+     * @param namePrefix String prefix to filter names
+     * @param tags Tags collection.
      */
     @Override
     public void bindTo(@NonNull final MeterRegistry registry,
                        final Undertow undertow,
                        final String namePrefix,
-                       final Iterable<Tag> tags){
+                       final Iterable<Tag> tags) {
         List<Undertow.ListenerInfo> listenerInfoList = undertow.getListenerInfo();
         listenerInfoList.forEach(listenerInfo -> registerConnectorStatistics(registry, listenerInfo, namePrefix, tags));
     }

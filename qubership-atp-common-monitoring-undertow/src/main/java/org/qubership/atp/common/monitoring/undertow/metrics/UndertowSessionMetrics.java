@@ -32,27 +32,76 @@ import io.undertow.server.session.SessionManagerStatistics;
 
 public class UndertowSessionMetrics extends UndertowMetrics {
 
-    private static final String METRIC_NAME_SESSIONS_ACTIVE_MAX 				= ".sessions.active.max";
-    private static final String METRIC_NAME_SESSIONS_ACTIVE_CURRENT 			= ".sessions.active.current";
-    private static final String METRIC_NAME_SESSIONS_CREATED 					= ".sessions.created";
-    private static final String METRIC_NAME_SESSIONS_EXPIRED 					= ".sessions.expired";
-    private static final String METRIC_NAME_SESSIONS_REJECTED 					= ".sessions.rejected";
-    private static final String METRIC_NAME_SESSIONS_ALIVE_MAX 					= ".sessions.alive.max";
+    /**
+     * Sessions Max Active Count metric name (without prefix).
+     */
+    private static final String METRIC_NAME_SESSIONS_ACTIVE_MAX 	= ".sessions.active.max";
 
+    /**
+     * Sessions Current Active Count metric name (without prefix).
+     */
+    private static final String METRIC_NAME_SESSIONS_ACTIVE_CURRENT = ".sessions.active.current";
+
+    /**
+     * Sessions Created Count metric name (without prefix).
+     */
+    private static final String METRIC_NAME_SESSIONS_CREATED 		= ".sessions.created";
+
+    /**
+     * Sessions Expired Count metric name (without prefix).
+     */
+    private static final String METRIC_NAME_SESSIONS_EXPIRED 		= ".sessions.expired";
+
+    /**
+     * Sessions Rejected Count metric name (without prefix).
+     */
+    private static final String METRIC_NAME_SESSIONS_REJECTED 		= ".sessions.rejected";
+
+    /**
+     * Sessions Max Alive Count metric name (without prefix).
+     */
+    private static final String METRIC_NAME_SESSIONS_ALIVE_MAX 		= ".sessions.alive.max";
+
+    /**
+     * Constructor.
+     *
+     * @param undertowWebServer UndertowWebServer object.
+     */
     public UndertowSessionMetrics(final UndertowWebServer undertowWebServer) {
         super(undertowWebServer);
     }
 
+    /**
+     * Constructor.
+     *
+     * @param undertowWebServer UndertowWebServer object
+     * @param namePrefix String prefix to be added to metric name.
+     */
     public UndertowSessionMetrics(final UndertowWebServer undertowWebServer, final String namePrefix) {
         super(undertowWebServer, namePrefix);
     }
 
+    /**
+     * Constructor.
+     *
+     * @param undertowWebServer UndertowWebServer object
+     * @param namePrefix String prefix to be added to metric name
+     * @param tags Collection of Tags.
+     */
     public UndertowSessionMetrics(final UndertowWebServer undertowWebServer,
                                   final String namePrefix,
                                   final Iterable<Tag> tags) {
         super(undertowWebServer, namePrefix, tags);
     }
 
+    /**
+     * Bind MeterRegistry registry to undertowWebServer.
+     *
+     * @param registry MeterRegistry object
+     * @param undertowWebServer UndertowWebServer object
+     * @param namePrefix String prefix to be added to metric name
+     * @param tags Collection of Tags.
+     */
     @Override
     public void bindTo(@NonNull final MeterRegistry registry,
                        final UndertowWebServer undertowWebServer,

@@ -18,15 +18,25 @@ package org.qubership.atp.common.utils.regex;
 
 public class TimeoutRegexCharSequence implements CharSequence {
 
+    /**
+     * CharSequence object.
+     */
     private final CharSequence inner;
 
+    /**
+     * Timeout value in millis.
+     */
     private final int timeoutMillis;
 
+    /**
+     * Timeout value in seconds.
+     */
     private final long timeoutTime;
 
     /**
      * Constructor for TimeoutRegexCharSequence.
-     * @param inner regexp pattern.
+     *
+     * @param inner regexp pattern
      * @param timeout timeout (seconds) for regexp processing.
      */
     public TimeoutRegexCharSequence(final CharSequence inner, final int timeout) {
@@ -38,6 +48,9 @@ public class TimeoutRegexCharSequence implements CharSequence {
 
     /**
      * Method for regexp processing to char with timeout check.
+     *
+     * @param index of char
+     * @return char at specified index; but if timeoutTime is over, TimeoutRegexException is thrown instead.
      */
     public char charAt(final int index) {
         if (System.currentTimeMillis() > timeoutTime) {
@@ -49,14 +62,31 @@ public class TimeoutRegexCharSequence implements CharSequence {
         return inner.charAt(index);
     }
 
+    /**
+     * Get Length of inner CharSequence.
+     *
+     * @return int length of inner CharSequence.
+     */
     public int length() {
         return inner.length();
     }
 
+    /**
+     * Get SubSequence of inner CharSequence.
+     *
+     * @param start the start index, inclusive
+     * @param end   the end index, exclusive
+     * @return new TimeoutRegexCharSequence for inner.subSequence(start, end) and timeoutMillis.
+     */
     public CharSequence subSequence(final int start, final int end) {
         return new TimeoutRegexCharSequence(inner.subSequence(start, end), timeoutMillis);
     }
 
+    /**
+     * Make String representation.
+     *
+     * @return String representation of the object; inner.toString() currently.
+     */
     @Override
     public String toString() {
         return inner.toString();

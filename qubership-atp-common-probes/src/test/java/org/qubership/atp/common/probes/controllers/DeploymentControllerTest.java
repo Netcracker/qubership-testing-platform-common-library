@@ -36,11 +36,23 @@ import org.springframework.test.web.servlet.MockMvc;
 @ContextConfiguration(classes = {DeploymentController.class})
 class DeploymentControllerTest {
 
+    /**
+     * ApplicationAvailability MockBean.
+     */
     @MockBean
     private ApplicationAvailability applicationAvailability;
+
+    /**
+     * MockMvc bean.
+     */
     @Autowired
     private MockMvc mockMvc;
 
+    /**
+     * Test when LivenessState = CORRECT then should return Ok.
+     *
+     * @throws Exception in case some errors occurred.
+     */
     @Test
     void livenessWhenLivenessStateIsCorrect() throws Exception {
         when(applicationAvailability.getLivenessState()).thenReturn(LivenessState.CORRECT);
@@ -50,6 +62,11 @@ class DeploymentControllerTest {
                 .andExpect(status().isOk());
     }
 
+    /**
+     * Test when LivenessState = BROKEN then should return InternalServerError.
+     *
+     * @throws Exception in case some errors occurred.
+     */
     @Test
     void livenessWhenLivenessStateIsBroken() throws Exception {
         when(applicationAvailability.getLivenessState()).thenReturn(LivenessState.BROKEN);
@@ -59,6 +76,11 @@ class DeploymentControllerTest {
                 .andExpect(status().isInternalServerError());
     }
 
+    /**
+     * Test when ReadinessState = ACCEPTING_TRAFFIC then should return OK.
+     *
+     * @throws Exception in case some errors occurred.
+     */
     @Test
     void readinessWhenReadinessStateIsAcceptingTraffic() throws Exception {
         when(applicationAvailability.getReadinessState()).thenReturn(ReadinessState.ACCEPTING_TRAFFIC);
@@ -68,6 +90,11 @@ class DeploymentControllerTest {
                 .andExpect(status().isOk());
     }
 
+    /**
+     * Test when ReadinessState = REFUSING_TRAFFIC then should return InternalServerError.
+     *
+     * @throws Exception in case some errors occurred.
+     */
     @Test
     void readinessWhenReadinessStateIsRefusingTraffic() throws Exception {
         when(applicationAvailability.getReadinessState()).thenReturn(ReadinessState.REFUSING_TRAFFIC);
