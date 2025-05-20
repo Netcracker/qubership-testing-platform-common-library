@@ -35,7 +35,7 @@ public class UndertowSessionMetrics extends UndertowMetrics {
     /**
      * Sessions Max Active Count metric name (without prefix).
      */
-    private static final String METRIC_NAME_SESSIONS_ACTIVE_MAX 	= ".sessions.active.max";
+    private static final String METRIC_NAME_SESSIONS_ACTIVE_MAX = ".sessions.active.max";
 
     /**
      * Sessions Current Active Count metric name (without prefix).
@@ -45,22 +45,22 @@ public class UndertowSessionMetrics extends UndertowMetrics {
     /**
      * Sessions Created Count metric name (without prefix).
      */
-    private static final String METRIC_NAME_SESSIONS_CREATED 		= ".sessions.created";
+    private static final String METRIC_NAME_SESSIONS_CREATED = ".sessions.created";
 
     /**
      * Sessions Expired Count metric name (without prefix).
      */
-    private static final String METRIC_NAME_SESSIONS_EXPIRED 		= ".sessions.expired";
+    private static final String METRIC_NAME_SESSIONS_EXPIRED = ".sessions.expired";
 
     /**
      * Sessions Rejected Count metric name (without prefix).
      */
-    private static final String METRIC_NAME_SESSIONS_REJECTED 		= ".sessions.rejected";
+    private static final String METRIC_NAME_SESSIONS_REJECTED = ".sessions.rejected";
 
     /**
      * Sessions Max Alive Count metric name (without prefix).
      */
-    private static final String METRIC_NAME_SESSIONS_ALIVE_MAX 		= ".sessions.alive.max";
+    private static final String METRIC_NAME_SESSIONS_ALIVE_MAX = ".sessions.alive.max";
 
     /**
      * Constructor.
@@ -106,9 +106,9 @@ public class UndertowSessionMetrics extends UndertowMetrics {
     public void bindTo(@NonNull final MeterRegistry registry,
                        final UndertowWebServer undertowWebServer,
                        final String namePrefix,
-                       final Iterable<Tag> tags){
+                       final Iterable<Tag> tags) {
         if (undertowWebServer instanceof UndertowServletWebServer) {
-            SessionManagerStatistics statistics = ((UndertowServletWebServer)undertowWebServer).getDeploymentManager()
+            SessionManagerStatistics statistics = ((UndertowServletWebServer) undertowWebServer).getDeploymentManager()
                     .getDeployment()
                     .getSessionManager()
                     .getStatistics();

@@ -34,52 +34,52 @@ public class UndertowConnectorMetrics extends UndertowMetrics {
     /**
      * Connectors Requests Count metric name (without prefix).
      */
-    private static final String METRIC_NAME_CONNECTORS_REQUESTS_COUNT 			= ".connectors.requests.count";
+    private static final String METRIC_NAME_CONNECTORS_REQUESTS_COUNT = ".connectors.requests.count";
 
     /**
      * Connectors Requests Error Count metric name (without prefix).
      */
-    private static final String METRIC_NAME_CONNECTORS_REQUESTS_ERROR_COUNT 	= ".connectors.requests.error.count";
+    private static final String METRIC_NAME_CONNECTORS_REQUESTS_ERROR_COUNT = ".connectors.requests.error.count";
 
     /**
      * Connectors Active Requests Count metric name (without prefix).
      */
-    private static final String METRIC_NAME_CONNECTORS_REQUESTS_ACTIVE 			= ".connectors.requests.active";
+    private static final String METRIC_NAME_CONNECTORS_REQUESTS_ACTIVE = ".connectors.requests.active";
 
     /**
      * Connectors Maximum Active Requests Limit metric name (without prefix).
      */
-    private static final String METRIC_NAME_CONNECTORS_REQUESTS_ACTIVE_MAX 		= ".connectors.requests.active.max";
+    private static final String METRIC_NAME_CONNECTORS_REQUESTS_ACTIVE_MAX = ".connectors.requests.active.max";
 
     /**
      * Connectors Bytes sent metric name (without prefix).
      */
-    private static final String METRIC_NAME_CONNECTORS_BYTES_SENT 				= ".connectors.bytes.sent";
+    private static final String METRIC_NAME_CONNECTORS_BYTES_SENT = ".connectors.bytes.sent";
 
     /**
      * Connectors Bytes received metric name (without prefix).
      */
-    private static final String METRIC_NAME_CONNECTORS_BYTES_RECEIVED 			= ".connectors.bytes.received";
+    private static final String METRIC_NAME_CONNECTORS_BYTES_RECEIVED = ".connectors.bytes.received";
 
     /**
      * Connectors Processing Time metric name (without prefix).
      */
-    private static final String METRIC_NAME_CONNECTORS_PROCESSING_TIME 			= ".connectors.processing.time";
+    private static final String METRIC_NAME_CONNECTORS_PROCESSING_TIME = ".connectors.processing.time";
 
     /**
      * Connectors Maximum Processing Time Limit metric name (without prefix).
      */
-    private static final String METRIC_NAME_CONNECTORS_PROCESSING_TIME_MAX 		= ".connectors.processing.time.max";
+    private static final String METRIC_NAME_CONNECTORS_PROCESSING_TIME_MAX = ".connectors.processing.time.max";
 
     /**
      * Connectors Active Connections Count metric name (without prefix).
      */
-    private static final String METRIC_NAME_CONNECTORS_CONNECTIONS_ACTIVE 		= ".connectors.connections.active";
+    private static final String METRIC_NAME_CONNECTORS_CONNECTIONS_ACTIVE = ".connectors.connections.active";
 
     /**
      * Connectors Maximum Active Connections Limit metric name (without prefix).
      */
-    private static final String METRIC_NAME_CONNECTORS_CONNECTIONS_ACTIVE_MAX 	= ".connectors.connections.active.max";
+    private static final String METRIC_NAME_CONNECTORS_CONNECTIONS_ACTIVE_MAX = ".connectors.connections.active.max";
 
     /**
      * Constant for Protocol Tag Name.

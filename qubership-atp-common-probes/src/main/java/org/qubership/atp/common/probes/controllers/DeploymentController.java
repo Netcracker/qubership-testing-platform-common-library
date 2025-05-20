@@ -18,6 +18,8 @@ package org.qubership.atp.common.probes.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.availability.ApplicationAvailability;
+import org.springframework.boot.availability.LivenessState;
+import org.springframework.boot.availability.ReadinessState;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -29,7 +31,7 @@ public class DeploymentController {
     /**
      * ApplicationAvailability object.
      */
-    private ApplicationAvailability applicationAvailability;
+    private final ApplicationAvailability applicationAvailability;
 
     /**
      * Constructor.
@@ -37,7 +39,7 @@ public class DeploymentController {
      * @param applicationAvailability ApplicationAvailability object.
      */
     @Autowired
-    public DeploymentController(ApplicationAvailability applicationAvailability) {
+    public DeploymentController(final ApplicationAvailability applicationAvailability) {
         this.applicationAvailability = applicationAvailability;
     }
 
@@ -48,12 +50,10 @@ public class DeploymentController {
      */
     @GetMapping("/rest/deployment/liveness")
     public ResponseEntity<Void> liveness() {
-        switch (applicationAvailability.getLivenessState()) {
-            case CORRECT:
-                return new ResponseEntity<>(HttpStatus.OK);
-            default:
-                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        return new ResponseEntity<>(
+                LivenessState.CORRECT.equals(applicationAvailability.getLivenessState())
+                        ? HttpStatus.OK
+                        : HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     /**
@@ -63,11 +63,9 @@ public class DeploymentController {
      */
     @GetMapping("/rest/deployment/readiness")
     public ResponseEntity<Void> readiness() {
-        switch (applicationAvailability.getReadinessState()) {
-            case ACCEPTING_TRAFFIC:
-                return new ResponseEntity<>(HttpStatus.OK);
-            default:
-                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        return new ResponseEntity<>(
+                ReadinessState.ACCEPTING_TRAFFIC.equals(applicationAvailability.getReadinessState())
+                        ? HttpStatus.OK
+                        : HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
