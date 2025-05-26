@@ -10,7 +10,6 @@
     <packaging>pom</packaging>
 
     <properties>
-        <atp.codechecks.version>1.1.0-SNAPSHOT</atp.codechecks.version>
         <biz.paluch.logging.version>1.14.1</biz.paluch.logging.version>
         <ch.qos.logback.version>1.2.13</ch.qos.logback.version>
         <commons-lang.version>2.6</commons-lang.version>
