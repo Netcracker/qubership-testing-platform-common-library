@@ -27,7 +27,6 @@ public interface AtpHttpResponse {
      * Get response headers.
      *
      * @return HttpHeaders response headers
-     * @throws IOException in case IO exceptions.
      */
     HttpHeaders getHeaders();
 
