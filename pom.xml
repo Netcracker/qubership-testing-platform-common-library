@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.qubership.atp.common</groupId>
     <artifactId>qubership-atp-common</artifactId>
-    <version>${revision}</version>
+    <version>0.0.42-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
         <module>qubership-atp-common-logging</module>
