@@ -2,7 +2,7 @@
     <parent>
         <artifactId>qubership-atp-common-parent-java</artifactId>
         <groupId>org.qubership.atp.common</groupId>
-        <version>${revision}</version>
+        <version>0.0.42-SNAPSHOT</version>
         <relativePath>../qubership-atp-common-parent-java/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -91,43 +91,37 @@
             <version>${shedlock.spring}</version>
         </dependency>
     </dependencies>
-    <profiles>
-        <profile>
-            <id>central</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.openclover</groupId>
-                        <artifactId>clover-maven-plugin</artifactId>
-                        <version>4.2.1</version>
-                        <configuration>
-                            <outputDirectory>${project.build.directory}/clover</outputDirectory>
-                            <generateHtml>true</generateHtml>
-                            <generateXml>true</generateXml>
-                            <generatePdf>true</generatePdf>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>clover-instrument</id>
-                                <phase>initialize</phase>
-                                <goals>
-                                    <goal>instrument-test</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>clover-report</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>clover</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.openclover</groupId>
+                <artifactId>clover-maven-plugin</artifactId>
+                <version>4.2.1</version>
+                <configuration>
+                    <outputDirectory>${project.build.directory}/clover</outputDirectory>
+                    <generateHtml>true</generateHtml>
+                    <generateXml>true</generateXml>
+                    <generatePdf>true</generatePdf>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>clover-instrument</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>instrument-test</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>clover-report</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>clover</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>
