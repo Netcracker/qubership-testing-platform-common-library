@@ -52,15 +52,20 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Util {
 
+    /**
+     * Error message for logging is not allowed for content-type.
+     */
     private static final String MESSAGE = "Body content logging is not allowed for current content type";
 
     /**
      * Removes entries from {@link HttpHeaders} if the key matches any of regex patterns.
-     * @param headers  headers to be filtered.
-     * @param patterns list of defined regex patterns.
+     *
+     * @param headers headers to be filtered
+     * @param patterns list of defined regex patterns
      * @return filtered map of headers.
      */
-    public static Map<String, Collection<String>> filterHeaders(HttpHeaders headers, List<Pattern> patterns) {
+    public static Map<String, Collection<String>> filterHeaders(final HttpHeaders headers,
+                                                                final List<Pattern> patterns) {
         Map<String, Collection<String>> headersMap =
                 headers.entrySet()
                         .stream()
@@ -70,10 +75,11 @@ public class Util {
 
     /**
      * Returns {@link HttpHeaders} from map of headers.
-     * @param map map of headers
-     * @return {@link HttpHeaders}.
+     *
+     * @param map Map of headers
+     * @return {@link HttpHeaders} object.
      */
-    public static HttpHeaders getHttpHeaders(Map<String, Collection<String>> map) {
+    public static HttpHeaders getHttpHeaders(final Map<String, Collection<String>> map) {
         Map<String, List<String>> headers = new HashMap<>();
         map.forEach((key, value) -> headers.put(key, new ArrayList<>(value)));
         MultiValueMap<String, String> multiValueMap = CollectionUtils.toMultiValueMap(headers);
@@ -82,10 +88,15 @@ public class Util {
 
     /**
      * Returns {@link List} of {@link String} with request data.
+     *
+     * @param request HttpServletRequest to be logged
+     * @param isLoggedHeaders Flag if headers were logged
+     * @param ignoreHeadersPattern List of patterns to ignore headers
+     * @return List of String log messages.
      */
-    public static List<String> getLogRequestData(AtpHttpRequest request,
-                                                 Boolean isLoggedHeaders,
-                                                 List<Pattern> ignoreHeadersPattern) {
+    public static List<String> getLogRequestData(final AtpHttpRequest request,
+                                                 final Boolean isLoggedHeaders,
+                                                 final List<Pattern> ignoreHeadersPattern) {
         byte[] body = request.getBody();
         return composeLogs(isLoggedHeaders,
                 ignoreHeadersPattern,
@@ -97,10 +108,15 @@ public class Util {
 
     /**
      * Returns {@link List} of {@link String} with Http request data.
+     *
+     * @param request HttpServletRequest to be logged
+     * @param isLoggedHeaders Flag if headers were logged
+     * @param ignoreHeadersPattern List of patterns to ignore headers
+     * @return List of String log messages.
      */
-    public static List<String> getLogHttpServletRequestData(HttpServletRequest request,
-                                                            Boolean isLoggedHeaders,
-                                                            List<Pattern> ignoreHeadersPattern) {
+    public static List<String> getLogHttpServletRequestData(final HttpServletRequest request,
+                                                            final Boolean isLoggedHeaders,
+                                                            final List<Pattern> ignoreHeadersPattern) {
         return composeLogs(isLoggedHeaders,
                 ignoreHeadersPattern,
                 request.getMethod(),
@@ -109,12 +125,12 @@ public class Util {
                 MESSAGE);
     }
 
-    private static List<String> composeLogs(Boolean isLoggedHeaders,
-                                            List<Pattern> ignoreHeadersPattern,
-                                            String requestMethod,
-                                            String requestUri,
-                                            HttpHeaders requestHeaders,
-                                            String bodyText) {
+    private static List<String> composeLogs(final Boolean isLoggedHeaders,
+                                            final List<Pattern> ignoreHeadersPattern,
+                                            final String requestMethod,
+                                            final String requestUri,
+                                            final HttpHeaders requestHeaders,
+                                            final String bodyText) {
         List<String> logs = new ArrayList<>();
         logs.add("HTTP REQUEST DATA:");
         logs.add(format("METHOD: %s", requestMethod));
@@ -129,8 +145,11 @@ public class Util {
 
     /**
      * Returns {@link HttpServletRequest} of {@link HttpHeaders} with http request data.
+     *
+     * @param request HttpServletRequest to get headers from
+     * @return HttpHeaders object.
      */
-    public static HttpHeaders getHeaders(HttpServletRequest request) {
+    public static HttpHeaders getHeaders(final HttpServletRequest request) {
         Set<String> headerNames = new HashSet<>(Collections.list(request.getHeaderNames()));
         Map<String, Collection<String>> headers = headerNames.stream().collect(
                 Collectors.toMap(Function.identity(), header -> Collections.list(request.getHeaders(header))));
@@ -139,8 +158,11 @@ public class Util {
 
     /**
      * Returns {@link HttpServletResponse} of {@link HttpHeaders} with http response data.
+     *
+     * @param response HttpServletResponse to get headers from
+     * @return HttpHeaders object.
      */
-    public static HttpHeaders getHeaders(HttpServletResponse response) {
+    public static HttpHeaders getHeaders(final HttpServletResponse response) {
         Set<String> headerNames = new HashSet<>(response.getHeaderNames());
         Map<String, Collection<String>> headers = headerNames.stream().collect(
                 Collectors.toMap(Function.identity(), response::getHeaders));
@@ -149,23 +171,37 @@ public class Util {
 
     /**
      * Returns {@link List} of {@link String} with response data.
+     *
+     * @param response AtpHttpResponse object to be logged
+     * @param body String body of response
+     * @param isLoggedHeaders Flag if headers were logged
+     * @param ignorePattern List of patterns to ignore headers
+     * @return List of String log messages
+     * @throws IOException in case IO errors occurred.
      */
-    public static List<String> getLogResponseData(AtpHttpResponse response,
-                                                  String body,
-                                                  Boolean isLoggedHeaders,
-                                                  List<Pattern> ignorePattern) throws IOException {
+    public static List<String> getLogResponseData(final AtpHttpResponse response,
+                                                  final String body,
+                                                  final Boolean isLoggedHeaders,
+                                                  final List<Pattern> ignorePattern) throws IOException {
         return getLogResponseData(
                 response.getHeaders(), response.getStatusCode(), body, isLoggedHeaders, ignorePattern);
     }
 
     /**
      * Returns {@link List} of {@link String} with response data.
+     *
+     * @param headers HttpHeaders of response
+     * @param status HttpStatus of response
+     * @param body String body of response
+     * @param isLoggedHeaders Flag if headers were logged
+     * @param ignoreHeadersPattern List of patterns to ignore headers
+     * @return List of String log messages.
      */
-    public static List<String> getLogResponseData(HttpHeaders headers,
-                                                  HttpStatus status,
-                                                  String body,
-                                                  Boolean isLoggedHeaders,
-                                                  List<Pattern> ignoreHeadersPattern) {
+    public static List<String> getLogResponseData(final HttpHeaders headers,
+                                                  final HttpStatus status,
+                                                  final String body,
+                                                  final Boolean isLoggedHeaders,
+                                                  final List<Pattern> ignoreHeadersPattern) {
         List<String> logs = new ArrayList<>();
         logs.add("HTTP RESPONSE DATA:");
         logs.add(format("HTTP STATUS: %s %s", status.value(), status.getReasonPhrase()));
@@ -178,9 +214,12 @@ public class Util {
     }
 
     /**
-     * Logs message.
+     * Logs message on Debug Level.
+     *
+     * @param logger Logger to be used
+     * @param message String message to be logged.
      */
-    public static void logMessage(Logger logger, String message) {
+    public static void logMessage(final Logger logger, final String message) {
         if (logger.isDebugEnabled()) {
             logger.debug(message);
         }

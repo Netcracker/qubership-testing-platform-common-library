@@ -16,6 +16,12 @@
 
 package org.qubership.atp.common.monitoring.undertow.configuration;
 
+import org.qubership.atp.common.monitoring.undertow.metrics.UndertowConnectorMetrics;
+import org.qubership.atp.common.monitoring.undertow.metrics.UndertowMetrics;
+import org.qubership.atp.common.monitoring.undertow.metrics.UndertowMetricsHandlerWrapper;
+import org.qubership.atp.common.monitoring.undertow.metrics.UndertowRequestMetrics;
+import org.qubership.atp.common.monitoring.undertow.metrics.UndertowSessionMetrics;
+import org.qubership.atp.common.monitoring.undertow.metrics.UndertowXWorkerMetrics;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.boot.web.embedded.undertow.UndertowBuilderCustomizer;
@@ -24,12 +30,6 @@ import org.springframework.boot.web.servlet.context.ServletWebServerApplicationC
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 
-import org.qubership.atp.common.monitoring.undertow.metrics.UndertowConnectorMetrics;
-import org.qubership.atp.common.monitoring.undertow.metrics.UndertowMetrics;
-import org.qubership.atp.common.monitoring.undertow.metrics.UndertowMetricsHandlerWrapper;
-import org.qubership.atp.common.monitoring.undertow.metrics.UndertowRequestMetrics;
-import org.qubership.atp.common.monitoring.undertow.metrics.UndertowSessionMetrics;
-import org.qubership.atp.common.monitoring.undertow.metrics.UndertowXWorkerMetrics;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.undertow.Undertow;
 import io.undertow.UndertowOptions;
@@ -38,11 +38,21 @@ import io.undertow.server.handlers.MetricsHandler;
 @ConditionalOnClass(Undertow.class)
 public class UndertowMetricsAutoConfiguration implements ApplicationListener<ApplicationReadyEvent> {
 
+    /**
+     * Enable statistics in UndertowBuilderCustomizer bean.
+     *
+     * @return UndertowBuilderCustomizer bean.
+     */
     @Bean
     public UndertowBuilderCustomizer undertowBuilderCustomizerEnableStatistics() {
         return builder -> builder.setServerOption(UndertowOptions.ENABLE_STATISTICS, true);
     }
 
+    /**
+     * Handler for ApplicationReadyEvent.
+     *
+     * @param event the event to respond to.
+     */
     @Override
     public void onApplicationEvent(final ApplicationReadyEvent event) {
         // Find UndertowWebServer

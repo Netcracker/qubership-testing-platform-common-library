@@ -19,14 +19,24 @@ package org.qubership.atp.common.monitoring.undertow.configuration;
 import javax.servlet.ServletContext;
 
 import org.qubership.atp.common.monitoring.undertow.metrics.UndertowMetricsHandlerWrapper;
+
 import io.undertow.servlet.ServletExtension;
 import io.undertow.servlet.api.DeploymentInfo;
 
 public class UndertowMetricsServletExtension implements ServletExtension {
 
+    /**
+     * Constructor.
+     */
     public UndertowMetricsServletExtension() {
     }
 
+    /**
+     * Add UndertowMetricsHandlerWrapper to DeploymentInfo object parameter.
+     *
+     * @param deploymentInfo DeploymentInfo object to handle
+     * @param servletContext ServletContext context to wrap into UndertowMetricsHandlerWrapper.
+     */
     @Override
     public void handleDeployment(final DeploymentInfo deploymentInfo, final ServletContext servletContext) {
         deploymentInfo.addOuterHandlerChainWrapper(new UndertowMetricsHandlerWrapper(servletContext));

@@ -40,6 +40,9 @@ import io.undertow.Undertow;
 
 public abstract class UndertowMeterBinder implements MeterBinder {
 
+    /**
+     * Undertow field name of UndertowWebServer class.
+     */
     private static final Field UNDERTOW_FIELD;
 
     /**
@@ -47,6 +50,18 @@ public abstract class UndertowMeterBinder implements MeterBinder {
      */
     public static final String UNDERTOW_METRIC_NAME_PREFIX = "undertow";
 
+    /**
+     * Bind Timer to MeterRegistry registry.
+     *
+     * @param registry MeterRegistry to bind Timer to.
+     * @param name String metric name
+     * @param desc String metric description
+     * @param metricsHandler Metric Handler
+     * @param countFunc Count function
+     * @param consumer Consumer function
+     * @param tags Tags collection
+     * @param <T> Class of metric result.
+     */
     protected  <T> void bindTimer(final MeterRegistry registry,
                                   final String name,
                                   final String desc,
@@ -60,6 +75,17 @@ public abstract class UndertowMeterBinder implements MeterBinder {
                 .register(registry);
     }
 
+    /**
+     * Bind Gauge to MeterRegistry registry.
+     *
+     * @param registry MeterRegistry to bind Gauge to.
+     * @param name String metric name
+     * @param desc String metric description
+     * @param metricResult Result of Metric
+     * @param consumer Consumer function
+     * @param tags Tags collection
+     * @param <T> Class of metric result.
+     */
     protected <T> void bindGauge(final MeterRegistry registry,
                                  final String name,
                                  final String desc,
@@ -72,6 +98,17 @@ public abstract class UndertowMeterBinder implements MeterBinder {
                 .register(registry);
     }
 
+    /**
+     * Bind Time Gauge to MeterRegistry registry.
+     *
+     * @param registry MeterRegistry to bind Time Gauge to.
+     * @param name String metric name
+     * @param desc String metric description
+     * @param metricResult Result of Metric
+     * @param consumer Consumer function
+     * @param tags Tags collection
+     * @param <T> Class of metric result.
+     */
     protected <T> void bindTimeGauge(final MeterRegistry registry,
                                      final String name,
                                      final String desc,
@@ -84,6 +121,17 @@ public abstract class UndertowMeterBinder implements MeterBinder {
                 .register(registry);
     }
 
+    /**
+     * Bind Counter to MeterRegistry registry.
+     *
+     * @param registry MeterRegistry to bind Counter to.
+     * @param name String metric name
+     * @param desc String metric description
+     * @param metricsHandler Metric Handler
+     * @param consumer Consumer function
+     * @param tags Tags collection
+     * @param <T> Class of Handler.
+     */
     protected <T> void bindCounter(final MeterRegistry registry,
                                    final String name,
                                    final String desc,
@@ -102,6 +150,12 @@ public abstract class UndertowMeterBinder implements MeterBinder {
         ReflectionUtils.makeAccessible(UNDERTOW_FIELD);
     }
 
+    /**
+     * Find UndertowWebServer from ConfigurableApplicationContext given.
+     *
+     * @param applicationContext ConfigurableApplicationContext to find UndertowWebServer in.
+     * @return UndertowWebServer object.
+     */
     public static UndertowWebServer findUndertowWebServer(final ConfigurableApplicationContext applicationContext) {
         WebServer webServer;
         if (applicationContext instanceof ReactiveWebServerApplicationContext) {
@@ -119,6 +173,12 @@ public abstract class UndertowMeterBinder implements MeterBinder {
         return null;
     }
 
+    /**
+     * Get Undertow field of undertowWebServer given.
+     *
+     * @param undertowWebServer object
+     * @return Undertow field of undertowWebServer given.
+     */
     public static Undertow getUndertow(final UndertowWebServer undertowWebServer) {
         return (Undertow) ReflectionUtils.getField(UNDERTOW_FIELD, undertowWebServer);
     }

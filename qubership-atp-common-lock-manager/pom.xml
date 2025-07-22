@@ -1,9 +1,8 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>qubership-atp-common-parent-java</artifactId>
         <groupId>org.qubership.atp.common</groupId>
-        <version>${revision}</version>
+        <version>0.0.44-SNAPSHOT</version>
         <relativePath>../qubership-atp-common-parent-java/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -12,11 +11,6 @@
         <shedlock.spring>4.12.0</shedlock.spring>
     </properties>
     <dependencies>
-        <dependency>
-            <groupId>org.qubership.atp.codechecks</groupId>
-            <artifactId>qubership-atp-codechecks</artifactId>
-            <version>${atp.codechecks.version}</version>
-        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -97,174 +91,37 @@
             <version>${shedlock.spring}</version>
         </dependency>
     </dependencies>
-    <profiles>
-        <profile>
-            <id>central</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.openclover</groupId>
-                        <artifactId>clover-maven-plugin</artifactId>
-                        <version>4.2.1</version>
-                        <configuration>
-                            <outputDirectory>${project.build.directory}/clover</outputDirectory>
-                            <generateHtml>true</generateHtml>
-                            <generateXml>true</generateXml>
-                            <generatePdf>true</generatePdf>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>clover-instrument</id>
-                                <phase>initialize</phase>
-                                <goals>
-                                    <goal>instrument-test</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>clover-report</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>clover</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
 
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-pmd-plugin</artifactId>
-                        <version>${maven.pmd.plugin.version}</version>
-                        <configuration>
-                            <rulesets>
-                                <ruleset>org/qubership/atp/codechecks/pmd-ruleset.xml</ruleset>
-                            </rulesets>
-                            <printFailingErrors>true</printFailingErrors>
-                            <failOnViolation>false</failOnViolation>
-                            <targetDirectory>${project.build.directory}/pmd</targetDirectory>
-                            <targetJdk>${maven.compiler.target}</targetJdk>
-                            <includeTests>false</includeTests>
-                            <outputEncoding>${project.reporting.outputEncoding}</outputEncoding>
-                            <linkXRef>false</linkXRef>
-                            <excludeRoots>
-                                <excludeRoot>${project.build.directory}/generated-sources</excludeRoot>
-                            </excludeRoots>
-                            <format>xml</format>
-                            <minimumTokens>100</minimumTokens>
-                            <language>java</language>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>pmd</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>pmd</goal>
-                                    <goal>cpd</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <dependencies>
-                            <dependency>
-                                <groupId>org.qubership.atp.codechecks</groupId>
-                                <artifactId>qubership-atp-codechecks</artifactId>
-                                <version>${atp.codechecks.version}</version>
-                            </dependency>
-                        </dependencies>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-checkstyle-plugin</artifactId>
-                        <version>2.17</version>
-                        <configuration>
-                            <configLocation>org/qubership/atp/codechecks/checkstyle.xml</configLocation>
-                            <outputFile>${project.build.directory}/checkstyle/checkstyle-result.xml</outputFile>
-                            <linkXRef>false</linkXRef>
-                            <failsOnError>false</failsOnError>
-                            <failOnViolation>false</failOnViolation>
-                            <excludes>**/generated/**/*</excludes>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>verify-style</id>
-                                <phase>validate</phase>
-                                <goals>
-                                    <goal>check</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <dependencies>
-                            <dependency>
-                                <groupId>com.puppycrawl.tools</groupId>
-                                <artifactId>checkstyle</artifactId>
-                                <version>7.8.2</version>
-                            </dependency>
-                            <dependency>
-                                <groupId>org.qubership.atp.codechecks</groupId>
-                                <artifactId>qubership-atp-codechecks</artifactId>
-                                <version>${atp.codechecks.version}</version>
-                            </dependency>
-                        </dependencies>
-                    </plugin>
-                    <plugin>
-                        <groupId>com.github.spotbugs</groupId>
-                        <artifactId>spotbugs-maven-plugin</artifactId>
-                        <version>${spotbugs.maven.plugin.version}</version>
-                        <configuration>
-                            <xmlOutput>true</xmlOutput>
-                            <spotbugsXmlOutput>true</spotbugsXmlOutput>
-                            <effort>Max</effort>
-                            <failOnError>false</failOnError>
-                            <threshold>Low</threshold>
-                            <spotbugsXmlOutputDirectory>${project.build.directory}/spotbugs/xml
-                            </spotbugsXmlOutputDirectory>
-                            <includeFilterFile>org/qubership/atp/codechecks/findbugs-filter.xml</includeFilterFile>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>analyze-compile</id>
-                                <phase>compile</phase>
-                                <goals>
-                                    <goal>check</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <dependencies>
-                            <dependency>
-                                <groupId>org.qubership.atp.codechecks</groupId>
-                                <artifactId>qubership-atp-codechecks</artifactId>
-                                <version>${atp.codechecks.version}</version>
-                            </dependency>
-                            <dependency>
-                                <groupId>org.ow2.asm</groupId>
-                                <artifactId>asm</artifactId>
-                                <version>9.5</version>
-                            </dependency>
-                            <dependency>
-                                <groupId>org.ow2.asm</groupId>
-                                <artifactId>asm-analysis</artifactId>
-                                <version>9.5</version>
-                            </dependency>
-                            <dependency>
-                                <groupId>org.ow2.asm</groupId>
-                                <artifactId>asm-commons</artifactId>
-                                <version>9.5</version>
-                            </dependency>
-                            <dependency>
-                                <groupId>org.ow2.asm</groupId>
-                                <artifactId>asm-tree</artifactId>
-                                <version>9.5</version>
-                            </dependency>
-                            <dependency>
-                                <groupId>org.ow2.asm</groupId>
-                                <artifactId>asm-util</artifactId>
-                                <version>9.5</version>
-                            </dependency>
-                        </dependencies>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.openclover</groupId>
+                <artifactId>clover-maven-plugin</artifactId>
+                <version>4.2.1</version>
+                <configuration>
+                    <outputDirectory>${project.build.directory}/clover</outputDirectory>
+                    <generateHtml>true</generateHtml>
+                    <generateXml>true</generateXml>
+                    <generatePdf>true</generatePdf>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>clover-instrument</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>instrument-test</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>clover-report</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>clover</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>
