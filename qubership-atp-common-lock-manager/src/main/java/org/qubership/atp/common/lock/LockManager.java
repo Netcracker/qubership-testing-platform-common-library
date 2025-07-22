@@ -39,6 +39,7 @@ import net.javacrumbs.shedlock.core.LockProvider;
 import net.javacrumbs.shedlock.core.LockingTaskExecutor;
 
 @Slf4j
+@SuppressWarnings("checkstyle:HiddenField")
 public class LockManager {
 
     /**
@@ -60,6 +61,11 @@ public class LockManager {
      * Executor of tasks.
      */
     private DefaultLockingTaskExecutor defaultLockingTaskExecutor;
+
+    /**
+     * Max key size in DB (is character varying(100) actually).
+     */
+    private static final int MAX_KEY_SIZE = 99;
 
     /**
      * Instantiates a new Lock manager.
@@ -233,11 +239,9 @@ public class LockManager {
      * @param runnable the runnable
      */
     public void executeWithLockWithUniqueLockKey(final String lockKey, final Runnable runnable) {
-        // lockKey in DB maybe varying(100)
-        int finalPosition = 99;
         String lockKeyWithTimeMills = lockKey + " " + System.currentTimeMillis();
-        String preparedLockKey = lockKeyWithTimeMills.length() > finalPosition
-                ? lockKeyWithTimeMills.substring(0, finalPosition) : lockKeyWithTimeMills;
+        String preparedLockKey = lockKeyWithTimeMills.length() > MAX_KEY_SIZE
+                ? lockKeyWithTimeMills.substring(0, MAX_KEY_SIZE) : lockKeyWithTimeMills;
         log.debug("start executeWithLock(lockKey: {}, preparedLockKey: {} Runnable)", lockKey, preparedLockKey);
         executeWithLock(preparedLockKey, defaultLockDurationSec, runnable);
     }

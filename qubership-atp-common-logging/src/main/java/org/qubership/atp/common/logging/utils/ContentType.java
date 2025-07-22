@@ -19,18 +19,54 @@ package org.qubership.atp.common.logging.utils;
 import org.apache.logging.log4j.util.Strings;
 
 public enum ContentType {
+
+    /**
+     * Constant for application/json mime-type.
+     */
     APPLICATION_JSON("application/json", true),
+
+    /**
+     * Constant for application/xml mime-type.
+     */
     APPLICATION_XML("application/xml", true),
+
+    /**
+     * Constant for text/csv mime-type.
+     */
     TEXT_CSV("text/csv", true),
+
+    /**
+     * Constant for text/xml mime-type.
+     */
     TEXT_XML("text/xml", true),
+
+    /**
+     * Constant for text/html mime-type.
+     */
     TEXT_HTML("text/html", true),
+
+    /**
+     * Constant for text/plain mime-type.
+     */
     TEXT_PAIN("text/plain", true),
+
+    /**
+     * Constant for undefined mime-type (logging is disabled).
+     */
     UNDEFINED("undefined", false);
 
+    /**
+     * String mime-type canonical name.
+     */
     private String mimeType;
+
+    /**
+     * Flag if logging is enabled or not.
+     */
     @lombok.Getter
     private boolean loggingAllowed;
 
+    @SuppressWarnings("checkstyle:HiddenField")
     ContentType(final String mimeType, final boolean loggingAllowed) {
         this.mimeType = mimeType;
         this.loggingAllowed = loggingAllowed;

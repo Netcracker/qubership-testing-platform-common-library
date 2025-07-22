@@ -1,4 +1,22 @@
-# Usage notes
+# Qubership Testing Platform Common Library
+
+## Purpose
+Common Library is designed to support common functionality used by other QSTP (Qubership Testing Platform) libraries and services.
+The functionality is:
+- Requests/responses logging,
+- Lock Mechanism for migration scripts running in multi-pod service architecture
+- Undertow metrics collecting,
+- Liveness/readyness probes,
+- Some more specific functionality used internally.
+
+## Local build
+
+In IntelliJ IDEA, one can select 'github' Profile in Maven Settings menu on the right, then expand Lifecycle dropdown of qubership-atp-common module, then select 'clean' and 'install' options and click 'Run Maven Build' green arrow button on the top.
+
+Or, one can execute the command:
+```bash
+mvn -P github clean install
+```
 
 ## Logging
 
@@ -103,7 +121,7 @@ If your application uses jdbc, then use appropriate dependency and rule for sett
         </dependency>
  ```
 
-For all list of available implementation of provider see page https://github.com/lukas-krecan/ShedLock#configure-lockprovider
+For all list of available implementation of provider see page [ShedLock LockProviders page at GitHub](https://github.com/lukas-krecan/ShedLock#configure-lockprovider)
 (The LockManager is based on the ShedLock library)
 
 ### 4. Use lock in your code

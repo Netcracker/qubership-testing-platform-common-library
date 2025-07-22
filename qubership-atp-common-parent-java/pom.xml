@@ -2,7 +2,7 @@
     <parent>
         <artifactId>qubership-atp-common</artifactId>
         <groupId>org.qubership.atp.common</groupId>
-        <version>${revision}</version>
+        <version>0.0.44-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -10,7 +10,6 @@
     <packaging>pom</packaging>
 
     <properties>
-        <atp.codechecks.version>1.1.0-SNAPSHOT</atp.codechecks.version>
         <biz.paluch.logging.version>1.14.1</biz.paluch.logging.version>
         <ch.qos.logback.version>1.2.13</ch.qos.logback.version>
         <commons-lang.version>2.6</commons-lang.version>

@@ -19,11 +19,11 @@ package org.qubership.atp.common.logging.adapter.filter;
 import java.util.Arrays;
 import java.util.Map;
 
-import org.springframework.http.HttpHeaders;
-
 import org.qubership.atp.common.logging.adapter.AtpHttpRequest;
 import org.qubership.atp.common.logging.filter.CommonHttpRequestWrapper;
 import org.qubership.atp.common.logging.utils.Util;
+import org.springframework.http.HttpHeaders;
+
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -70,7 +70,7 @@ public class ContentCachingHttpRequest implements AtpHttpRequest {
     }
 
     /**
-     * Get Request URI (with Query String) as String
+     * Get Request URI (with Query String) as String.
      *
      * @return String URI with Query String.
      */

@@ -41,15 +41,44 @@ import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.read.ListAppender;
 
+@SuppressWarnings("checkstyle:MagicNumber")
 @RunWith(SpringRunner.class)
 public class LoggingFilterTest {
 
+    /**
+     * Request object.
+     */
     private HttpServletRequest request;
+
+    /**
+     * Response object.
+     */
     private HttpServletResponse response;
+
+    /**
+     * Chain of filters.
+     */
     private FilterChain filterChain;
+
+    /**
+     * LoggingFilter object under testing.
+     */
     private LoggingFilter loggingFilter;
+
+    /**
+     * LoggingProperties bean.
+     */
     private LoggingProperties properties;
+
+    /**
+     * Logging Appender.
+     */
     private ListAppender<ILoggingEvent> listAppender;
+
+    /**
+     * Input Stream for some tests (for requests and/or responses).
+     */
+    private ServletInputStream inputStream;
 
     /**
      * Expected log message of request containing test body.
@@ -98,6 +127,7 @@ public class LoggingFilterTest {
         listAppender = new ListAppender<>();
         listAppender.start();
         ((Logger) LoggerFactory.getLogger(LoggingFilter.class)).addAppender(listAppender);
+        inputStream = new DelegatingServletInputStream(new ByteArrayInputStream("test".getBytes()));
     }
 
     /**
@@ -108,15 +138,9 @@ public class LoggingFilterTest {
      */
     @Test
     public void whenReqAndRespWithoutHeaderContentType() throws ServletException, IOException {
-        Mockito.when(response.getStatus()).thenReturn(200);
+        configureCommonResponseWhen(response, 200, null, null);
         loggingFilter.doFilter(request, response, filterChain);
-
-        assertTrue(listAppender.list.stream().anyMatch( m ->
-                m.getFormattedMessage().contains("BODY: ")));
-        assertTrue(listAppender.list.stream().anyMatch( m ->
-                m.getFormattedMessage().contains(LOGGING_NOT_ALLOWED_LOG)));
-        assertTrue(listAppender.list.stream().anyMatch( m ->
-                m.getFormattedMessage().contains(LOGGING_NOT_ALLOWED_STATUS_OK_LOG)));
+        checkLogs("BODY: ", LOGGING_NOT_ALLOWED_LOG, LOGGING_NOT_ALLOWED_STATUS_OK_LOG);
     }
 
     /**
@@ -127,16 +151,10 @@ public class LoggingFilterTest {
      */
     @Test
     public void whenRequestWithContentTypeAndBody() throws ServletException, IOException {
-        ServletInputStream is= new DelegatingServletInputStream(new ByteArrayInputStream("test".getBytes()));
-        Mockito.when(request.getInputStream()).thenReturn(is);
-        Mockito.when(request.getHeader("Content-Type")).thenReturn("application/json");
-        Mockito.when(response.getStatus()).thenReturn(200);
+        configureCommonRequestWhen(request, "application/json", inputStream);
+        configureCommonResponseWhen(response, 200, null, null);
         loggingFilter.doFilter(request, response, filterChain);
-
-        assertTrue(listAppender.list.stream().anyMatch( m ->
-                m.getFormattedMessage().contains(FOUR_BYTE_TEST_BODY_LOG)));
-        assertTrue(listAppender.list.stream().anyMatch( m ->
-                m.getFormattedMessage().contains(LOGGING_NOT_ALLOWED_STATUS_OK_LOG)));
+        checkLogs(FOUR_BYTE_TEST_BODY_LOG, LOGGING_NOT_ALLOWED_STATUS_OK_LOG);
     }
 
     /**
@@ -147,21 +165,14 @@ public class LoggingFilterTest {
      */
     @Test
     public void whenContentDispositionHeaderExistThenBodyIgnored() throws ServletException, IOException {
-        ServletInputStream is = new DelegatingServletInputStream(new ByteArrayInputStream("test".getBytes()));
-        Mockito.when(request.getInputStream()).thenReturn(is);
-        Mockito.when(request.getHeader("Content-Type")).thenReturn("application/json");
-        Mockito.when(response.getHeader("Content-Disposition"))
-                .thenReturn("TDM_c8de91d01cad47dcb25714fd766c264a5522836723710187772.csv");
-        Mockito.when(response.getStatus()).thenReturn(200);
+        configureCommonRequestWhen(request, "application/json", inputStream);
+        configureCommonResponseWhen(response, 200, null, "Some_file_a5522837772.csv");
         loggingFilter.doFilter(request, response, filterChain);
-
-        assertTrue(listAppender.list.stream().anyMatch( m ->
-                m.getFormattedMessage().contains(FOUR_BYTE_TEST_BODY_LOG)));
-        assertTrue(listAppender.list.stream().anyMatch( m ->
-                m.getFormattedMessage().contains("HTTP RESPONSE DATA:\n"
-                        + "HTTP STATUS: 200 OK\n"
-                        + "BODY: Body content logging is not allowed for current Content-Disposition\n"
-                        + "END HTTP (67-byte body)")));
+        checkLogs(FOUR_BYTE_TEST_BODY_LOG,
+                "HTTP RESPONSE DATA:\n"
+                + "HTTP STATUS: 200 OK\n"
+                + "BODY: Body content logging is not allowed for current Content-Disposition\n"
+                + "END HTTP (67-byte body)");
     }
 
     /**
@@ -172,14 +183,9 @@ public class LoggingFilterTest {
      */
     @Test
     public void whenResponseWithContentTypeAndBody() throws ServletException, IOException {
-        Mockito.when(response.getHeader("Content-Type")).thenReturn("application/json");
-        Mockito.when(response.getStatus()).thenReturn(200);
+        configureCommonResponseWhen(response, 200, "application/json", null);
         loggingFilter.doFilter(request, response, filterChain);
-
-        assertTrue(listAppender.list.stream().anyMatch( m ->
-                m.getFormattedMessage().contains(LOGGING_NOT_ALLOWED_LOG)));
-        assertTrue(listAppender.list.stream().anyMatch( m ->
-                m.getFormattedMessage().contains(EMPTY_BODY_LOG)));
+        checkLogs(LOGGING_NOT_ALLOWED_LOG, EMPTY_BODY_LOG);
     }
 
     /**
@@ -190,18 +196,44 @@ public class LoggingFilterTest {
      */
     @Test
     public void whenRequestResponseWithContentType() throws ServletException, IOException {
-        ServletInputStream is= new DelegatingServletInputStream(new ByteArrayInputStream("test".getBytes()));
+        configureCommonRequestWhen(request, "application/json", inputStream);
         ContentCachingResponseWrapper response = Mockito.mock(ContentCachingResponseWrapper.class);
-        Mockito.when(request.getInputStream()).thenReturn(is);
-        Mockito.when(response.getContentInputStream()).thenReturn(is);
-        Mockito.when(request.getHeader("Content-Type")).thenReturn("application/json");
-        Mockito.when(response.getHeader("Content-Type")).thenReturn("application/json");
-        Mockito.when(response.getStatus()).thenReturn(200);
+        Mockito.when(response.getContentInputStream()).thenReturn(inputStream);
+        configureCommonResponseWhen(response, 200, "application/json", null);
         loggingFilter.doFilter(request, response, filterChain);
-
-        assertTrue(listAppender.list.stream().anyMatch( m ->
-                m.getFormattedMessage().contains(FOUR_BYTE_TEST_BODY_LOG)));
-        assertTrue(listAppender.list.stream().anyMatch( m ->
-                m.getFormattedMessage().contains(EMPTY_BODY_LOG)));
+        checkLogs(FOUR_BYTE_TEST_BODY_LOG, EMPTY_BODY_LOG);
     }
+
+    private void checkLogs(final String...args) {
+        for(String arg : args) {
+            assertTrue(listAppender.list.stream().anyMatch(m -> m.getFormattedMessage().contains(arg)));
+        }
+    }
+
+    private void configureCommonRequestWhen(final HttpServletRequest request,
+                                            final String contentType,
+                                            final ServletInputStream stream) throws IOException {
+        if (contentType != null) {
+            Mockito.when(request.getHeader("Content-Type")).thenReturn(contentType);
+        }
+        if (stream != null) {
+            Mockito.when(request.getInputStream()).thenReturn(stream);
+        }
+    }
+
+    private void configureCommonResponseWhen(final HttpServletResponse response,
+                                             final Integer status,
+                                             final String contentType,
+                                             final String contentDisposition) {
+        if (status != null) {
+            Mockito.when(response.getStatus()).thenReturn(status);
+        }
+        if (contentType != null) {
+            Mockito.when(response.getHeader("Content-Type")).thenReturn(contentType);
+        }
+        if (contentDisposition != null) {
+            Mockito.when(response.getHeader("Content-Disposition")).thenReturn(contentDisposition);
+        }
+    }
+
 }

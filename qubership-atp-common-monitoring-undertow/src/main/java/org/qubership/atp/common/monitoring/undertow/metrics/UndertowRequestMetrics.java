@@ -23,25 +23,70 @@ import io.micrometer.core.instrument.Tag;
 import io.micrometer.core.lang.NonNull;
 import io.undertow.server.handlers.MetricsHandler;
 
+@SuppressWarnings("checkstyle:HiddenField")
 public class UndertowRequestMetrics extends UndertowMeterBinder {
 
+    /**
+     * Request Count metric name (without prefix).
+     */
     private static final String METRIC_NAME_REQUESTS =          ".request.count";
+
+    /**
+     * Request Error Count metric name (without prefix).
+     */
     private static final String METRIC_NAME_REQUEST_ERRORS =    ".request.errors";
+
+    /**
+     * Request Max Time metric name (without prefix).
+     */
     private static final String METRIC_NAME_REQUEST_TIME_MAX =  ".request.time.max";
+
+    /**
+     * Request Min Time metric name (without prefix).
+     */
     private static final String METRIC_NAME_REQUEST_TIME_MIN =  ".request.time.min";
 
+    /**
+     * Metrics Handler object.
+     */
     private final MetricsHandler undertowMetricsHandler;
+
+    /**
+     * String prefix of metrics names.
+     */
     private final String namePrefix;
+
+    /**
+     * Collection of tags.
+     */
     private final Iterable<Tag> tags;
 
+    /**
+     * Constructor.
+     *
+     * @param undertowMetricsHandler MetricsHandler object.
+     */
     public UndertowRequestMetrics(final MetricsHandler undertowMetricsHandler) {
         this(undertowMetricsHandler, UNDERTOW_METRIC_NAME_PREFIX);
     }
 
+    /**
+     * Constructor.
+     *
+     * @param undertowMetricsHandler MetricsHandler object
+     * @param namePrefix String prefix of metrics names.
+     */
     public UndertowRequestMetrics(final MetricsHandler undertowMetricsHandler, final String namePrefix) {
         this(undertowMetricsHandler, namePrefix, Collections.emptyList());
     }
 
+    /**
+     * Constructor.
+     *
+     * @param undertowMetricsHandler MetricsHandler object
+     * @param namePrefix String prefix of metrics names
+     * @param tags Collection of tags.
+     */
     public UndertowRequestMetrics(final MetricsHandler undertowMetricsHandler,
                                   final String namePrefix,
                                   final Iterable<Tag> tags) {
@@ -50,6 +95,11 @@ public class UndertowRequestMetrics extends UndertowMeterBinder {
         this.tags = tags;
     }
 
+    /**
+     * Bind custom metrics to MeterRegistry given.
+     *
+     * @param registry MeterRegistry to bind metrics to.
+     */
     @Override
     public void bindTo(@NonNull final MeterRegistry registry) {
         bindTimer(registry, namePrefix + METRIC_NAME_REQUESTS,
