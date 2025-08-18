@@ -11,13 +11,13 @@
 
     <properties>
         <biz.paluch.logging.version>1.14.1</biz.paluch.logging.version>
-        <ch.qos.logback.version>1.2.13</ch.qos.logback.version>
+        <ch.qos.logback.version>1.5.11</ch.qos.logback.version>
         <commons-lang.version>2.6</commons-lang.version>
-        <slf4j.version>1.7.25</slf4j.version>
+        <slf4j.version>2.0.16</slf4j.version>
         <google.guava.version>32.0.0-jre</google.guava.version>
         <apache.commons>3.9</apache.commons>
         <openclover.version>4.2.1</openclover.version>
-        <io.undertow.undertow-core.version>2.2.36.Final</io.undertow.undertow-core.version>
+        <io.undertow.undertow-core.version>2.3.18.Final</io.undertow.undertow-core.version>
         <lombok.version>1.18.30</lombok.version>
         <maven.pmd.plugin.version>3.8</maven.pmd.plugin.version>
         <pmd.version>7.0.0</pmd.version>
@@ -26,6 +26,11 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>jakarta.servlet</groupId>
+                <artifactId>jakarta.servlet-api</artifactId>
+                <version>${jakarta.servlet-api.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>

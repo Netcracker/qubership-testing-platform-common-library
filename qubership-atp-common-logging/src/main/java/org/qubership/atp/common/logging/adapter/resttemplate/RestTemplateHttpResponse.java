@@ -54,7 +54,7 @@ public class RestTemplateHttpResponse implements AtpHttpResponse {
      */
     @Override
     public HttpStatus getStatusCode() throws IOException {
-        return response.getStatusCode();
+        return HttpStatus.resolve(response.getStatusCode().value());
     }
 
     /**
@@ -65,7 +65,7 @@ public class RestTemplateHttpResponse implements AtpHttpResponse {
      */
     @Override
     public int getStatusCodeValue() throws IOException {
-        return response.getRawStatusCode();
+        return response.getStatusCode().value();
     }
 
     /**

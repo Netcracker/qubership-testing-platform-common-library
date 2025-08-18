@@ -19,11 +19,10 @@ package org.qubership.atp.common.monitoring.undertow.metrics;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import javax.servlet.ServletContext;
-
 import io.undertow.server.HandlerWrapper;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.handlers.MetricsHandler;
+import jakarta.servlet.ServletContext;
 
 public class UndertowMetricsHandlerWrapper implements HandlerWrapper {
 
