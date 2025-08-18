@@ -31,6 +31,7 @@ import org.springframework.mock.web.DelegatingServletInputStream;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.util.ContentCachingResponseWrapper;
 
+import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.read.ListAppender;
@@ -126,6 +127,7 @@ public class LoggingFilterTest {
         listAppender = new ListAppender<>();
         listAppender.start();
         ((Logger) LoggerFactory.getLogger(LoggingFilter.class)).addAppender(listAppender);
+        ((Logger) LoggerFactory.getLogger(LoggingFilter.class)).setLevel(Level.DEBUG);
         inputStream = new DelegatingServletInputStream(new ByteArrayInputStream("test".getBytes()));
     }
 

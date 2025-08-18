@@ -122,7 +122,7 @@
                 <artifactId>undertow-servlet</artifactId>
                 <version>${io.undertow.undertow-core.version}</version>
             </dependency>
-            <dependency>
+            <!-- <dependency>
                 <groupId>org.apache.tomcat.embed</groupId>
                 <artifactId>tomcat-embed-core</artifactId>
                 <version>9.0.99</version>
@@ -136,7 +136,7 @@
                 <groupId>org.apache.tomcat.embed</groupId>
                 <artifactId>tomcat-embed-el</artifactId>
                 <version>9.0.99</version>
-            </dependency>
+            </dependency> -->
             <dependency>
                 <groupId>org.yaml</groupId>
                 <artifactId>snakeyaml</artifactId>
