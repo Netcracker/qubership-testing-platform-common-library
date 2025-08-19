@@ -2,7 +2,7 @@
     <parent>
         <artifactId>qubership-atp-common-parent-java</artifactId>
         <groupId>org.qubership.atp.common</groupId>
-        <version>0.0.44-SNAPSHOT</version>
+        <version>0.0.45-SNAPSHOT</version>
         <relativePath>../qubership-atp-common-parent-java/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -37,7 +37,7 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
-        <dependency>
+        <!-- <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>jul-to-slf4j</artifactId>
         </dependency>
@@ -48,6 +48,10 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>log4j-over-slf4j</artifactId>
+        </dependency> -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-1.2-api</artifactId>
         </dependency>
         <dependency>
             <groupId>biz.paluch.logging</groupId>
