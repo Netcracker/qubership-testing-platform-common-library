@@ -47,7 +47,7 @@
     <scm>
         <connection>scm:git:https//github.com/Netcracker/qubership-testing-platform-common-library.git</connection>
         <developerConnection>scm:git:https://github.com/Netcracker/qubership-testing-platform-common-library.git</developerConnection>
-        <url>scm:git:https://github.com/Netcracker/qubership-testing-platform-common-library/tree/main</url>
+        <url>scm:git:https://github.com/Netcracker/qubership-testing-platform-common-library.git</url>
       <tag>HEAD</tag>
   </scm>
 
