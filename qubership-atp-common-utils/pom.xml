@@ -7,8 +7,9 @@
         <relativePath>../qubership-atp-common-parent-java/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
     <artifactId>qubership-atp-common-utils</artifactId>
+    <name>qubership-atp-common-utils</name>
+
     <dependencies>
         <dependency>
             <groupId>org.slf4j</groupId>
