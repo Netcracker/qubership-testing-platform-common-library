@@ -27,7 +27,7 @@ import jakarta.servlet.ServletContext;
 public class UndertowMetricsHandlerWrapper implements HandlerWrapper {
 
     private final ServletContext servletContext;
-    private static final Map<ServletContext, MetricsHandler> metricsHandlers = new ConcurrentHashMap<>();
+    private static final Map<ServletContext, MetricsHandler> METRICS_HANDLERS = new ConcurrentHashMap<>();
 
     public UndertowMetricsHandlerWrapper(ServletContext servletContext) {
         this.servletContext = servletContext;
@@ -36,12 +36,12 @@ public class UndertowMetricsHandlerWrapper implements HandlerWrapper {
     @Override
     public HttpHandler wrap(HttpHandler handler) {
         MetricsHandler metricsHandler = new MetricsHandler(handler);
-        metricsHandlers.put(this.servletContext, metricsHandler);
+        METRICS_HANDLERS.put(this.servletContext, metricsHandler);
         return metricsHandler;
     }
 
     public static MetricsHandler getMetricsHandler(ServletContext servletContext) {
-        return metricsHandlers.get(servletContext);
+        return METRICS_HANDLERS.get(servletContext);
     }
 
 }

@@ -206,7 +206,7 @@ public class LoggingFilterTest {
     }
 
     private void checkLogs(final String...args) {
-        for(String arg : args) {
+        for (String arg : args) {
             assertTrue(listAppender.list.stream().anyMatch(m -> m.getFormattedMessage().contains(arg)));
         }
     }
