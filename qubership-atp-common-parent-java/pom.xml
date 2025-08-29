@@ -46,7 +46,7 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <!-- <dependency>
+            <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>jul-to-slf4j</artifactId>
                 <version>${slf4j.version}</version>
@@ -60,11 +60,6 @@
                 <groupId>org.slf4j</groupId>
                 <artifactId>log4j-over-slf4j</artifactId>
                 <version>${slf4j.version}</version>
-            </dependency> -->
-            <dependency>
-                <groupId>org.apache.logging.log4j</groupId>
-                <artifactId>log4j-1.2-api</artifactId>
-                <version>2.25.0</version>
             </dependency>
             <dependency>
                 <groupId>biz.paluch.logging</groupId>
