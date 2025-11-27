@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.qubership.atp.common</groupId>
     <artifactId>qubership-atp-common</artifactId>
-    <version>0.0.44-SNAPSHOT</version>
+    <version>0.0.47-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
         <module>qubership-atp-common-logging</module>
@@ -14,7 +14,6 @@
     </modules>
 
     <properties>
-        <revision>0.0.42-SNAPSHOT</revision>
         <java.version>21</java.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -47,7 +46,7 @@
     <scm>
         <connection>scm:git:https//github.com/Netcracker/qubership-testing-platform-common-library.git</connection>
         <developerConnection>scm:git:https://github.com/Netcracker/qubership-testing-platform-common-library.git</developerConnection>
-        <url>scm:git:https://github.com/Netcracker/qubership-testing-platform-common-library/tree/main</url>
+        <url>scm:git:https://github.com/Netcracker/qubership-testing-platform-common-library.git</url>
       <tag>HEAD</tag>
   </scm>
 
