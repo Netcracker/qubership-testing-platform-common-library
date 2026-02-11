@@ -1,2 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  org.qubership.atp.common.monitoring.undertow.configuration.UndertowMetricsAutoConfiguration
