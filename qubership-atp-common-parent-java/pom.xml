@@ -11,6 +11,7 @@
     <packaging>pom</packaging>
 
     <properties>
+        <java.version>21</java.version>
         <biz.paluch.logging.version>1.14.1</biz.paluch.logging.version>
         <ch.qos.logback.version>1.5.11</ch.qos.logback.version>
         <commons-lang.version>2.6</commons-lang.version>
