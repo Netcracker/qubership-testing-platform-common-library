@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.qubership.atp.common</groupId>
     <artifactId>qubership-atp-common</artifactId>
-    <version>0.0.47-SNAPSHOT</version>
+    <version>0.0.48-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
         <module>qubership-atp-common-logging</module>
@@ -157,7 +157,6 @@
                 </repository>
             </distributionManagement>
         </profile>
-
         <profile>
             <id>github</id>
             <activation>
