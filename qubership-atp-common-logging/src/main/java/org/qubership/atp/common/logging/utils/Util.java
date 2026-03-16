@@ -16,7 +16,6 @@
 
 package org.qubership.atp.common.logging.utils;
 
-import static java.lang.String.format;
 import static java.nio.charset.Charset.defaultCharset;
 import static org.qubership.atp.common.logging.utils.RegexUtil.removeByKeyRegexPatterns;
 
@@ -132,13 +131,13 @@ public class Util {
                                             final String bodyText) {
         List<String> logs = new ArrayList<>();
         logs.add("HTTP REQUEST DATA:");
-        logs.add(format("METHOD: %s", requestMethod));
-        logs.add(format("URL: %s", requestUri));
+        logs.add("METHOD: %s".formatted(requestMethod));
+        logs.add("URL: %s".formatted(requestUri));
         if (isLoggedHeaders) {
-            logs.add(format("HEADERS: %s", filterHeaders(requestHeaders, ignoreHeadersPattern)));
+            logs.add("HEADERS: %s".formatted(filterHeaders(requestHeaders, ignoreHeadersPattern)));
         }
-        logs.add(format("BODY: %s", bodyText));
-        logs.add(format("END HTTP (%s-byte body)", bodyText.length()));
+        logs.add("BODY: %s".formatted(bodyText));
+        logs.add("END HTTP (%s-byte body)".formatted(bodyText.length()));
         return logs;
     }
 
@@ -203,12 +202,12 @@ public class Util {
                                                   final List<Pattern> ignoreHeadersPattern) {
         List<String> logs = new ArrayList<>();
         logs.add("HTTP RESPONSE DATA:");
-        logs.add(format("HTTP STATUS: %s %s", status.value(), status.getReasonPhrase()));
+        logs.add("HTTP STATUS: %s %s".formatted(status.value(), status.getReasonPhrase()));
         if (isLoggedHeaders) {
-            logs.add(format("HEADERS: %s", filterHeaders(headers, ignoreHeadersPattern)));
+            logs.add("HEADERS: %s".formatted(filterHeaders(headers, ignoreHeadersPattern)));
         }
-        logs.add(format("BODY: %s", body));
-        logs.add(format("END HTTP (%s-byte body)", body.length()));
+        logs.add("BODY: %s".formatted(body));
+        logs.add("END HTTP (%s-byte body)".formatted(body.length()));
         return logs;
     }
 

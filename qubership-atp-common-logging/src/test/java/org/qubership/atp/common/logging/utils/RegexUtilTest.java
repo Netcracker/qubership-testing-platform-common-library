@@ -21,10 +21,11 @@ import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static java.util.Collections.unmodifiableList;
 import static java.util.stream.Collectors.toMap;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.qubership.atp.common.logging.utils.RegexUtil.matchKey;
 import static org.qubership.atp.common.logging.utils.RegexUtil.removeByKeyRegexPatterns;
 import static org.qubership.atp.common.logging.utils.RegexUtil.removeByRegexPatterns;
@@ -35,12 +36,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 public class RegexUtilTest {
 
     /**
@@ -81,7 +82,7 @@ public class RegexUtilTest {
     /**
      * Init environment before tests.
      */
-    @Before
+    @BeforeEach
     public void setUp() {
         targetCollection = unmodifiableList(asList(BEARER_HEADER, X_REQUEST_ID_HEADER, ZIPKIN_TRACE_ID_HEADER));
         targetMap = targetCollection.stream().collect(toMap(String::toString, Collections::singletonList));
@@ -110,17 +111,19 @@ public class RegexUtilTest {
     /**
      * Test of matching in case null String.
      */
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testMatchKeyShouldThrowAnExceptionWhenInputStringIsNull() {
-        matchKey(null, patterns);
+        assertThrows(NullPointerException.class, () ->
+            matchKey(null, patterns));
     }
 
     /**
      * Test of matching in case patterns are null.
      */
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testMatchKeyShouldThrowAnExceptionWhenPatternsAreNull() {
-        matchKey(BEARER_HEADER, null);
+        assertThrows(NullPointerException.class, () ->
+            matchKey(BEARER_HEADER, null));
     }
 
     /**

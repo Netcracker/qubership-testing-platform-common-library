@@ -18,9 +18,6 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <console.encoding>UTF-8</console.encoding>
-        <spring.boot.version>3.3.11</spring.boot.version>
-        <spring.cloud.version>2023.0.3</spring.cloud.version>
-        <jakarta.servlet-api.version>6.1.0</jakarta.servlet-api.version>
         <scm.revision>local_build</scm.revision>
     </properties>
 
@@ -46,7 +43,22 @@
         <developerConnection>scm:git:https://github.com/Netcracker/qubership-testing-platform-common-library.git</developerConnection>
         <url>scm:git:https://github.com/Netcracker/qubership-testing-platform-common-library.git</url>
       <tag>HEAD</tag>
-  </scm>
+    </scm>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-junit</artifactId>
+            <version>2.0.0.0</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>junit</groupId>
+                    <artifactId>junit</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+    </dependencies>
 
     <repositories>
         <!-- Maven Central repository for release versions -->
@@ -174,7 +186,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.13.0</version>
+                <version>3.15.0</version>
                 <configuration>
                     <release>21</release>
                     <parameters>true</parameters>
@@ -216,7 +228,25 @@
                 </executions>
             </plugin>
         </plugins>
-    </build>
+
+    <pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>1.18.44</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+        </plugins>
+    </pluginManagement>
+  </build>
 
     <pluginRepositories>
         <pluginRepository>

@@ -76,8 +76,8 @@ public class LoggingFilter implements Filter {
                          final ServletResponse response,
                          final FilterChain chain) throws IOException, ServletException {
         List<Pattern> ignoreUriList = loggingProperties.getIgnoreUriListPatterns();
-        if (request instanceof HttpServletRequest
-                && RegexUtil.matchKey(((HttpServletRequest) request).getRequestURI(), ignoreUriList)
+        if (request instanceof HttpServletRequest servletRequest
+                && RegexUtil.matchKey(servletRequest.getRequestURI(), ignoreUriList)
                 && response instanceof HttpServletResponse) {
             doFilterWithContentCaching(request, response, chain);
         } else {
@@ -115,8 +115,8 @@ public class LoggingFilter implements Filter {
      */
     private void logRequest(final HttpServletRequest request) {
         AtpHttpRequest wrappedRequest = null;
-        if (request instanceof  CommonHttpRequestWrapper) {
-            wrappedRequest = new ContentCachingHttpRequest((CommonHttpRequestWrapper) request);
+        if (request instanceof  CommonHttpRequestWrapper wrapper) {
+            wrappedRequest = new ContentCachingHttpRequest(wrapper);
         }
 
         Boolean isLoggedHeaders = loggingProperties.logControllerHeaders();

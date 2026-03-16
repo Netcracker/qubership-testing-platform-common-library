@@ -29,13 +29,14 @@ import org.springframework.boot.web.embedded.undertow.UndertowWebServer;
 import org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
-
+import org.springframework.context.annotation.Configuration;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.undertow.Undertow;
 import io.undertow.UndertowOptions;
 import io.undertow.server.handlers.MetricsHandler;
 
 @ConditionalOnClass(Undertow.class)
+@Configuration
 public class UndertowMetricsAutoConfiguration implements ApplicationListener<ApplicationReadyEvent> {
 
     /**

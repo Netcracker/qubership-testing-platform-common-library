@@ -23,9 +23,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.qubership.atp.common.lock.provider.InMemoryLockProvider;
 
 import lombok.extern.slf4j.Slf4j;
@@ -42,7 +42,7 @@ public class LockManagerTest {
     /**
      * Init lockManager before tests.
      */
-    @Before
+    @BeforeEach
     public void setUp() {
         lockManager = new LockManager(60, 20, 3, new InMemoryLockProvider());
     }
@@ -73,8 +73,8 @@ public class LockManagerTest {
 
         Boolean result1 = task1.get();
         Boolean result2 = task2.get();
-        Assert.assertTrue(result1);
-        Assert.assertTrue(result2);
+        Assertions.assertTrue(result1);
+        Assertions.assertTrue(result2);
     }
 
     /**
@@ -103,8 +103,8 @@ public class LockManagerTest {
 
         Boolean result1 = task1.get();
         Boolean result2 = task2.get();
-        Assert.assertTrue(result1);
-        Assert.assertFalse(result2);
+        Assertions.assertTrue(result1);
+        Assertions.assertFalse(result2);
     }
 
     /**
@@ -125,8 +125,8 @@ public class LockManagerTest {
             result = e.getCause();
         }
 
-        Assert.assertTrue(result instanceof RuntimeException);
-        Assert.assertEquals("Exception from thread-1", result.getMessage());
+        Assertions.assertTrue(result instanceof RuntimeException);
+        Assertions.assertEquals("Exception from thread-1", result.getMessage());
     }
 
     /**
@@ -155,7 +155,7 @@ public class LockManagerTest {
 
         Boolean result1 = task1.get();
         Boolean result2 = task2.get();
-        Assert.assertTrue(result1);
-        Assert.assertFalse(result2);
+        Assertions.assertTrue(result1);
+        Assertions.assertFalse(result2);
     }
 }

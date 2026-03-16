@@ -21,14 +21,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.qubership.atp.common.logging.config.LoggingProperties;
 import org.slf4j.LoggerFactory;
 import org.springframework.mock.web.DelegatingServletInputStream;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.util.ContentCachingResponseWrapper;
 
 import ch.qos.logback.classic.Level;
@@ -42,7 +42,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @SuppressWarnings("checkstyle:MagicNumber")
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 public class LoggingFilterTest {
 
     /**
@@ -83,41 +83,45 @@ public class LoggingFilterTest {
     /**
      * Expected log message of request containing test body.
      */
-    private static final String FOUR_BYTE_TEST_BODY_LOG = "HTTP REQUEST DATA:\n"
-            + "METHOD: null\n"
-            + "URL: null\n"
-            + "BODY: test\n"
-            + "END HTTP (4-byte body)";
+    private static final String FOUR_BYTE_TEST_BODY_LOG = """
+            HTTP REQUEST DATA:
+            METHOD: null
+            URL: null
+            BODY: test
+            END HTTP (4-byte body)""";
 
     /**
      * Expected log message of successful response with empty body.
      */
-    private static final String EMPTY_BODY_LOG = "HTTP RESPONSE DATA:\n"
-            + "HTTP STATUS: 200 OK\n"
-            + "BODY: \n"
-            + "END HTTP (0-byte body)";
+    private static final String EMPTY_BODY_LOG = """
+            HTTP RESPONSE DATA:
+            HTTP STATUS: 200 OK
+            BODY:\s
+            END HTTP (0-byte body)""";
 
     /**
      * Expected log message of successful response with not allowed body logging.
      */
-    private static final String LOGGING_NOT_ALLOWED_STATUS_OK_LOG = "HTTP RESPONSE DATA:\n"
-            + "HTTP STATUS: 200 OK\n"
-            + "BODY: Body content logging is not allowed for current content type\n"
-            + "END HTTP (60-byte body)";
+    private static final String LOGGING_NOT_ALLOWED_STATUS_OK_LOG = """
+            HTTP RESPONSE DATA:
+            HTTP STATUS: 200 OK
+            BODY: Body content logging is not allowed for current content type
+            END HTTP (60-byte body)""";
 
     /**
      * Expected log message of request with not allowed body logging.
      */
-    private static final String LOGGING_NOT_ALLOWED_LOG = "HTTP REQUEST DATA:\n"
-            + "METHOD: null\n"
-            + "URL: null\n"
-            + "BODY: Body content logging is not allowed for current content type\n"
-            + "END HTTP (60-byte body)";
+    private static final String LOGGING_NOT_ALLOWED_LOG = """
+            HTTP REQUEST DATA:
+            METHOD: null
+            URL: null
+            BODY: Body content logging is not allowed for current content type
+            END HTTP (60-byte body)""";
 
     /**
      * Init objects and logging before tests.
      */
-    @Before
+    @BeforeEach
     public void setUp() {
         request = Mockito.mock(HttpServletRequest.class);
         response = Mockito.mock(HttpServletResponse.class);
@@ -170,10 +174,11 @@ public class LoggingFilterTest {
         configureCommonResponseWhen(response, 200, null, "Some_file_a5522837772.csv");
         loggingFilter.doFilter(request, response, filterChain);
         checkLogs(FOUR_BYTE_TEST_BODY_LOG,
-                "HTTP RESPONSE DATA:\n"
-                + "HTTP STATUS: 200 OK\n"
-                + "BODY: Body content logging is not allowed for current Content-Disposition\n"
-                + "END HTTP (67-byte body)");
+                """
+                HTTP RESPONSE DATA:
+                HTTP STATUS: 200 OK
+                BODY: Body content logging is not allowed for current Content-Disposition
+                END HTTP (67-byte body)""");
     }
 
     /**

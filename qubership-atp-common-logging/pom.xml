@@ -24,20 +24,15 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.junit.vintage</groupId>
-            <artifactId>junit-vintage-engine</artifactId>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.hamcrest</groupId>
-                    <artifactId>hamcrest-core</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
+    <dependency>
+      <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest-junit</artifactId>
+      <version>2.0.0.0</version>
+      <scope>test</scope>
+    </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>jul-to-slf4j</artifactId>
@@ -78,35 +73,4 @@
         </dependency>
     </dependencies>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.openclover</groupId>
-                <artifactId>clover-maven-plugin</artifactId>
-                <version>4.2.1</version>
-                <configuration>
-                    <outputDirectory>${project.build.directory}/clover</outputDirectory>
-                    <generateHtml>true</generateHtml>
-                    <generateXml>true</generateXml>
-                    <generatePdf>true</generatePdf>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>clover-instrument</id>
-                        <phase>initialize</phase>
-                        <goals>
-                            <goal>instrument-test</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>clover-report</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>clover</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
 </project>

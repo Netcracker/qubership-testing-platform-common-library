@@ -16,7 +16,6 @@
 
 package org.qubership.atp.common.probes.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.availability.ApplicationAvailability;
 import org.springframework.boot.availability.LivenessState;
 import org.springframework.boot.availability.ReadinessState;
@@ -38,7 +37,6 @@ public class DeploymentController {
      *
      * @param applicationAvailability ApplicationAvailability object.
      */
-    @Autowired
     public DeploymentController(final ApplicationAvailability applicationAvailability) {
         this.applicationAvailability = applicationAvailability;
     }
