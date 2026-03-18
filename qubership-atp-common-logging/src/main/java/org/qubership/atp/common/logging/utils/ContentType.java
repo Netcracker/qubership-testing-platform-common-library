@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 
 package org.qubership.atp.common.logging.utils;
 
-import org.apache.logging.log4j.util.Strings;
+import org.apache.commons.lang3.StringUtils;
 
 public enum ContentType {
 
@@ -58,13 +58,13 @@ public enum ContentType {
     /**
      * String mime-type canonical name.
      */
-    private String mimeType;
+    private final String mimeType;
 
     /**
      * Flag if logging is enabled or not.
      */
     @lombok.Getter
-    private boolean loggingAllowed;
+    private final boolean loggingAllowed;
 
     @SuppressWarnings("checkstyle:HiddenField")
     ContentType(final String mimeType, final boolean loggingAllowed) {
@@ -80,7 +80,7 @@ public enum ContentType {
      */
     public static ContentType getContentType(final String value) {
         for (ContentType type : ContentType.values()) {
-            if (type.mimeType.equals(value) || !Strings.isEmpty(value)
+            if (type.mimeType.equals(value) || !StringUtils.isEmpty(value)
                     && (type.mimeType.matches(".*?\\b" + value + "\\b.*?")
                     || value.matches(".*?\\b" + type.mimeType + "\\b.*?"))) {
                 return type;

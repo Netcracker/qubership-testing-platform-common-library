@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.util.Strings;
 import org.qubership.atp.common.logging.adapter.AtpHttpRequest;
 import org.qubership.atp.common.logging.adapter.filter.ContentCachingHttpRequest;
 import org.qubership.atp.common.logging.adapter.filter.ContentCachingHttpResponse;
@@ -139,7 +138,7 @@ public class LoggingFilter implements Filter {
         String body;
         ContentCachingHttpResponse cacheResponse = new ContentCachingHttpResponse(wrappedResponse);
 
-        if (Strings.isNotEmpty(wrappedResponse.getHeader(HEADER_CONTENT_DISPOSITION))) {
+        if (StringUtils.isNotEmpty(wrappedResponse.getHeader(HEADER_CONTENT_DISPOSITION))) {
             body = "Body content logging is not allowed for current Content-Disposition";
         } else if (ContentType.getContentType(wrappedResponse.getHeader(HEADER_CONTENT_TYPE)).isLoggingAllowed()) {
             body = cacheResponse.getBody();
