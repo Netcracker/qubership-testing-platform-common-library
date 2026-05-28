@@ -28,8 +28,8 @@ import org.springframework.boot.availability.ApplicationAvailability;
 import org.springframework.boot.availability.LivenessState;
 import org.springframework.boot.availability.ReadinessState;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(excludeAutoConfiguration = SecurityAutoConfiguration.class)
@@ -39,7 +39,7 @@ class DeploymentControllerTest {
     /**
      * ApplicationAvailability MockBean.
      */
-    @MockBean
+    @MockitoBean
     private ApplicationAvailability applicationAvailability;
 
     /**
