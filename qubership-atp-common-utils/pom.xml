@@ -3,7 +3,7 @@
     <parent>
         <artifactId>qubership-atp-common-parent-java</artifactId>
         <groupId>org.qubership.atp.common</groupId>
-        <version>0.0.48-SNAPSHOT</version>
+        <version>1.0.0-SNAPSHOT</version>
         <relativePath>../qubership-atp-common-parent-java/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>

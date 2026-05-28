@@ -158,17 +158,15 @@ public abstract class UndertowMeterBinder implements MeterBinder {
      */
     public static UndertowWebServer findUndertowWebServer(final ConfigurableApplicationContext applicationContext) {
         WebServer webServer;
-        if (applicationContext instanceof ReactiveWebServerApplicationContext) {
-            ReactiveWebServerApplicationContext context = (ReactiveWebServerApplicationContext) applicationContext;
+        if (applicationContext instanceof ReactiveWebServerApplicationContext context) {
             webServer = context.getWebServer();
-        } else if (applicationContext instanceof ServletWebServerApplicationContext) {
-            ServletWebServerApplicationContext context = (ServletWebServerApplicationContext) applicationContext;
+        } else if (applicationContext instanceof ServletWebServerApplicationContext context) {
             webServer = context.getWebServer();
         } else {
             return null;
         }
-        if (webServer instanceof UndertowWebServer) {
-            return (UndertowWebServer) webServer;
+        if (webServer instanceof UndertowWebServer server) {
+            return server;
         }
         return null;
     }

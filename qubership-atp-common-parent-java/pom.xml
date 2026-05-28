@@ -2,7 +2,7 @@
     <parent>
         <artifactId>qubership-atp-common</artifactId>
         <groupId>org.qubership.atp.common</groupId>
-        <version>0.0.48-SNAPSHOT</version>
+        <version>1.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -11,24 +11,29 @@
     <packaging>pom</packaging>
 
     <properties>
+        <java.version>21</java.version>
+        <spring.boot.version>3.5.14</spring.boot.version>
+        <spring.cloud.version>2025.0.2</spring.cloud.version>
+        <jakarta.servlet-api.version>6.1.0</jakarta.servlet-api.version>
+
         <biz.paluch.logging.version>1.14.1</biz.paluch.logging.version>
-        <ch.qos.logback.version>1.2.13</ch.qos.logback.version>
-        <commons-lang.version>2.6</commons-lang.version>
-        <commons-lang3.version>3.18.0</commons-lang3.version>
-        <commons-fileupload.version>1.6.0</commons-fileupload.version>
-        <slf4j.version>1.7.25</slf4j.version>
+        <ch.qos.logback.version>1.5.32</ch.qos.logback.version>
+        <slf4j.version>2.0.17</slf4j.version>
         <google.guava.version>32.0.1-jre</google.guava.version>
-        <openclover.version>4.2.1</openclover.version>
-        <io.undertow.undertow-core.version>2.2.38.Final</io.undertow.undertow-core.version>
-        <tomcat.embed.version>9.0.110</tomcat.embed.version>
-        <lombok.version>1.18.30</lombok.version>
-        <maven.pmd.plugin.version>3.8</maven.pmd.plugin.version>
-        <pmd.version>7.0.0</pmd.version>
-        <spotbugs.maven.plugin.version>4.7.3.0</spotbugs.maven.plugin.version>
+        <commons-lang3.version>3.18.0</commons-lang3.version>
+        <commons-fileupload.version>2.0.0-M4</commons-fileupload.version>
+        <io.undertow.undertow-core.version>2.3.21.Final</io.undertow.undertow-core.version>
+        <lombok.version>1.18.44</lombok.version>
+        <bouncycastle.version>1.84</bouncycastle.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>jakarta.servlet</groupId>
+                <artifactId>jakarta.servlet-api</artifactId>
+                <version>${jakarta.servlet-api.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
@@ -86,14 +91,7 @@
             <dependency>
                 <groupId>org.junit.vintage</groupId>
                 <artifactId>junit-vintage-engine</artifactId>
-                <version>5.9.3</version>
                 <scope>test</scope>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.hamcrest</groupId>
-                        <artifactId>hamcrest-core</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.projectlombok</groupId>
@@ -111,19 +109,9 @@
                 <version>${io.undertow.undertow-core.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.apache.tomcat.embed</groupId>
-                <artifactId>tomcat-embed-core</artifactId>
-                <version>${tomcat.embed.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.tomcat.embed</groupId>
-                <artifactId>tomcat-embed-websocket</artifactId>
-                <version>${tomcat.embed.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.tomcat.embed</groupId>
-                <artifactId>tomcat-embed-el</artifactId>
-                <version>${tomcat.embed.version}</version>
+                <groupId>io.undertow</groupId>
+                <artifactId>undertow-websockets-jsr</artifactId>
+                <version>${io.undertow.undertow-core.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.yaml</groupId>
@@ -131,9 +119,38 @@
                 <version>2.0</version>
             </dependency>
             <dependency>
-                <groupId>commons-fileupload</groupId>
-                <artifactId>commons-fileupload</artifactId>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-fileupload2-jakarta-servlet5</artifactId>
                 <version>${commons-fileupload.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <scope>test</scope>
+                <version>5.23.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-junit-jupiter</artifactId>
+                <scope>test</scope>
+                <version>5.23.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-test</artifactId>
+                <scope>test</scope>
+                <version>${spring.boot.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.vaadin.external.google</groupId>
+                        <artifactId>android-json</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcprov-jdk18on</artifactId>
+                <version>${bouncycastle.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

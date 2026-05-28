@@ -16,12 +16,11 @@
 
 package org.qubership.atp.common.monitoring.undertow.configuration;
 
-import javax.servlet.ServletContext;
-
 import org.qubership.atp.common.monitoring.undertow.metrics.UndertowMetricsHandlerWrapper;
 
 import io.undertow.servlet.ServletExtension;
 import io.undertow.servlet.api.DeploymentInfo;
+import jakarta.servlet.ServletContext;
 
 public class UndertowMetricsServletExtension implements ServletExtension {
 

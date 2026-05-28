@@ -54,8 +54,8 @@ public class TimeoutRegexCharSequence implements CharSequence {
      */
     public char charAt(final int index) {
         if (System.currentTimeMillis() > timeoutTime) {
-            String message = String
-                    .format("Timeout occurred after %s ms while processing regular expression %s.", timeoutMillis,
+            String message = "Timeout occurred after %s ms while processing regular expression %s."
+                    .formatted(timeoutMillis,
                             inner);
             throw new TimeoutRegexException(message);
         }

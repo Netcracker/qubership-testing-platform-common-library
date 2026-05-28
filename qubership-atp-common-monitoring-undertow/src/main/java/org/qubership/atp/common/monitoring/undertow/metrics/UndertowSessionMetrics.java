@@ -107,8 +107,8 @@ public class UndertowSessionMetrics extends UndertowMetrics {
                        final UndertowWebServer undertowWebServer,
                        final String namePrefix,
                        final Iterable<Tag> tags) {
-        if (undertowWebServer instanceof UndertowServletWebServer) {
-            SessionManagerStatistics statistics = ((UndertowServletWebServer) undertowWebServer).getDeploymentManager()
+        if (undertowWebServer instanceof UndertowServletWebServer server) {
+            SessionManagerStatistics statistics = server.getDeploymentManager()
                     .getDeployment()
                     .getSessionManager()
                     .getStatistics();

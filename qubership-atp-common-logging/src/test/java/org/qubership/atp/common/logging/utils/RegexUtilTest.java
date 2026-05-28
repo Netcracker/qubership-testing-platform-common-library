@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -17,14 +17,12 @@
 package org.qubership.atp.common.logging.utils;
 
 import static com.google.common.collect.Lists.newArrayList;
-import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
-import static java.util.Collections.unmodifiableList;
 import static java.util.stream.Collectors.toMap;
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.qubership.atp.common.logging.utils.RegexUtil.matchKey;
 import static org.qubership.atp.common.logging.utils.RegexUtil.removeByKeyRegexPatterns;
 import static org.qubership.atp.common.logging.utils.RegexUtil.removeByRegexPatterns;
@@ -35,12 +33,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 public class RegexUtilTest {
 
     /**
@@ -81,12 +79,12 @@ public class RegexUtilTest {
     /**
      * Init environment before tests.
      */
-    @Before
+    @BeforeEach
     public void setUp() {
-        targetCollection = unmodifiableList(asList(BEARER_HEADER, X_REQUEST_ID_HEADER, ZIPKIN_TRACE_ID_HEADER));
+        targetCollection = List.of(BEARER_HEADER, X_REQUEST_ID_HEADER, ZIPKIN_TRACE_ID_HEADER);
         targetMap = targetCollection.stream().collect(toMap(String::toString, Collections::singletonList));
         expectedResult = singletonList(ZIPKIN_TRACE_ID_HEADER);
-        patterns = unmodifiableList(asList(Pattern.compile(BEARER_HEADER), Pattern.compile("\\D*Request\\D*")));
+        patterns = List.of(Pattern.compile(BEARER_HEADER), Pattern.compile("\\D*Request\\D*"));
     }
 
     /**
@@ -110,17 +108,19 @@ public class RegexUtilTest {
     /**
      * Test of matching in case null String.
      */
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testMatchKeyShouldThrowAnExceptionWhenInputStringIsNull() {
-        matchKey(null, patterns);
+        assertThrows(NullPointerException.class, () ->
+            matchKey(null, patterns));
     }
 
     /**
      * Test of matching in case patterns are null.
      */
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testMatchKeyShouldThrowAnExceptionWhenPatternsAreNull() {
-        matchKey(BEARER_HEADER, null);
+        assertThrows(NullPointerException.class, () ->
+            matchKey(BEARER_HEADER, null));
     }
 
     /**
@@ -129,7 +129,7 @@ public class RegexUtilTest {
     @Test
     public void testRemoveByRegexPatternsShouldRemoveHeadersWhenPatternsAreNotEmpty() {
         Collection<String> result = removeByRegexPatterns(targetCollection, patterns);
-        assertThat(result, equalTo(expectedResult));
+        assertEquals(expectedResult, result);
     }
 
     /**
@@ -138,7 +138,7 @@ public class RegexUtilTest {
     @Test
     public void testRemoveByRegexPatternsShouldExistAllHeadersWhenPatternsAreEmpty() {
         Collection<String> result = removeByRegexPatterns(targetCollection, newArrayList());
-        assertThat(result, equalTo(targetCollection));
+        assertEquals(targetCollection, result);
     }
 
     /**
@@ -147,7 +147,7 @@ public class RegexUtilTest {
     @Test
     public void testRemoveByKeyRegexPatternsShouldRemoveHeadersWhenPatternsAreNotEmpty() {
         Map<String, Collection<String>> result = removeByKeyRegexPatterns(targetMap, patterns);
-        assertThat(newArrayList(result.keySet()), equalTo(expectedResult));
+        assertEquals(expectedResult, newArrayList(result.keySet()));
     }
 
     /**
@@ -156,6 +156,6 @@ public class RegexUtilTest {
     @Test
     public void testRemoveByKeyRegexPatternsShouldExistAllHeadersWhenPatternsAreEmpty() {
         Map<String, Collection<String>> result = removeByKeyRegexPatterns(targetMap, newArrayList());
-        assertThat(result, equalTo(targetMap));
+        assertEquals(targetMap, result);
     }
 }

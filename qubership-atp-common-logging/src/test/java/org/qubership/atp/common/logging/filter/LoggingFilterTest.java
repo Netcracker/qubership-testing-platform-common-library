@@ -21,28 +21,28 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.ServletInputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.qubership.atp.common.logging.config.LoggingProperties;
 import org.slf4j.LoggerFactory;
 import org.springframework.mock.web.DelegatingServletInputStream;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.util.ContentCachingResponseWrapper;
 
+import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.read.ListAppender;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletInputStream;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @SuppressWarnings("checkstyle:MagicNumber")
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 public class LoggingFilterTest {
 
     /**
@@ -83,41 +83,45 @@ public class LoggingFilterTest {
     /**
      * Expected log message of request containing test body.
      */
-    private static final String FOUR_BYTE_TEST_BODY_LOG = "HTTP REQUEST DATA:\n"
-            + "METHOD: null\n"
-            + "URL: null\n"
-            + "BODY: test\n"
-            + "END HTTP (4-byte body)";
+    private static final String FOUR_BYTE_TEST_BODY_LOG = """
+            HTTP REQUEST DATA:
+            METHOD: null
+            URL: null
+            BODY: test
+            END HTTP (4-byte body)""";
 
     /**
      * Expected log message of successful response with empty body.
      */
-    private static final String EMPTY_BODY_LOG = "HTTP RESPONSE DATA:\n"
-            + "HTTP STATUS: 200 OK\n"
-            + "BODY: \n"
-            + "END HTTP (0-byte body)";
+    private static final String EMPTY_BODY_LOG = """
+            HTTP RESPONSE DATA:
+            HTTP STATUS: 200 OK
+            BODY:\s
+            END HTTP (0-byte body)""";
 
     /**
      * Expected log message of successful response with not allowed body logging.
      */
-    private static final String LOGGING_NOT_ALLOWED_STATUS_OK_LOG = "HTTP RESPONSE DATA:\n"
-            + "HTTP STATUS: 200 OK\n"
-            + "BODY: Body content logging is not allowed for current content type\n"
-            + "END HTTP (60-byte body)";
+    private static final String LOGGING_NOT_ALLOWED_STATUS_OK_LOG = """
+            HTTP RESPONSE DATA:
+            HTTP STATUS: 200 OK
+            BODY: Body content logging is not allowed for current content type
+            END HTTP (60-byte body)""";
 
     /**
      * Expected log message of request with not allowed body logging.
      */
-    private static final String LOGGING_NOT_ALLOWED_LOG = "HTTP REQUEST DATA:\n"
-            + "METHOD: null\n"
-            + "URL: null\n"
-            + "BODY: Body content logging is not allowed for current content type\n"
-            + "END HTTP (60-byte body)";
+    private static final String LOGGING_NOT_ALLOWED_LOG = """
+            HTTP REQUEST DATA:
+            METHOD: null
+            URL: null
+            BODY: Body content logging is not allowed for current content type
+            END HTTP (60-byte body)""";
 
     /**
      * Init objects and logging before tests.
      */
-    @Before
+    @BeforeEach
     public void setUp() {
         request = Mockito.mock(HttpServletRequest.class);
         response = Mockito.mock(HttpServletResponse.class);
@@ -127,6 +131,7 @@ public class LoggingFilterTest {
         listAppender = new ListAppender<>();
         listAppender.start();
         ((Logger) LoggerFactory.getLogger(LoggingFilter.class)).addAppender(listAppender);
+        ((Logger) LoggerFactory.getLogger(LoggingFilter.class)).setLevel(Level.DEBUG);
         inputStream = new DelegatingServletInputStream(new ByteArrayInputStream("test".getBytes()));
     }
 
@@ -169,10 +174,11 @@ public class LoggingFilterTest {
         configureCommonResponseWhen(response, 200, null, "Some_file_a5522837772.csv");
         loggingFilter.doFilter(request, response, filterChain);
         checkLogs(FOUR_BYTE_TEST_BODY_LOG,
-                "HTTP RESPONSE DATA:\n"
-                + "HTTP STATUS: 200 OK\n"
-                + "BODY: Body content logging is not allowed for current Content-Disposition\n"
-                + "END HTTP (67-byte body)");
+                """
+                HTTP RESPONSE DATA:
+                HTTP STATUS: 200 OK
+                BODY: Body content logging is not allowed for current Content-Disposition
+                END HTTP (67-byte body)""");
     }
 
     /**
@@ -205,7 +211,7 @@ public class LoggingFilterTest {
     }
 
     private void checkLogs(final String...args) {
-        for(String arg : args) {
+        for (String arg : args) {
             assertTrue(listAppender.list.stream().anyMatch(m -> m.getFormattedMessage().contains(arg)));
         }
     }

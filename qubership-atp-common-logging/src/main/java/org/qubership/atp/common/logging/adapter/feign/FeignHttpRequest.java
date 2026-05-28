@@ -18,9 +18,9 @@ package org.qubership.atp.common.logging.adapter.feign;
 
 import static org.qubership.atp.common.logging.utils.Util.getHttpHeaders;
 
+import org.qubership.atp.common.logging.adapter.AtpHttpRequest;
 import org.springframework.http.HttpHeaders;
 
-import org.qubership.atp.common.logging.adapter.AtpHttpRequest;
 import feign.Request;
 import lombok.RequiredArgsConstructor;
 

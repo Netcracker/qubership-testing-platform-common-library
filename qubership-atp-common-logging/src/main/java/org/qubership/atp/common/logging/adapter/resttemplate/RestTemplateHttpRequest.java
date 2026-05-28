@@ -52,7 +52,7 @@ public class RestTemplateHttpRequest implements AtpHttpRequest {
      */
     @Override
     public String getMethod() {
-        return request.getMethodValue();
+        return request.getMethod().name();
     }
 
     /**

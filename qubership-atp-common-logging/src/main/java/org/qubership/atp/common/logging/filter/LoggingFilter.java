@@ -1,5 +1,5 @@
 /*
- * # Copyright 2024-2025 NetCracker Technology Corporation
+ * # Copyright 2024-2026 NetCracker Technology Corporation
  * #
  * # Licensed under the Apache License, Version 2.0 (the "License");
  * # you may not use this file except in compliance with the License.
@@ -22,16 +22,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.util.Strings;
 import org.qubership.atp.common.logging.adapter.AtpHttpRequest;
 import org.qubership.atp.common.logging.adapter.filter.ContentCachingHttpRequest;
 import org.qubership.atp.common.logging.adapter.filter.ContentCachingHttpResponse;
@@ -41,6 +32,13 @@ import org.qubership.atp.common.logging.utils.RegexUtil;
 import org.qubership.atp.common.logging.utils.Util;
 import org.springframework.web.util.ContentCachingResponseWrapper;
 
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -77,8 +75,8 @@ public class LoggingFilter implements Filter {
                          final ServletResponse response,
                          final FilterChain chain) throws IOException, ServletException {
         List<Pattern> ignoreUriList = loggingProperties.getIgnoreUriListPatterns();
-        if (request instanceof HttpServletRequest
-                && RegexUtil.matchKey(((HttpServletRequest) request).getRequestURI(), ignoreUriList)
+        if (request instanceof HttpServletRequest servletRequest
+                && RegexUtil.matchKey(servletRequest.getRequestURI(), ignoreUriList)
                 && response instanceof HttpServletResponse) {
             doFilterWithContentCaching(request, response, chain);
         } else {
@@ -116,8 +114,8 @@ public class LoggingFilter implements Filter {
      */
     private void logRequest(final HttpServletRequest request) {
         AtpHttpRequest wrappedRequest = null;
-        if (request instanceof  CommonHttpRequestWrapper) {
-            wrappedRequest = new ContentCachingHttpRequest((CommonHttpRequestWrapper) request);
+        if (request instanceof  CommonHttpRequestWrapper wrapper) {
+            wrappedRequest = new ContentCachingHttpRequest(wrapper);
         }
 
         Boolean isLoggedHeaders = loggingProperties.logControllerHeaders();
@@ -140,7 +138,7 @@ public class LoggingFilter implements Filter {
         String body;
         ContentCachingHttpResponse cacheResponse = new ContentCachingHttpResponse(wrappedResponse);
 
-        if (Strings.isNotEmpty(wrappedResponse.getHeader(HEADER_CONTENT_DISPOSITION))) {
+        if (StringUtils.isNotEmpty(wrappedResponse.getHeader(HEADER_CONTENT_DISPOSITION))) {
             body = "Body content logging is not allowed for current Content-Disposition";
         } else if (ContentType.getContentType(wrappedResponse.getHeader(HEADER_CONTENT_TYPE)).isLoggingAllowed()) {
             body = cacheResponse.getBody();
