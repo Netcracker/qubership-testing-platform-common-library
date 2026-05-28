@@ -2,7 +2,7 @@
     <parent>
         <artifactId>qubership-atp-common</artifactId>
         <groupId>org.qubership.atp.common</groupId>
-        <version>1.0.1-SNAPSHOT</version>
+        <version>1.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -12,21 +12,19 @@
 
     <properties>
         <java.version>21</java.version>
-        <spring.boot.version>3.5.11</spring.boot.version>
-        <spring.cloud.version>2025.0.1</spring.cloud.version>
+        <spring.boot.version>3.5.14</spring.boot.version>
+        <spring.cloud.version>2025.0.2</spring.cloud.version>
         <jakarta.servlet-api.version>6.1.0</jakarta.servlet-api.version>
 
         <biz.paluch.logging.version>1.14.1</biz.paluch.logging.version>
         <ch.qos.logback.version>1.5.32</ch.qos.logback.version>
-        <commons-lang.version>2.6</commons-lang.version>
-        <slf4j.version>2.0.16</slf4j.version>
+        <slf4j.version>2.0.17</slf4j.version>
         <google.guava.version>32.0.1-jre</google.guava.version>
-        <apache.commons>3.9</apache.commons>
         <commons-lang3.version>3.18.0</commons-lang3.version>
         <commons-fileupload.version>2.0.0-M4</commons-fileupload.version>
         <io.undertow.undertow-core.version>2.3.21.Final</io.undertow.undertow-core.version>
-        <tomcat.embed.version>9.0.110</tomcat.embed.version>
         <lombok.version>1.18.44</lombok.version>
+        <bouncycastle.version>1.84</bouncycastle.version>
     </properties>
 
     <dependencyManagement>
@@ -124,6 +122,35 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-fileupload2-jakarta-servlet5</artifactId>
                 <version>${commons-fileupload.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <scope>test</scope>
+                <version>5.23.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-junit-jupiter</artifactId>
+                <scope>test</scope>
+                <version>5.23.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-test</artifactId>
+                <scope>test</scope>
+                <version>${spring.boot.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.vaadin.external.google</groupId>
+                        <artifactId>android-json</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcprov-jdk18on</artifactId>
+                <version>${bouncycastle.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
